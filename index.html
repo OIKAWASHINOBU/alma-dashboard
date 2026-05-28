@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ALMA Meta広告 キャンペーンダッシュボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f4f1ea;--card:#fff;--ink:#1c1d22;--ink-soft:#5a5c66;--ink-faint:#9a9ca6;--line:#e6e2d8;--primary:#15324f;--accent:#d8542f;--good:#2f7d54;--warn:#c08a1c;--bad:#c0392b;--good-bg:#e7f2ec;--warn-bg:#f8f0db;--bad-bg:#f8e7e4;--shadow:0 1px 2px rgba(28,29,34,.04),0 8px 24px rgba(28,29,34,.05)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:14px;-webkit-font-smoothing:antialiased;background-image:radial-gradient(circle at 1px 1px,rgba(28,29,34,.025) 1px,transparent 0);background-size:22px 22px}
+.num{font-family:'IBM Plex Mono',monospace;font-feature-settings:"tnum"}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+header{padding:48px 0 32px;border-bottom:2px solid var(--ink)}
+.brand{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:12px;letter-spacing:.3em;color:var(--accent)}
+h1{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:32px;line-height:1.25;margin-top:8px;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);margin-top:14px;font-size:13px;display:flex;gap:24px;flex-wrap:wrap}
+.sub b{color:var(--ink);font-weight:700}
+section{margin:48px 0}
+.sec-h{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sec-h::before{content:"";width:7px;height:20px;background:var(--accent);border-radius:2px;display:inline-block}
+.sec-d{color:var(--ink-soft);font-size:13px;margin-bottom:22px;padding-left:17px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.kpi .label{font-size:12px;color:var(--ink-soft);font-weight:500}
+.kpi .val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:32px;margin:10px 0 4px;letter-spacing:-.02em;font-feature-settings:"tnum"}
+.kpi .val.warn{color:var(--warn)}.kpi .val.bad{color:var(--bad)}.kpi .val.good{color:var(--good)}
+.kpi .meta{font-size:11.5px;color:var(--ink-faint)}
+.kpi .bench{font-size:11.5px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:var(--shadow)}
+.funnel-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;align-items:center}
+.funnel-h{font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.funnel-row{display:contents}
+.funnel-row div{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.funnel-row div:nth-child(1){font-weight:500}
+.funnel-row div:nth-child(n+2){text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}.pill.good{background:var(--good-bg);color:var(--good)}
+.callout{margin-top:18px;padding:14px 18px;background:#eef3f9;border-left:3px solid var(--primary);border-radius:8px;font-size:13px;color:var(--ink)}
+.callout b{font-weight:700;color:var(--primary)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px;font-size:12px;color:var(--ink-soft)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.tbl-wrap{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;padding:13px 14px;font-size:11px;color:var(--ink-soft);font-weight:700;border-bottom:2px solid var(--line);white-space:nowrap;background:#faf8f3}
+th:first-child,td:first-child{text-align:left}
+td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-feature-settings:"tnum"}
+td:first-child{font-family:'Noto Sans JP';font-weight:600}
+tr:hover td{background:#fbfaf6}
+.verdict{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:'Noto Sans JP'}
+.v-scale{background:var(--good-bg);color:var(--good)}
+.v-cont{background:#e8eef5;color:var(--primary)}
+.v-test{background:var(--warn-bg);color:var(--warn)}
+.v-cut{background:var(--bad-bg);color:var(--bad)}
+.cell-good{color:var(--good);font-weight:700}
+.cell-bad{color:var(--bad);font-weight:700}
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);border-top:3px solid var(--line)}
+.vcard.scale{border-top-color:var(--good)}.vcard.cut{border-top-color:var(--bad)}.vcard.test{border-top-color:var(--warn)}
+.vh{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.vh .dot{width:10px;height:10px;border-radius:50%}
+.scale .dot{background:var(--good)}.cut .dot{background:var(--bad)}.test .dot{background:var(--warn)}
+.vd{font-size:12px;color:var(--ink-soft);margin-bottom:14px}
+.vlist{list-style:none}
+.vlist li{font-size:13px;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px}
+.vlist li:last-child{border-bottom:none}
+.vlist .nm{font-weight:600}
+.vlist .rs{color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:12px}
+.main-callout{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:22px 26px;box-shadow:var(--shadow)}
+.main-callout .tag{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:12px;color:var(--accent);letter-spacing:.1em;margin-bottom:6px}
+.main-callout h3{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:19px;margin-bottom:10px}
+.main-callout p{font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.main-callout .targets{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.main-callout .targets div{background:var(--bg);padding:10px 14px;border-radius:8px;font-size:12.5px}
+.main-callout .targets b{display:block;color:var(--ink);font-size:14px;font-weight:700;margin-bottom:2px}
+footer{margin:60px 0 32px;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint);text-align:center}
+@media(max-width:680px){.wrap{padding:0 16px}h1{font-size:24px}.kpi .val{font-size:26px}.funnel-grid{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="brand">ALMA · META ADS DASHBOARD</span>
+  <h1>キャンペーン週次レポート</h1>
+  <div class="sub">
+    <span>期間：<b>2026-05-22 〜 2026-05-28</b>（7日間）</span>
+    <span>更新：<b>2026-05-29</b></span>
+    <span>データソース：<b>Meta広告マネージャ + UTAGE実数</b></span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-h">現状サマリー（実数ベース）</div>
+  <div class="sec-d">UTAGE側で取得した実数を主軸にしたKPI。Meta計測値と差がある項目はその旨を併記。</div>
+  <div class="kpis">
+    <div class="kpi"><div class="label">消化金額</div><div class="val">¥5,862</div><div class="meta">広告12本に分散</div></div>
+    <div class="kpi"><div class="label">登録完了（CV）</div><div class="val good">9件</div><div class="meta">Meta計測は8件（差1件）</div></div>
+    <div class="kpi"><div class="label">真のCPA</div><div class="val">¥651</div><div class="meta">¥5,862 ÷ 9件</div><div class="bench">目標 ¥2,000 以下 → <b style="color:var(--good)">大幅クリア</b></div></div>
+    <div class="kpi"><div class="label">実LP到達数</div><div class="val">312</div><div class="meta">UTAGE実数（Meta計測は44のみ）</div></div>
+    <div class="kpi"><div class="label">真のLP登録率</div><div class="val warn">2.88%</div><div class="meta">9件 ÷ 312人</div><div class="bench">目標 <b style="color:var(--accent)">5%</b>（神田氏案件水準）</div></div>
+    <div class="kpi"><div class="label">リンクCTR</div><div class="val good">5.01%</div><div class="meta">表示2,697 / クリック135</div><div class="bench">標準1〜2%/良好3%超 → <b style="color:var(--good)">良好</b></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-h">ファネル：Meta計測 vs UTAGE実数</div>
+  <div class="sec-d">Meta側のピクセル計測が大幅に取りこぼしているため、判断はUTAGE実数で行う。</div>
+  <div class="panel">
+    <div class="funnel-grid">
+      <div class="funnel-h">段階</div><div class="funnel-h" style="text-align:right">Meta計測</div><div class="funnel-h" style="text-align:right">UTAGE実数</div>
+      <div class="funnel-row"><div>表示（インプレッション）</div><div>2,697</div><div>—</div></div>
+      <div class="funnel-row"><div>クリック（すべて）</div><div>376</div><div>—</div></div>
+      <div class="funnel-row"><div>リンククリック</div><div>135</div><div>—</div></div>
+      <div class="funnel-row"><div>LP到達</div><div><span class="pill bad">44 ⚠</span></div><div><span class="pill good">312 ✓</span></div></div>
+      <div class="funnel-row"><div>登録完了</div><div>8</div><div>9</div></div>
+    </div>
+    <div class="callout"><b>読み方：</b>「クリック→LP到達率32.6%＝導線崩れ」は誤読でした。実際は <b>クリック376→LP312、約83%が到達</b>。Pixel計測の86%取りこぼしが原因。本当の論点は <b>LP上の登録率2.88%</b> をどう上げるか。</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-h">広告ごとの位置取り</div>
+  <div class="sec-d">消化金額 × リンクCTR、バブルの大きさ＝LP到達数。右上＝沢山使えて反応も良い。</div>
+  <div class="legend">
+    <span><i style="background:#1D9E75"></i>CVあり</span>
+    <span><i style="background:#185FA5"></i>CTR 3%超（CV未到達）</span>
+    <span><i style="background:#A32D2D"></i>CTR 3%未満</span>
+  </div>
+  <div class="panel"><div style="position:relative;width:100%;height:340px"><canvas id="scatter"></canvas></div></div>
+</section>
+
+<section>
+  <div class="sec-h">広告別パフォーマンス</div>
+  <div class="sec-d">評価別＆消化額順。「寄せる」「絞る」「止める」は次の配信調整の方針。</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>広告</th><th>消化</th><th>リンクCL</th><th>CTR</th><th>LP到達</th><th>CV</th><th>CPA</th><th>評価</th></tr></thead>
+      <tbody>
+        <tr><td>経営者1</td><td>¥186</td><td>11</td><td class="cell-good">12.8%</td><td>2</td><td>1</td><td class="cell-good">¥186</td><td><span class="verdict v-scale">寄せる</span></td></tr>
+        <tr><td>士業_長文</td><td>¥294</td><td>6</td><td>4.3%</td><td>3</td><td>2</td><td class="cell-good">¥147</td><td><span class="verdict v-scale">寄せる</span></td></tr>
+        <tr><td>士業1</td><td>¥1,057</td><td>28</td><td class="cell-good">7.6%</td><td>8</td><td>2</td><td>¥529</td><td><span class="verdict v-scale">寄せる</span></td></tr>
+        <tr><td>士業2</td><td>¥505</td><td>23</td><td class="cell-good">7.8%</td><td>11</td><td>1</td><td>¥505</td><td><span class="verdict v-cont">継続</span></td></tr>
+        <tr><td>二代目2</td><td>¥247</td><td>7</td><td>4.8%</td><td>1</td><td>1</td><td>¥247</td><td><span class="verdict v-cont">継続</span></td></tr>
+        <tr><td>二代目3</td><td>¥674</td><td>11</td><td>3.0%</td><td>1</td><td>1</td><td>¥674</td><td><span class="verdict v-cont">様子見</span></td></tr>
+        <tr><td>士業3</td><td>¥171</td><td>7</td><td class="cell-good">10.5%</td><td>2</td><td>0</td><td>—</td><td><span class="verdict v-test">テスト</span></td></tr>
+        <tr><td>経営者_長文</td><td>¥242</td><td>8</td><td class="cell-good">6.0%</td><td>2</td><td>0</td><td>—</td><td><span class="verdict v-test">テスト</span></td></tr>
+        <tr><td>二代目_長文</td><td>¥164</td><td>1</td><td>2.9%</td><td>0</td><td>0</td><td>—</td><td><span class="verdict v-cont">様子見</span></td></tr>
+        <tr><td>二代目1</td><td>¥486</td><td>12</td><td>3.0%</td><td>4</td><td>0</td><td>—</td><td><span class="verdict v-cut">絞る</span></td></tr>
+        <tr><td>経営者3</td><td>¥183</td><td>2</td><td class="cell-bad">1.7%</td><td>1</td><td>0</td><td>—</td><td><span class="verdict v-cut">絞る</span></td></tr>
+        <tr style="background:#fdf4f3"><td>経営者2</td><td><b>¥1,653</b></td><td>19</td><td>3.4%</td><td>9</td><td class="cell-bad">0</td><td>—</td><td><span class="verdict v-cut">止める</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-h">次の配信調整（打ち手）</div>
+  <div class="sec-d">広告レベルの判断。CV計測は概ね正確なので、この判定は実用に耐える。</div>
+  <div class="verdicts">
+    <div class="vcard scale">
+      <div class="vh"><span class="dot"></span>寄せる</div>
+      <div class="vd">CVが出ている or CTR高くLP到達もある。予算を集中させる。</div>
+      <ul class="vlist">
+        <li><span class="nm">経営者1</span><span class="rs">CPA ¥186 / CTR 12.8%</span></li>
+        <li><span class="nm">士業_長文</span><span class="rs">CPA ¥147 / CV 2件</span></li>
+        <li><span class="nm">士業1</span><span class="rs">CV 2件 / 安定運転</span></li>
+      </ul>
+    </div>
+    <div class="vcard cut">
+      <div class="vh"><span class="dot"></span>絞る・止める</div>
+      <div class="vd">消化が大きい割にCV・LP到達もほぼ無い。配信抑制で予算を守る。</div>
+      <ul class="vlist">
+        <li><span class="nm">経営者2</span><span class="rs">¥1,653使ってCV 0</span></li>
+        <li><span class="nm">二代目1</span><span class="rs">¥486使ってCV 0</span></li>
+        <li><span class="nm">経営者3</span><span class="rs">CTR 1.7%</span></li>
+      </ul>
+    </div>
+    <div class="vcard test">
+      <div class="vh"><span class="dot"></span>小さくテスト</div>
+      <div class="vd">CTRが高いが消化が少なくデータ不足。予算を足して見極める。</div>
+      <ul class="vlist">
+        <li><span class="nm">士業3</span><span class="rs">CTR 10.5%</span></li>
+        <li><span class="nm">経営者_長文</span><span class="rs">CTR 6.0%</span></li>
+        <li><span class="nm">二代目2</span><span class="rs">CV 1件 / CTR 4.8%</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-h">本丸：LP登録率の改善</div>
+  <div class="sec-d">広告の調整で消化効率は改善できるが、CV数の桁を上げるには登録率の改善が必要。</div>
+  <div class="main-callout">
+    <div class="tag">PRIORITY</div>
+    <h3>LP登録率 2.88% → 5% を狙う</h3>
+    <p>広告経由の有料商品LPなら2-3%が標準。無料の入り口（講演会・ウェビナー申込み）で神田氏のブランド資産を活かせば、5%前後は十分狙える水準。広告より先にLPの3点を見直す価値が高い。</p>
+    <div class="targets">
+      <div><b>① フォーム項目数</b>多いほど離脱増。最小限まで削れるか</div>
+      <div><b>② 第一スクリーン</b>神田氏の実績・社会的証明が即座に伝わるか</div>
+      <div><b>③ CTAボタン</b>配置とコピー（具体的な動詞）</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-h">別件：Meta Pixel計測の修正</div>
+  <div class="sec-d">運用判断には影響しないが、データの正確性のためいずれ修正したい項目。</div>
+  <div class="panel" style="font-size:13px;line-height:1.9">
+    <b>症状：</b>LP到達がUTAGE実数の14%しか計測されていない（44 vs 312）。<br>
+    <b>原因仮説：</b>中間リダイレクトページの <code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-family:'IBM Plex Mono';font-size:12px">fbq('track','PageView')</code> 発火タイミング。<br>
+    <b>点検項目：</b><code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-family:'IBM Plex Mono';font-size:12px">window.location.replace()</code> より前にPixelが発火しているか。理想は発火→200ms程度待ってリダイレクト。<br>
+    <b>優先度：</b>低（CV計測は正確、UTAGEで実数も追えているため、運用判断には支障なし）。
+  </div>
+</section>
+
+<footer>ALMA Meta広告キャンペーン分析 ｜ 限定共有 ｜ 報告先以外への共有はご遠慮ください</footer>
+</div>
+
+<script>
+const ads=[
+  {name:"経営者2",spend:1653,ctr:3.41,lpv:9,res:0},{name:"士業1",spend:1057,ctr:7.63,lpv:8,res:2},
+  {name:"二代目3",spend:674,ctr:3.01,lpv:1,res:1},{name:"士業2",spend:505,ctr:7.77,lpv:11,res:1},
+  {name:"二代目1",spend:486,ctr:3.05,lpv:4,res:0},{name:"士業_長文",spend:294,ctr:4.35,lpv:3,res:2},
+  {name:"二代目2",spend:247,ctr:4.83,lpv:1,res:1},{name:"経営者_長文",spend:242,ctr:6.02,lpv:2,res:0},
+  {name:"経営者1",spend:186,ctr:12.79,lpv:2,res:1},{name:"経営者3",spend:183,ctr:1.75,lpv:1,res:0},
+  {name:"士業3",spend:171,ctr:10.45,lpv:2,res:0},{name:"二代目_長文",spend:164,ctr:2.86,lpv:0,res:0}
+];
+new Chart(document.getElementById('scatter'),{type:'bubble',data:{datasets:[{
+  data:ads.map(a=>({x:a.spend,y:a.ctr,r:Math.max(6,a.lpv*2.5+6),label:a.name,res:a.res})),
+  backgroundColor:ads.map(a=>a.res>0?'#1D9E75':a.ctr>=3?'#185FA5':'#A32D2D'),
+  borderColor:'#fff',borderWidth:1.5
+}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:14},
+  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.label}: 消化¥${c.raw.x} / CTR ${c.raw.y}% / LP到達 ${Math.round((c.raw.r-6)/2.5)} / CV ${c.raw.res}`}}},
+  scales:{x:{title:{display:true,text:'消化金額（¥）'},grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:'リンクCTR（%）'},beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}}}}});
+</script>
+</body>
+</html>
