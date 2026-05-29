@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ALMA Meta広告 キャンペーンダッシュボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f4f1ea;--card:#fff;--ink:#1c1d22;--ink-soft:#5a5c66;--ink-faint:#9a9ca6;--line:#e6e2d8;--primary:#15324f;--accent:#d8542f;--good:#2f7d54;--warn:#c08a1c;--bad:#c0392b;--good-bg:#e7f2ec;--warn-bg:#f8f0db;--bad-bg:#f8e7e4;--shadow:0 1px 2px rgba(28,29,34,.04),0 8px 24px rgba(28,29,34,.05)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:14px;-webkit-font-smoothing:antialiased;background-image:radial-gradient(circle at 1px 1px,rgba(28,29,34,.025) 1px,transparent 0);background-size:22px 22px}
+.num{font-family:'IBM Plex Mono',monospace;font-feature-settings:"tnum"}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+header{padding:48px 0 32px;border-bottom:2px solid var(--ink)}
+.brand{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:12px;letter-spacing:.3em;color:var(--accent)}
+h1{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:32px;line-height:1.25;margin-top:8px;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);margin-top:14px;font-size:13px;display:flex;gap:24px;flex-wrap:wrap}
+.sub b{color:var(--ink);font-weight:700}
+section{margin:48px 0}
+.sec-h{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sec-h::before{content:"";width:7px;height:20px;background:var(--accent);border-radius:2px;display:inline-block}
+.sec-d{color:var(--ink-soft);font-size:13px;margin-bottom:22px;padding-left:17px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.kpi .label{font-size:12px;color:var(--ink-soft);font-weight:500}
+.kpi .val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:32px;margin:10px 0 4px;letter-spacing:-.02em;font-feature-settings:"tnum"}
+.kpi .val.warn{color:var(--warn)}.kpi .val.bad{color:var(--bad)}.kpi .val.good{color:var(--good)}
+.kpi .meta{font-size:11.5px;color:var(--ink-faint)}
+.kpi .bench{font-size:11.5px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);color:var(--ink-soft)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:var(--shadow)}
+.funnel-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;align-items:center}
+.funnel-h{font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.funnel-row{display:contents}
+.funnel-row div{padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.funnel-row div:nth-child(1){font-weight:500}
+.funnel-row div:nth-child(n+2){text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}.pill.good{background:var(--good-bg);color:var(--good)}
+.callout{margin-top:18px;padding:14px 18px;background:#eef3f9;border-left:3px solid var(--primary);border-radius:8px;font-size:13px;color:var(--ink)}
+.callout b{font-weight:700;color:var(--primary)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px;font-size:12px;color:var(--ink-soft)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.tbl-wrap{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;padding:13px 14px;font-size:11px;color:var(--ink-soft);font-weight:700;border-bottom:2px solid var(--line);white-space:nowrap;background:#faf8f3}
+th:first-child,td:first-child{text-align:left}
+td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-feature-settings:"tnum"}
+td:first-child{font-family:'Noto Sans JP';font-weight:600}
+tr:hover td{background:#fbfaf6}
+.verdict{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:'Noto Sans JP'}
+.v-scale{background:var(--good-bg);color:var(--good)}
+.v-cont{background:#e8eef5;color:var(--primary)}
+.v-test{background:var(--warn-bg);color:var(--warn)}
+.v-cut{background:var(--bad-bg);color:var(--bad)}
+.cell-good{color:var(--good);font-weight:700}
+.cell-bad{color:var(--bad);font-weight:700}
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);border-top:3px solid var(--line)}
+.vcard.scale{border-top-color:var(--good)}.vcard.cut{border-top-color:var(--bad)}.vcard.test{border-top-color:var(--warn)}
+.vh{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.vh .dot{width:10px;height:10px;border-radius:50%}
+.scale .dot{background:var(--good)}.cut .dot{background:var(--bad)}.test .dot{background:var(--warn)}
+.vd{font-size:12px;color:var(--ink-soft);margin-bottom:14px}
+.vlist{list-style:none}
+.vlist li{font-size:13px;padding:8px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px}
+.vlist li:last-child{border-bottom:none}
+.vlist .nm{font-weight:600}
+.vlist .rs{color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:12px}
+.main-callout{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:22px 26px;box-shadow:var(--shadow)}
+.main-callout .tag{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:12px;color:var(--accent);letter-spacing:.1em;margin-bottom:6px}
+.main-callout h3{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:19px;margin-bottom:10px}
+.main-callout p{font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.main-callout .targets{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.main-callout .targets div{background:var(--bg);padding:10px 14px;border-radius:8px;font-size:12.5px}
+.main-callout .targets b{display:block;color:var(--ink);font-size:14px;font-weight:700;margin-bottom:2px}
+footer{margin:60px 0 32px;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint);text-align:center}
+.loading{padding:60px 20px;text-align:center;color:var(--ink-soft)}
+.error{padding:20px;background:var(--bad-bg);color:var(--bad);border-radius:8px;margin:20px 0}
+@media(max-width:680px){.wrap{padding:0 16px}h1{font-size:24px}.kpi .val{font-size:26px}.funnel-grid{font-size:12px}}
+code{background:var(--bg);padding:2px 6px;border-radius:4px;font-family:'IBM Plex Mono';font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="loading">📊 ダッシュボードを読み込み中...</div>
+</div>
+
+<script>
+// ============================================================
+// 数値フォーマット用のヘルパー関数
+// ============================================================
+const fmt = {
+  currency: v => '¥' + Number(v).toLocaleString('ja-JP'),
+  number: v => Number(v).toLocaleString('ja-JP'),
+  percent: v => Number(v).toFixed(2) + '%',
+  count_ken: v => v + '件',
+  // 値を指定されたformatに従ってフォーマット
+  apply: (value, format) => {
+    if (value === null || value === undefined) return '—';
+    switch(format){
+      case 'currency_jpy': return fmt.currency(value);
+      case 'percent': return fmt.percent(value);
+      case 'count_ken': return fmt.count_ken(value);
+      case 'number': return fmt.number(value);
+      default: return value;
+    }
+  }
+};
+
+// ============================================================
+// データ読み込み & レンダリング
+// ============================================================
+async function loadDashboard() {
+  try {
+    // data.jsonを読み込む（キャッシュ回避のためタイムスタンプ付与）
+    const response = await fetch('./data.json?t=' + Date.now());
+    if (!response.ok) throw new Error('data.json の読み込みに失敗しました');
+    const data = await response.json();
+    renderDashboard(data);
+  } catch (error) {
+    document.getElementById('app').innerHTML = `
+      <div class="error">
+        <strong>エラー：</strong>${error.message}<br>
+        data.json が同じフォルダにあるか確認してください。
+      </div>`;
+    console.error(error);
+  }
+}
+
+function renderDashboard(data) {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    ${renderHeader(data.report_period)}
+    ${renderKpiSection(data.kpis)}
+    ${renderFunnelSection(data.funnel)}
+    ${renderScatterSection()}
+    ${renderAdsTable(data.ads_performance)}
+    ${renderVerdictCards(data.verdict_cards)}
+    ${renderMainCallout(data.main_callout)}
+    ${renderPixelNote(data.pixel_note)}
+    <footer>${data.footer.text}</footer>
+  `;
+  // 散布図はDOM挿入後に描画
+  renderScatterChart(data.scatter_chart.data_points);
+}
+
+// ============================================================
+// 各セクションのレンダリング関数
+// ============================================================
+function renderHeader(p) {
+  return `
+    <header>
+      <span class="brand">ALMA · META ADS DASHBOARD</span>
+      <h1>キャンペーン週次レポート</h1>
+      <div class="sub">
+        <span>期間：<b>${p.start_date} 〜 ${p.end_date}</b>（${p.days}日間）</span>
+        <span>更新：<b>${p.updated_at}</b></span>
+        <span>データソース：<b>${p.data_source_label}</b></span>
+      </div>
+    </header>`;
+}
+
+function renderKpiSection(kpis) {
+  const order = ['spend','cv_utage','true_cpa','lp_reach_utage','true_cvr','link_ctr'];
+  const cards = order.map(key => {
+    const k = kpis[key];
+    if (!k) return '';
+    const valClass = k.color ? ` ${k.color}` : '';
+    const bench = k.benchmark
+      ? `<div class="bench">${k.benchmark.label} → <b style="color:var(--${k.benchmark.status_color})">${k.benchmark.status}</b></div>`
+      : '';
+    return `
+      <div class="kpi">
+        <div class="label">${k.label}</div>
+        <div class="val${valClass}">${fmt.apply(k.value, k.format)}</div>
+        <div class="meta">${k.meta || ''}</div>
+        ${bench}
+      </div>`;
+  }).join('');
+
+  return `
+    <section>
+      <div class="sec-h">現状サマリー（実数ベース）</div>
+      <div class="sec-d">UTAGE側で取得した実数を主軸にしたKPI。Meta計測値と差がある項目はその旨を併記。</div>
+      <div class="kpis">${cards}</div>
+    </section>`;
+}
+
+function renderFunnelSection(f) {
+  const rows = f.rows.map(r => `
+    <div class="funnel-row">
+      <div>${r.stage}</div>
+      <div>${r.meta_style ? `<span class="${r.meta_style}">${r.meta}</span>` : r.meta}</div>
+      <div>${r.utage_style ? `<span class="${r.utage_style}">${r.utage}</span>` : r.utage}</div>
+    </div>`).join('');
+
+  return `
+    <section>
+      <div class="sec-h">ファネル：Meta計測 vs UTAGE実数</div>
+      <div class="sec-d">${f.description}</div>
+      <div class="panel">
+        <div class="funnel-grid">
+          <div class="funnel-h">段階</div>
+          <div class="funnel-h" style="text-align:right">Meta計測</div>
+          <div class="funnel-h" style="text-align:right">UTAGE実数</div>
+          ${rows}
+        </div>
+        <div class="callout"><b>読み方：</b>${f.insight}</div>
+      </div>
+    </section>`;
+}
+
+function renderScatterSection() {
+  return `
+    <section>
+      <div class="sec-h">広告ごとの位置取り</div>
+      <div class="sec-d">消化金額 × リンクCTR、バブルの大きさ＝LP到達数。右上＝沢山使えて反応も良い。</div>
+      <div class="legend">
+        <span><i style="background:#1D9E75"></i>CVあり</span>
+        <span><i style="background:#185FA5"></i>CTR 3%超（CV未到達）</span>
+        <span><i style="background:#A32D2D"></i>CTR 3%未満</span>
+      </div>
+      <div class="panel"><div style="position:relative;width:100%;height:340px"><canvas id="scatter"></canvas></div></div>
+    </section>`;
+}
+
+function renderAdsTable(ap) {
+  const rows = ap.ads.map(a => {
+    const rowStyle = a.row_highlight ? ' style="background:#fdf4f3"' : '';
+    const spendCell = a.spend_bold ? `<b>${fmt.currency(a.spend)}</b>` : fmt.currency(a.spend);
+    const cvCell = a.cv_class ? `<td class="${a.cv_class}">${a.cv}</td>` : `<td>${a.cv}</td>`;
+    const cpaCell = a.cpa === null ? '—' : fmt.currency(a.cpa);
+    return `
+      <tr${rowStyle}>
+        <td>${a.name}</td>
+        <td>${spendCell}</td>
+        <td>${a.link_clicks}</td>
+        <td class="${a.ctr_class || ''}">${a.ctr}%</td>
+        <td>${a.lp_reach}</td>
+        ${cvCell}
+        <td class="${a.cpa_class || ''}">${cpaCell}</td>
+        <td><span class="verdict ${a.verdict_class}">${a.verdict}</span></td>
+      </tr>`;
+  }).join('');
+
+  return `
+    <section>
+      <div class="sec-h">広告別パフォーマンス</div>
+      <div class="sec-d">評価別＆消化額順。「寄せる」「絞る」「止める」は次の配信調整の方針。</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>広告</th><th>消化</th><th>リンクCL</th><th>CTR</th>
+              <th>LP到達</th><th>CV</th><th>CPA</th><th>評価</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </section>`;
+}
+
+function renderVerdictCards(vc) {
+  const card = (cls, d) => `
+    <div class="vcard ${cls}">
+      <div class="vh"><span class="dot"></span>${d.title}</div>
+      <div class="vd">${d.description}</div>
+      <ul class="vlist">
+        ${d.items.map(i => `<li><span class="nm">${i.name}</span><span class="rs">${i.comment}</span></li>`).join('')}
+      </ul>
+    </div>`;
+
+  return `
+    <section>
+      <div class="sec-h">次の配信調整（打ち手）</div>
+      <div class="sec-d">広告レベルの判断。CV計測は概ね正確なので、この判定は実用に耐える。</div>
+      <div class="verdicts">
+        ${card('scale', vc.scale)}
+        ${card('cut', vc.cut)}
+        ${card('test', vc.test)}
+      </div>
+    </section>`;
+}
+
+function renderMainCallout(m) {
+  const targets = m.targets.map(t => `<div><b>${t.title}</b>${t.body}</div>`).join('');
+  return `
+    <section>
+      <div class="sec-h">本丸：LP登録率の改善</div>
+      <div class="sec-d">広告の調整で消化効率は改善できるが、CV数の桁を上げるには登録率の改善が必要。</div>
+      <div class="main-callout">
+        <div class="tag">${m.tag}</div>
+        <h3>${m.title}</h3>
+        <p>${m.body}</p>
+        <div class="targets">${targets}</div>
+      </div>
+    </section>`;
+}
+
+function renderPixelNote(p) {
+  const lines = p.lines.map(l => `<b>${l.label}：</b>${l.body}<br>`).join('');
+  return `
+    <section>
+      <div class="sec-h">${p.title}</div>
+      <div class="sec-d">${p.description}</div>
+      <div class="panel" style="font-size:13px;line-height:1.9">${lines}</div>
+    </section>`;
+}
+
+// ============================================================
+// 散布図（Chart.js）の描画
+// ============================================================
+function renderScatterChart(ads) {
+  const ctx = document.getElementById('scatter');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        data: ads.map(a => ({
+          x: a.spend, y: a.ctr,
+          r: Math.max(6, a.lpv * 2.5 + 6),
+          label: a.name, res: a.res
+        })),
+        backgroundColor: ads.map(a =>
+          a.res > 0 ? '#1D9E75' : a.ctr >= 3 ? '#185FA5' : '#A32D2D'
+        ),
+        borderColor: '#fff',
+        borderWidth: 1.5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: 14 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: c => `${c.raw.label}: 消化¥${c.raw.x} / CTR ${c.raw.y}% / LP到達 ${Math.round((c.raw.r-6)/2.5)} / CV ${c.raw.res}`
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: '消化金額（¥）' }, grid: { color: 'rgba(0,0,0,.05)' } },
+        y: { title: { display: true, text: 'リンクCTR（%）' }, beginAtZero: true, grid: { color: 'rgba(0,0,0,.05)' } }
+      }
+    }
+  });
+}
+
+// ============================================================
+// 起動
+// ============================================================
+loadDashboard();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
