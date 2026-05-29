@@ -25,7 +25,7 @@
     "spend": {
       "_source": "meta_api",
       "label": "消化金額",
-      "value": 5862,
+      "value": 99999999,
       "format": "currency_jpy",
       "meta": "広告12本に分散"
     },
