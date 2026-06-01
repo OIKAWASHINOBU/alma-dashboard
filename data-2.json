@@ -1,0 +1,271 @@
+{
+  "_meta": {
+    "description": "ALMA Meta広告ダッシュボードデータ。広告経由とハウスリスト経由を分離。",
+    "sources": {
+      "meta_api": "Meta Marketing API から自動取得",
+      "utage_webhook": "UTAGE Webhook で自動連携予定（現状は手動入力）",
+      "utage_manual": "UTAGE管理画面で確認 → 手動入力",
+      "calculated": "他のデータから計算で算出",
+      "manual": "手動入力（コメント・所感）"
+    },
+    "last_updated": "2026-05-29",
+    "next_update_schedule": "weekly_monday_6am"
+  },
+
+  "report_period": {
+    "_source": "auto",
+    "start_date": "2026-05-22",
+    "end_date": "2026-05-28",
+    "days": 7,
+    "updated_at": "2026-05-29",
+    "data_source_label": "Meta広告マネージャ + UTAGE登録経路"
+  },
+
+  "channel_summary": {
+    "_source": "calculated",
+    "_note": "経路別の貢献度サマリー",
+    "total_cv": 35,
+    "ad_cv": 9,
+    "house_cv": 26,
+    "ad_contribution_rate": 25.7,
+    "house_contribution_rate": 74.3
+  },
+
+  "channels": {
+    "all": {
+      "label": "全体",
+      "color_class": "tab-all",
+      "kpis": {
+        "spend": {
+          "label": "総コスト",
+          "value": 5862,
+          "format": "currency_jpy",
+          "meta": "広告のみ（ハウスリストは¥0）"
+        },
+        "cv": {
+          "label": "総CV数",
+          "value": 35,
+          "format": "count_ken",
+          "meta": "広告9件 + ハウスリスト26件",
+          "color": "good"
+        },
+        "lp_reach": {
+          "label": "総LP到達数",
+          "value": 892,
+          "format": "number",
+          "meta": "広告312 + ハウスリスト580"
+        },
+        "cvr": {
+          "label": "総合登録率",
+          "value": 3.92,
+          "format": "percent",
+          "meta": "35件 ÷ 892人",
+          "color": "warn"
+        }
+      }
+    },
+
+    "ad": {
+      "label": "広告経由",
+      "color_class": "tab-ad",
+      "kpis": {
+        "spend": {
+          "_source": "meta_api",
+          "label": "消化金額",
+          "value": 5862,
+          "format": "currency_jpy",
+          "meta": "広告12本に分散"
+        },
+        "cv": {
+          "_source": "utage_webhook",
+          "label": "登録完了（CV）",
+          "value": 9,
+          "format": "count_ken",
+          "meta": "Meta計測は8件（差1件）",
+          "color": "good"
+        },
+        "lp_reach": {
+          "_source": "utage_webhook",
+          "label": "実LP到達数",
+          "value": 312,
+          "format": "number",
+          "meta": "UTAGE実数（Meta計測は44のみ）"
+        },
+        "cpa": {
+          "_source": "calculated",
+          "label": "真のCPA",
+          "value": 651,
+          "format": "currency_jpy",
+          "meta": "¥5,862 ÷ 9件",
+          "benchmark": {
+            "label": "目標 ¥2,000 以下",
+            "status": "大幅クリア",
+            "status_color": "good"
+          }
+        },
+        "cvr": {
+          "_source": "calculated",
+          "label": "真のLP登録率",
+          "value": 2.88,
+          "format": "percent",
+          "meta": "9件 ÷ 312人",
+          "color": "warn",
+          "benchmark": {
+            "label": "目標",
+            "status": "5%（神田氏案件水準）",
+            "status_color": "accent"
+          }
+        },
+        "link_ctr": {
+          "_source": "meta_api",
+          "label": "リンクCTR",
+          "value": 5.01,
+          "format": "percent",
+          "meta": "表示2,697 / クリック135",
+          "color": "good"
+        }
+      }
+    },
+
+    "house": {
+      "label": "ハウスリスト経由",
+      "color_class": "tab-house",
+      "kpis": {
+        "cv": {
+          "_source": "utage_webhook",
+          "label": "申込数（CV）",
+          "value": 26,
+          "format": "count_ken",
+          "meta": "メルマガ・LINE・既存リスト経由",
+          "color": "good"
+        },
+        "lp_reach": {
+          "_source": "utage_webhook",
+          "label": "LP到達数",
+          "value": 580,
+          "format": "number",
+          "meta": "ハウスリストからの誘導"
+        },
+        "cvr": {
+          "_source": "calculated",
+          "label": "登録率",
+          "value": 4.48,
+          "format": "percent",
+          "meta": "26件 ÷ 580人",
+          "color": "good"
+        }
+      }
+    }
+  },
+
+  "funnel": {
+    "_source": "mixed",
+    "_note": "広告経由のファネル分析（ハウスリストは別）",
+    "description": "広告経由のファネル。Meta側のピクセル計測が大幅に取りこぼしているため、判断はUTAGE実数で行う。",
+    "rows": [
+      {"stage": "表示（インプレッション）", "meta": "2,697", "utage": "—"},
+      {"stage": "クリック（すべて）", "meta": "376", "utage": "—"},
+      {"stage": "リンククリック", "meta": "135", "utage": "—"},
+      {"stage": "LP到達", "meta": "44 ⚠", "meta_style": "pill bad", "utage": "312 ✓", "utage_style": "pill good"},
+      {"stage": "登録完了", "meta": "8", "utage": "9"}
+    ],
+    "insight": "「クリック→LP到達率32.6%＝導線崩れ」は誤読でした。実際は <b>クリック376→LP312、約83%が到達</b>。Pixel計測の86%取りこぼしが原因。本当の論点は <b>LP上の登録率2.88%</b> をどう上げるか。"
+  },
+
+  "ads_performance": {
+    "_source": "meta_api",
+    "_note": "Meta API から自動取得（広告経由のみ）",
+    "ads": [
+      {"name":"経営者2","spend":1653,"link_clicks":19,"ctr":3.4,"lp_reach":9,"cv":0,"cpa":null,"verdict":"止める","verdict_class":"v-cut","ctr_class":"","cpa_class":"","row_highlight":true,"spend_bold":true,"cv_class":"cell-bad"},
+      {"name":"士業1","spend":1057,"link_clicks":28,"ctr":7.6,"lp_reach":8,"cv":2,"cpa":529,"verdict":"寄せる","verdict_class":"v-scale","ctr_class":"cell-good","cpa_class":""},
+      {"name":"二代目3","spend":674,"link_clicks":11,"ctr":3.0,"lp_reach":1,"cv":1,"cpa":674,"verdict":"様子見","verdict_class":"v-cont","ctr_class":"","cpa_class":""},
+      {"name":"士業2","spend":505,"link_clicks":23,"ctr":7.8,"lp_reach":11,"cv":1,"cpa":505,"verdict":"継続","verdict_class":"v-cont","ctr_class":"cell-good","cpa_class":""},
+      {"name":"二代目1","spend":486,"link_clicks":12,"ctr":3.0,"lp_reach":4,"cv":0,"cpa":null,"verdict":"絞る","verdict_class":"v-cut","ctr_class":"","cpa_class":""},
+      {"name":"士業_長文","spend":294,"link_clicks":6,"ctr":4.3,"lp_reach":3,"cv":2,"cpa":147,"verdict":"寄せる","verdict_class":"v-scale","ctr_class":"","cpa_class":"cell-good"},
+      {"name":"二代目2","spend":247,"link_clicks":7,"ctr":4.8,"lp_reach":1,"cv":1,"cpa":247,"verdict":"継続","verdict_class":"v-cont","ctr_class":"","cpa_class":""},
+      {"name":"経営者_長文","spend":242,"link_clicks":8,"ctr":6.0,"lp_reach":2,"cv":0,"cpa":null,"verdict":"テスト","verdict_class":"v-test","ctr_class":"cell-good","cpa_class":""},
+      {"name":"経営者1","spend":186,"link_clicks":11,"ctr":12.8,"lp_reach":2,"cv":1,"cpa":186,"verdict":"寄せる","verdict_class":"v-scale","ctr_class":"cell-good","cpa_class":"cell-good"},
+      {"name":"経営者3","spend":183,"link_clicks":2,"ctr":1.7,"lp_reach":1,"cv":0,"cpa":null,"verdict":"絞る","verdict_class":"v-cut","ctr_class":"cell-bad","cpa_class":""},
+      {"name":"士業3","spend":171,"link_clicks":7,"ctr":10.5,"lp_reach":2,"cv":0,"cpa":null,"verdict":"テスト","verdict_class":"v-test","ctr_class":"cell-good","cpa_class":""},
+      {"name":"二代目_長文","spend":164,"link_clicks":1,"ctr":2.9,"lp_reach":0,"cv":0,"cpa":null,"verdict":"様子見","verdict_class":"v-cont","ctr_class":"","cpa_class":""}
+    ]
+  },
+
+  "scatter_chart": {
+    "_source": "auto_from_ads_performance",
+    "data_points": [
+      {"name":"経営者2","spend":1653,"ctr":3.41,"lpv":9,"res":0},
+      {"name":"士業1","spend":1057,"ctr":7.63,"lpv":8,"res":2},
+      {"name":"二代目3","spend":674,"ctr":3.01,"lpv":1,"res":1},
+      {"name":"士業2","spend":505,"ctr":7.77,"lpv":11,"res":1},
+      {"name":"二代目1","spend":486,"ctr":3.05,"lpv":4,"res":0},
+      {"name":"士業_長文","spend":294,"ctr":4.35,"lpv":3,"res":2},
+      {"name":"二代目2","spend":247,"ctr":4.83,"lpv":1,"res":1},
+      {"name":"経営者_長文","spend":242,"ctr":6.02,"lpv":2,"res":0},
+      {"name":"経営者1","spend":186,"ctr":12.79,"lpv":2,"res":1},
+      {"name":"経営者3","spend":183,"ctr":1.75,"lpv":1,"res":0},
+      {"name":"士業3","spend":171,"ctr":10.45,"lpv":2,"res":0},
+      {"name":"二代目_長文","spend":164,"ctr":2.86,"lpv":0,"res":0}
+    ]
+  },
+
+  "verdict_cards": {
+    "_source": "auto",
+    "scale": {
+      "title": "寄せる",
+      "description": "CVが出ている or CTR高くLP到達もある。予算を集中させる。",
+      "items": [
+        {"name":"経営者1","comment":"CPA ¥186 / CTR 12.8%"},
+        {"name":"士業_長文","comment":"CPA ¥147 / CV 2件"},
+        {"name":"士業1","comment":"CV 2件 / 安定運転"}
+      ]
+    },
+    "cut": {
+      "title": "絞る・止める",
+      "description": "消化が大きい割にCV・LP到達もほぼ無い。配信抑制で予算を守る。",
+      "items": [
+        {"name":"経営者2","comment":"¥1,653使ってCV 0"},
+        {"name":"二代目1","comment":"¥486使ってCV 0"},
+        {"name":"経営者3","comment":"CTR 1.7%"}
+      ]
+    },
+    "test": {
+      "title": "小さくテスト",
+      "description": "CTRが高いが消化が少なくデータ不足。予算を足して見極める。",
+      "items": [
+        {"name":"士業3","comment":"CTR 10.5%"},
+        {"name":"経営者_長文","comment":"CTR 6.0%"},
+        {"name":"二代目2","comment":"CV 1件 / CTR 4.8%"}
+      ]
+    }
+  },
+
+  "main_callout": {
+    "_source": "manual",
+    "tag": "PRIORITY",
+    "title": "LP登録率 2.88% → 5% を狙う",
+    "body": "広告経由の有料商品LPなら2-3%が標準。無料の入り口（講演会・ウェビナー申込み）で神田氏のブランド資産を活かせば、5%前後は十分狙える水準。広告より先にLPの3点を見直す価値が高い。",
+    "targets": [
+      {"title": "① フォーム項目数", "body": "多いほど離脱増。最小限まで削れるか"},
+      {"title": "② 第一スクリーン", "body": "神田氏の実績・社会的証明が即座に伝わるか"},
+      {"title": "③ CTAボタン", "body": "配置とコピー（具体的な動詞）"}
+    ]
+  },
+
+  "pixel_note": {
+    "_source": "manual",
+    "title": "別件：Meta Pixel計測の修正",
+    "description": "運用判断には影響しないが、データの正確性のためいずれ修正したい項目。",
+    "lines": [
+      {"label": "症状", "body": "LP到達がUTAGE実数の14%しか計測されていない（44 vs 312）。"},
+      {"label": "原因仮説", "body": "中間リダイレクトページの <code>fbq('track','PageView')</code> 発火タイミング。"},
+      {"label": "点検項目", "body": "<code>window.location.replace()</code> より前にPixelが発火しているか。"},
+      {"label": "優先度", "body": "低（CV計測は正確、UTAGEで実数も追えているため、運用判断には支障なし）。"}
+    ]
+  },
+
+  "footer": {
+    "_source": "manual",
+    "text": "ALMA Meta広告キャンペーン分析 ｜ 限定共有 ｜ 報告先以外への共有はご遠慮ください"
+  }
+}
