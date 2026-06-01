@@ -1,0 +1,599 @@
+{
+  "_meta": {
+    "description": "ALMA Meta広告ダッシュボードデータ。広告経由とハウスリスト経由を分離。クリエイティブ詳細を含む。",
+    "sources": {
+      "meta_api": "Meta Marketing API から自動取得",
+      "utage_webhook": "UTAGE Webhook で自動連携予定（現状は手動入力）",
+      "calculated": "計算で算出",
+      "manual": "手動入力"
+    },
+    "last_updated": "2026-06-01",
+    "next_update_schedule": "weekly_monday_6am"
+  },
+  "report_period": {
+    "_source": "auto",
+    "start_date": "2026-05-22",
+    "end_date": "2026-06-01",
+    "days": 11,
+    "updated_at": "2026-06-01",
+    "data_source_label": "Meta広告マネージャ + UTAGE登録経路"
+  },
+  "channel_summary": {
+    "_source": "calculated",
+    "total_cv": 120,
+    "ad_cv": 71,
+    "house_cv": 49,
+    "ad_contribution_rate": 59.2,
+    "house_contribution_rate": 40.8
+  },
+  "channels": {
+    "all": {
+      "label": "全体",
+      "color_class": "tab-all",
+      "kpis": {
+        "spend": {
+          "label": "総コスト",
+          "value": 38769,
+          "format": "currency_jpy",
+          "meta": "広告のみ（ハウスリストは¥0）"
+        },
+        "cv": {
+          "label": "総CV数",
+          "value": 120,
+          "format": "count_ken",
+          "meta": "広告71件 + ハウスリスト49件",
+          "color": "good"
+        },
+        "lp_reach": {
+          "label": "総LP到達数",
+          "value": 544,
+          "format": "number",
+          "meta": "広告319 + ハウスリスト225"
+        },
+        "cvr": {
+          "label": "総合登録率",
+          "value": 22.06,
+          "format": "percent",
+          "meta": "120件 ÷ 544人",
+          "color": "good"
+        }
+      }
+    },
+    "ad": {
+      "label": "広告経由",
+      "color_class": "tab-ad",
+      "kpis": {
+        "spend": {
+          "_source": "meta_api",
+          "label": "消化金額",
+          "value": 38769,
+          "format": "currency_jpy",
+          "meta": "広告12本に分散"
+        },
+        "cv": {
+          "_source": "utage_webhook",
+          "label": "登録完了（CV）",
+          "value": 71,
+          "format": "count_ken",
+          "meta": "Meta計測は576件（差505件）",
+          "color": "good"
+        },
+        "lp_reach": {
+          "_source": "utage_webhook",
+          "label": "実LP到達数",
+          "value": 319,
+          "format": "number",
+          "meta": "UTAGE実数（Meta計測は262のみ）"
+        },
+        "cpa": {
+          "_source": "calculated",
+          "label": "真のCPA",
+          "value": 546,
+          "format": "currency_jpy",
+          "meta": "¥38,769 ÷ 71件",
+          "benchmark": {
+            "label": "目標 ¥2,000 以下",
+            "status": "大幅クリア",
+            "status_color": "good"
+          }
+        },
+        "cvr": {
+          "_source": "calculated",
+          "label": "真のLP登録率",
+          "value": 22.26,
+          "format": "percent",
+          "meta": "71件 ÷ 319人",
+          "color": "good",
+          "benchmark": {
+            "label": "目標",
+            "status": "5%（神田氏案件水準）",
+            "status_color": "accent"
+          }
+        },
+        "link_ctr": {
+          "_source": "meta_api",
+          "label": "リンクCTR",
+          "value": 3.79,
+          "format": "percent",
+          "meta": "表示14,128 / クリック536",
+          "color": "good"
+        }
+      }
+    },
+    "house": {
+      "label": "ハウスリスト経由",
+      "color_class": "tab-house",
+      "kpis": {
+        "cv": {
+          "_source": "utage_webhook",
+          "label": "申込数（CV）",
+          "value": 49,
+          "format": "count_ken",
+          "meta": "メルマガ・LINE・既存リスト経由",
+          "color": "good"
+        },
+        "lp_reach": {
+          "_source": "utage_webhook",
+          "label": "LP到達数",
+          "value": 225,
+          "format": "number",
+          "meta": "ハウスリストからの誘導"
+        },
+        "cvr": {
+          "_source": "calculated",
+          "label": "登録率",
+          "value": 21.78,
+          "format": "percent",
+          "meta": "49件 ÷ 225人",
+          "color": "good"
+        }
+      }
+    }
+  },
+  "funnel": {
+    "_source": "mixed",
+    "description": "広告経由のファネル。Meta側のピクセル計測が大幅に取りこぼしているため、判断はUTAGE実数で行う。",
+    "rows": [
+      {
+        "stage": "表示（インプレッション）",
+        "meta": "14,128",
+        "utage": "—"
+      },
+      {
+        "stage": "クリック（すべて）",
+        "meta": "1,642",
+        "utage": "—"
+      },
+      {
+        "stage": "リンククリック",
+        "meta": "536",
+        "utage": "—"
+      },
+      {
+        "stage": "LP到達",
+        "meta": "262 ⚠",
+        "meta_style": "pill bad",
+        "utage": "319 ✓",
+        "utage_style": "pill good"
+      },
+      {
+        "stage": "登録完了",
+        "meta": "576",
+        "utage": "71"
+      }
+    ],
+    "insight": "Pixel計測の取りこぼしで Meta計測LP到達は実数の82.1%。本当の論点は <b>LP上の登録率22.26%</b> をどう上げるか。"
+  },
+  "ads_performance": {
+    "_source": "meta_api",
+    "ads": [
+      {
+        "name": "経営者2",
+        "spend": 11412,
+        "link_clicks": 109,
+        "ctr": 10.4,
+        "lp_reach": 57,
+        "cv": 123,
+        "cpa": 92,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=ZvFFGPKwUKsQ7kNvwFvU4vk&_nc_oc=Adr0VvN5bPmEQPXh6F0B81-W_mZPPfDDxmDnjhC8Cm8GwfKzMvlKgHELs1_74tJNEg8&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=2eldvpHKYp1CZxWK78J8vg&_nc_tpa=Q5bMBQHNvbdBvkfBCb7R8Xjb0_ROaXN-OG_t5phm0IqFrqSkRh94Ifrts-3ff0paHF6Gx5vTiQ5dS3ry&oh=00_Af-D82QE6a3P1pQ2IcT1kGrjNTcpolzVdybZL2l8zoPLhA&oe=6A22C3C1",
+          "title": "集客4倍の裏側にあった“会社の旗”",
+          "body": "広告を増やしたから、集客が4倍になったのではない。\n商品を変えたから、反応が変わったのでもない。\n\n本当に変わっていたのは、\n会社が何を掲げ、何を基準に伝えるか。\n\nAI時代に、会社の違いが見えにくくなる中で、\n選ばれる会社は何を言葉にしているのか。\n\n新刊『旗を掲げよ』出版講演会で解き明かします。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=xTWIpUpAE35Q"
+        }
+      },
+      {
+        "name": "士業3",
+        "spend": 9625,
+        "link_clicks": 146,
+        "ctr": 12.4,
+        "lp_reach": 74,
+        "cv": 162,
+        "cpa": 59,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=3a9N0HwgVd0Q7kNvwG0OJsr&_nc_oc=Adqlii1QY-cEqRtyhLRisGIFCNnvNu0J7JngQv9yS6o5yDiK_sUizeP9nIPlYJUdFjg&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=ccV6frFfYxXKUAF5M2ojsQ&_nc_tpa=Q5bMBQFitbs1gbncEUR-IbOFYIcHswwMwl3t86wcEdiOekdavbHSjJ3vOSZXamN9st-3F0xKEt1xnmfN&oh=00_Af_qIxj-c6Tq8WOsgglaF63kPyN5ymUF23H-Os7F6hNLvw&oe=6A22CDF6",
+          "title": "資格だけでは、違いが伝わらない時代へ",
+          "body": "士業に必要なのは、\nもっと多くの情報を発信することではありません。\n\n自分は誰の、どんな判断を支える専門家なのか。\nその旗を言葉にすることです。\n\n集客4倍の事例から、\n信頼で選ばれるための転換点を整理します。\n\n新刊『旗を掲げよ』出版講演会。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=IAjk8XPd9Vrk"
+        }
+      },
+      {
+        "name": "士業1",
+        "spend": 7581,
+        "link_clicks": 102,
+        "ctr": 11.5,
+        "lp_reach": 52,
+        "cv": 96,
+        "cpa": 78,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=3a9N0HwgVd0Q7kNvwG0OJsr&_nc_oc=Adqlii1QY-cEqRtyhLRisGIFCNnvNu0J7JngQv9yS6o5yDiK_sUizeP9nIPlYJUdFjg&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=lQ6SEgRSeQ5XnejTsoVpOg&_nc_tpa=Q5bMBQFX7JJhJrSSrYwspqXT_Yx6Nt-yYjnpup2a4EM2K0qYhkz8IhTyofG7XRXiB8RWsbkDtxevn6c6&oh=00_Af-ouoUCdwZ3DcdehzguZeFCueTatdgPnG6u_-_WuJdmig&oe=6A22CDF6",
+          "title": "AIが答えを返す時代、士業は何で選ばれるのか",
+          "body": "知識がある。資格もある。\nそれでも、“違い”が伝わらなければ選ばれない。\n\nAI時代に価値が下がるのは、\n作業そのもの。\n\nこれから求められるのは、\n顧客の判断を支える専門家としての言葉です。\n\n集客4倍になった事例から、\n選ばれる理由のつくり方を整理します。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=7zbPzItiBIpj"
+        }
+      },
+      {
+        "name": "二代目_長文",
+        "spend": 2422,
+        "link_clicks": 28,
+        "ctr": 11.5,
+        "lp_reach": 16,
+        "cv": 45,
+        "cpa": 53,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707591757_122103955124631224_1474485206800125744_n.png?stp=dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=jcT5aStqxIMQ7kNvwF1boId&_nc_oc=AdpLJ4We0LmWeMRAzb4Fg8V4n50Z1P7u2eytGKTktSEa6Zd0LWExTrHDmfcDaN7FAFI&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=0JHvpvk_kfWNKhhzQA9EaA&_nc_tpa=Q5bMBQHO2OSGhP8HMaddLvYfTbe6Dr8P-Qh7IQq-WsWU3ULQN7RXCNKxa8xb6m_4VhQN2PCDInkvHA-x&oh=00_Af8H9of-TXt6WCAOn2QMBLHYsO3ewmmqplAejeXd5AGODQ&oe=6A22CC9D",
+          "title": "変えたい。でも、壊したいわけじゃない",
+          "body": "変えたい。 でも、壊したいわけじゃない。\n\n・この感覚は、二代目社長にしかわからない、\n　特殊な形をしています。\n\n・先代が築いてきた会社を否定したいわけではない。\n \n・長く支えてくれている社員を、\n　軽んじたいわけでもない。 \n\n・取引先との関係や、会社の歴史を、\n　壊したいわけでもない。\n\n・けれど同時に── このまま同じやり方を続けて、\n　本当に次の時代に残れるのか。 \n\n・自分は、ただ受け継いだものを守るためだけに、\n　社長になったのか。 \n\n・気づけば「先代の息子」「先代の娘」と呼ばれたまま、　　　\n　自分の代を終えていくのではないか。\n\nそんな問いが、誰にも言えないまま、\nどこかにあるはずです。\n\n今は、AIによって、 営業資料も、採用文も、LPも、\nメール文面も、SNS投稿も、 \n誰でも整えられる時代になりました。\n\nひと昔前なら、一人前のライターに\n数十万円を払って仕上げていた原稿が、 \n今は数分でそれらしく仕上がる。\n\nつまり、言葉の表面だけなら、\nどの会社も一定水準まで整えられるということです。 \nそして、表面が整うほど、会社ごとの違いは、\n\n顧客から見えにくくなっていきます。\n\nだからこそ、これからの会社に問われるのは、 \n綺麗な言葉を作れるかどうかではありません。\n\n・この会社は、何を受け継ぎ、何を変えるのか。 \n・自分の代で、どんな未来へ進むのか。 \n・先代の延長ではなく、何を掲げる社長なのか。\n\nここが曖昧なままだと、\n社員も、現場も、市場も迷います。\n\n二代目社長が、\n無意識に陥りやすい道は、\n二つあります。\n\nひとつは、先代のやり方をそのまま継ぐ道。 \n\n・摩擦は最小限で済みます。\n・古参社員も安心する。\n・取引先も警戒しない。\n・先代も口を出さない。 \n\nけれどその代わりに──\n\n「この会社が、なぜ自分の代でも存在しているのか」を、\n\n自分の言葉で語れないまま\n時間だけが過ぎていきます。\n\nもうひとつは、先代を全否定する道。 \n\n新しいやり方を一気に持ち込み、\n過去のルールを切り捨てる。\n\n一見、自分らしさは出る。 \nけれど現場はついてこない。 \n\n古参は離れ、若手は迷い、結果として\n\n「変わったのは社長だけ」という孤立が残ります。\n\nどちらの道も、本質的には\n「自分の旗を立てる」ことから逃げている点で、\nよく似ています。\n\n社員も、現場も、本当はわかっているのです。\n\n「昔からこうしてきた」\n「先代の時代はこうだった」\n「うちはこのやり方でやってきた」\n\nこの言葉に、二代目社長が\n何で応えるのかを──。\n\nその言葉をただ否定するだけでは、\n組織は動きません。 \n\nかといって、何も変えなければ、\n時代に置いていかれる。\n\n二代目社長に本当に必要なのは、\n先代の会社を壊すことでも、\nそのまま守ることでもありません。\n\n受け継いだ会社に、自分の旗を立てることです。\n\n城は受け継ぐ。歴史も受け継ぐ。\n社員も、取引先も、商品も受け継ぐ。 \nそのうえで、その城の上に自分の代の旗を掲げる。\n\n何を残すのか。 何を変えるのか。 \nなぜ、この会社は次の時代にも必要なのか。\n\n自分の代で、どの分野で、\n何によって選ばれる会社になるのか。\n\nこの問いに自分の言葉で答えられたとき、\nはじめて二代目社長は、 \n\n「跡を継いだ人」から\n「次の時代をつくる経営者」へと\n\n立場が変わっていきます。\n\n旗が立つと、現場の判断が、\n不思議なほど揃い始めます。\n\n・営業で語る価値が変わる。 \n・採用で伝える会社の魅力が変わる。\n・広報で発信する社会的意義が変わる。 \n・AIに投げる問いの精度が変わる。 \n・会議で「これは進める／これは止める」の優先順位が変わる。 \n・そして何より、顧客から見た「この会社を選ぶ理由」が変わる。\n\n言葉そのものを書き直したからではありません。 \n\n何を基準に言葉を選ぶかが、\n現場の中で揃い始めるからです。\n\n今回の新刊『旗を掲げよ』\n出版オンライン講演会では、 \n\nある会社で集客が4倍になった事例の裏側で、 \n受け継いだ会社がどう変わっていったのかを、\n実例ベースで解説します。\n\nここで強調しておきたいのは\n\n成果を生んだのは、\n単なるコピーの言い換えではない。\n\n二代目社長が、先代を否定することなく、 \n受け継いだ会社に“自分の旗”を立てるという\n決断をしたことにある。\n\nその瞬間から、営業の言葉、採用の言葉、\nAIへの問いが揃い始め、 \n\n結果として、顧客から見た\n「選ばれる理由」が一本の線になっていった。 \n\nそして集客が4倍になった。\n \n \n \n\nこの流れを、60分で整理します。\n\n9月に出版予定の\n新刊『旗を掲げよ』(仮)をベースにした、\nオンライン講演会を開催します。\n\n書籍で語っている内容を、\nフライング講演会として、 一足先にお伝えします。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n  \n受け継いだ会社の旗が変わる言葉が\n生み出される瞬間をぜひ御覧ください。\n\n講演会は、6月9日（火）12時スタート。\nご参加を、心よりお待ちしております。\n \n\n・新刊『旗を掲げよ』出版オンライン講演会 \n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n最後に、ひとつだけ。\n \n「変えたい、でも壊したくない」という葛藤を、\n 弱さや迷いだと感じている二代目社長は\n多いかもしれません。\n\nけれど、その葛藤こそが、 \n先代の延長でも、先代の全否定でもない\n\n第三の道を歩める人にしか持てない、\n経営者としての資質そのものです。\n\nその葛藤を、現場で動く言葉に変えていきたい方は、\n ぜひ6月9日火、オンライン講演会にご参加ください。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=PJR5zQB7gNQL"
+        }
+      },
+      {
+        "name": "士業2",
+        "spend": 1784,
+        "link_clicks": 50,
+        "ctr": 14.8,
+        "lp_reach": 22,
+        "cv": 46,
+        "cpa": 38,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=3a9N0HwgVd0Q7kNvwG0OJsr&_nc_oc=Adqlii1QY-cEqRtyhLRisGIFCNnvNu0J7JngQv9yS6o5yDiK_sUizeP9nIPlYJUdFjg&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=EGg4KRHwmrE9V2Vqghwduw&_nc_tpa=Q5bMBQGc3Gx3KuvX_bY-M_N8xnIqiFLiR5ypkcgZIMA_8HaqDWx5e8f72KXhAn-rJucHkWaI_HaZ-nrl&oh=00_Af-Cv_OzEM8HZZ8LWR-p2Io6MHEyO-HUxt6zYVU8XsSFYA&oe=6A22CDF6",
+          "title": "作業代行から、判断を支える専門家へ",
+          "body": "AIが答えを返せる時代に、\n士業は何で選ばれるのか。\n\n価格ではなく、信頼と視点で選ばれるには、\n専門性をどう言葉にするべきか。\n\n集客4倍になった事例が示したのは、\n“何のために存在するのか”が伝わることの力でした。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=uZAc1ZWmhVk8"
+        }
+      },
+      {
+        "name": "士業_長文",
+        "spend": 1465,
+        "link_clicks": 22,
+        "ctr": 10.9,
+        "lp_reach": 11,
+        "cv": 46,
+        "cpa": 31,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707463735_122103955094631224_6860784955895229483_n.png?stp=dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=eg5yxp5AKHEQ7kNvwG34DHp&_nc_oc=AdqDse00hf3aO3lw-C5BUm5CFkK40oDxbpxlCezVxHfZYCdx0OWFoNcJaTOUvH4jLAg&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=TovS4AQcvLY5T70JrVuBNw&_nc_tpa=Q5bMBQGTuhkol_kKDjhVsKsWarbOg8_nHJP671FWtFLJRob-M8Jl69QsHZ-SsIvR1pJCltrI8HqvAFYL&oh=00_Af87D_AmT_WXnFYyGcDQFe4m3e7AbYm5xSTFbHd3h1iLnA&oe=6A22D3B7",
+          "title": "AI時代、何で選ばれるのか",
+          "body": "AIが答えを返す時代に、士業は何で選ばれるのか。\n\nこれは、これから避けて通れない問いです。\n\n知識がある。 資格がある。 \n経験もある。AIも取り入れている。\n\nそれでも、\nその違いが顧客に伝わらなければ、\n選ばれない。\n\nしかも今、何が起きているのか──。\n\n・一般的な制度の説明。 \n・書類の下書き。 \n・情報の整理。\n・他制度との比較資料。 \n・相談前の下調べと、想定される論点の洗い出し。 \n\nさらに最近では、「自分のケースだとどう判断すべきか」という相談まで、\nAIがそれなりに筋の通った答えを返すようになっています。\n \n\nクライアントは、士業の前に座る時点で、\nすでにAIに一度相談を済ませている。 \n \n\nそして「AIはこう言っていたんですけど、どうですか？」という質問から、面談が始まる。\n\nこの光景に心当たりがある方は、\nもう少なくないはずです。\n\n \n\nここで起きていることは、確かでしょう。\n\n士業の価値は、\n \nもう 「知っていること」だけでは\n伝わりにくくなっている ということ。\n\nなぜなら、顧客が本当に求めているのは、\n情報そのものではないからです。\n\n・自分の場合、何を選べばいいのか。 \n・どこに、見落とすと致命的なリスクがあるのか。 \n・何を優先し、何を後回しにすべきなのか。\n・この判断が、3年後、5年後、10年後の自分にどう影響するのか。\n・そして──この決断を、自分ひとりで背負わずに済む相手は、誰か。 \n\nクライアントが本当に欲しいのは、\n答えではありません。 \n\n「この人と決めた」と思える安心です。\n\nAIは、答えを出せます。 けれど、\nその答えの重みを一緒に背負ってはくれない。\n\nこれからの士業に必要なのは、\n作業代行ではなく、判断支援。\n \nさらに踏み込めば──判断の重みを、\n共に背負える存在であること。\n\nところが現状、多くの士業は、\nこう見られています。\n\n・手続きをしてくれる人。 \n・書類を作ってくれる人。 \n・制度を説明してくれる人。 \n・契約書を確認してくれる人。\n\nこの見られ方のままだと、何が起きるか。\n\nどうしても、価格で比較されます。 \n紹介が止まれば、新規も止まる。\n\n新しい案件は来ても、\n相見積もりの土俵に乗せられる。\n\n 「先生」と呼ばれていても、\n実態は“代替可能な作業者”として扱われていく。\n\nこれは、能力の問題ではありません。 \n\n自分の専門性が、\n顧客にとって意味のある言葉に\n翻訳されていないだけの問題です。\n\n逆に、顧客の判断を支える専門家として\n認識されると、選ばれ方が一変します。\n\n・価格ではなく、信頼で選ばれる。 \n・紹介だけに頼らず、専門性そのものが指名の理由になる。\n・「とりあえず相談したい」ではなく、\n　「この件はあの先生にしか頼めない」と言われるようになる。\n\nその差を生むのは、\n\n知識量でも、経験年数でも、\nフォロワー数でもありません。\n \n自分の専門性を、\n顧客の判断軸に翻訳できているかどうか。\n\nただ、それだけです。\n\nここで、多くの士業が\nつまずきやすいポイントがあります。\n\n \n\nそれは── \n「自分は資格と腕で勝負したい。\n　マーケティングや言葉づくりは、本業ではない」 \n \n\nという、職人気質ゆえの抵抗感です。\n\nその姿勢自体は、\nプロフェッショナリズムの表れであり、\n尊いものです。\n\nけれどAI時代に起きているのは、\n腕がある人ほど、\nその腕が見えないまま埋もれてしまう･･･。\n \n\n悲惨な現象です。\n \n\n腕を磨くことと、\n腕を顧客に届く言葉に変えることは、\n別の作業です。 \n\nそして後者を怠った瞬間、\n腕は「あるけれど伝わらないもの」として、\n市場の中で評価されなくなる。\n\nこれは、マーケティングの話ではありません。 \n\n誰の役に立ちたくて、\n自分はこの資格を取ったのかを、\nもう一度言葉に戻す作業のことです。\n\nAI時代に本当に必要なのは、\n発信量を増やすことではありません。\n\n・自分は、誰の、どんな判断を支える専門家なのか。\n・自分は、何を見過ごせない専門家なのか。\n・どんな未来のために、この仕事を続けているのか。 \n・AIには絶対に渡せない領域は、自分の中のどこなのか。\n\nこの“旗”が言葉になっていないと、\nどれだけ知識があっても、\nどれだけ実績があっても、\n\n顧客から見た「違い」は、伝わりません。\n\n逆に、この旗が立つと、不思議なことが起き始めます。\n\n・ホームページの言葉が変わる。 \n・初回面談での第一声が変わる。 \n・クライアントから持ち込まれる相談の質が変わる。 \n・紹介者が、紹介する時の一言が変わる。 \n\nそして何より・・・。\n\n──自分が引き受ける仕事と、\n断る仕事の基準が変わる。\n\n旗を掲げるとは、\n看板を派手にすることではありません。 \n\n自分の仕事の輪郭を、自分で引き直すことです。\n\nそして、この輪郭が引かれた瞬間から、\n紹介も、価格交渉も、AIとの距離感も、\nすべてが変わっていきます。\n\nそして、9月に出版予定の新刊では、\nこれまでお話した内容をまとめています。\n\nまた新刊をベースにした出版オンライン講演会も\n6月9日12時より開催します。\n\n講演会では、\n 集客が4倍になった事例の裏側にあった\n\n「信頼で選ばれる言葉」を、 \n実例ベースで解き明かします。\n\n・なぜ、言葉を変えただけで反応が変わったのか。\n・なぜ、それが単なるコピーの言い換えではなく、\n　“旗”の問題だったのか。 \n・なぜ、AI時代ほど「何を掲げるか」が選ばれる理由になるのか。\n\n知識や資格があるだけでは、\n違いは伝わりにくい。\n\n大切なのは、専門性を \n「選ばれる理由」 に変えること。\n\nその流れを、60分で整理します。\n\n書籍で語っている内容を、\nフライング講演会として、 一足先にお伝えします。\n\n講演会は、6月9日（火）12時スタート。\n\n・紹介頼みの集客から、一歩抜け出したい。 \n\n・価格ではなく、\n\n　信頼で選ばれる立ち位置をつくりたい。\n \n・AIが普及するほど、\n　自分の専門性が際立つ構造を持ちたい。\n　\n・「先生」ではなく、\n　「この人にしか頼めない」と言われる存在になりたい。\n\nそう感じている方に向けた、60分です。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n \n\nAI時代に重要な旗を掲げながら\n選ばれる文章を作る方法をご視聴したい方は\nお申し込みください。\n\n・新刊『旗を掲げよ』出版オンライン講演会\n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n最後に、ひとつだけ。\n\nAIが答えを返す時代に、\n何で選ばれる専門家になるのか。 \n\nこの問いは、避けても消えません。 \n\nむしろこれから毎年、\n輪郭をくっきりさせながら、\n目の前に現れ続けます。\n\nこの問いを、一人で抱えたまま\n日々の業務に流していくのか。\n\nそれとも、60分だけ立ち止まって、\n自分の旗を整理する時間を取るのか。\n\nその小さな判断こそが、これから5年の選ばれ方を、静かに分けていきます。\n\nご参加を、心よりお待ちしております。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=D2xaAP5MusQk"
+        }
+      },
+      {
+        "name": "経営者_長文",
+        "spend": 1178,
+        "link_clicks": 18,
+        "ctr": 10.6,
+        "lp_reach": 7,
+        "cv": 13,
+        "cpa": 90,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707531621_122103955112631224_1160013690658776535_n.png?stp=dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=ZcTgKG4qPP0Q7kNvwFboPeG&_nc_oc=Adq77N3x6RIuDUVcSybKlkMrRLD_JAme11_E4sLfORIhSwuX6QxHrOGOIcBN_acBcYM&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=x0RMlcKE-s9Qi2dZ9gkv9w&_nc_tpa=Q5bMBQHsmsykeKzXMRgZZuzoQiOchyyTvxEL26jGze69iDkP4V-JdO2CJfjhnC0doUr5k-Evs2hrpBWb&oh=00_Af-gUzhf4K1ua99IIpGRsjZ4wA1SZDt-UdY9JADvtqeh9A&oe=6A22E9FD",
+          "title": "社長の判断基準は、現場に伝わっているか",
+          "body": "AIを使えば、文章は整う。\n \n営業資料も、採用文も、LPも、\nメール文面も、SNS投稿も、\n\n一定水準までは誰でも作れる時代になりました。\n\n ひと昔前なら一人前のライターに数十万円を払って\n仕上げていた原稿が、今は数分でそれらしく仕上がる。\n\nこれは、間違いなく大きな進化です。 \n\nしかし経営者の立場で見ると、\n別の問題が静かに進行しています。\n\nどの会社も“それらしい言葉”を\n使えるようになった結果、\n\n会社ごとの違いが、\n顧客から見えなくなっています。\n\n「顧客に寄り添う」 \n「本質的な課題を解決する」\n「社会に貢献する」\n「お客様に本当の価値を届ける」 \n「AIを活用して業務を効率化する」\n\nどの言葉も、間違っていません。 \n\nむしろ、すべて正しい──。\n\nところが、正しい言葉が並ぶほど、\n顧客から見える景色はこうなります。\n \n\n「どこも良さそうだけど、決定的な違いがわからない」\n\n \nそして決定的な違いがわからないとき、\n顧客が最終的に基準にするのは、\n価格、規模、知名度。 \n \n\nつまり、中小企業にとって\n最も不利な土俵に引きずり込まれていく──。\n\nこれは、広告コピーだけの問題ではありません。\n\n・営業が顧客に語る言葉。 \n・採用で候補者に伝える会社の魅力。\n・広報で発信する社会的意義。 \n・商品開発で磨いていく方向性。 \n・AIに投げる問いの設計。 \n・会議で「これは進める／これは止める」と決める優先順位。\n\nこれらがバラバラに動いている会社ほど、\n社長の頭の中にある判断基準が、\n現場の言葉に翻訳されていない可能性があります。\n\nあなたは、わかっているはず。\n \n・市場は、これからこう変わっていく。 \n・顧客は、こういう課題を抱えるようになる。 \n・自社の強みはここだ。 \n・この商品の価値は◯◯にある！！ \n・うちは、ただ売上を伸ばすだけの会社ではない。\n\nそれらはすべて脳内にある。\n\nところが、その感覚が\n現場で使える言葉になっていないと、\n\n営業も、採用も、広報も、AI活用も、\n少しずつズレていく。  \n \n\nそしてズレた分だけ、\n \n「正しいけれど、他社と区別がつかない言葉」が\n量産されていきます。\n\nAI時代に本当に問われているのは、\nAIを導入しているかどうかではない。\n \n\n自社は、何を「問題」だと見抜いているのか。 \nなぜ、その問題に取り組む必要があるのか。 \nどの分野で、どんな未来をつくる存在なのか。\n\nそして、\n \nその判断基準を、\n現場が今日から使える言葉に落とせているか。\n\nここが、問われています。\n \n\n言い換えれば、\nAIが言葉を量産できる時代だからこそ、\n \n「何を言うか」よりも前に「誰が言うか」。\n \nそして、「誰が言うか」よりも、\n \n「なぜ、その発言をしたのか。」\n \nつまり、\n \n\n「なにを基準に選ぶか」を持っている会社が、\n結果として違いを生み出していく。\n\n今回の出版オンライン講演会では、\nある会社で集客が4倍になった事例の裏側で、 \n \n会社の中で何が変わっていたのかを、\n実例ベースで解き明かしていきます。\n\nここで強調しておきたいのは──\n\nLPのコピーを変えたから集客が4倍になった。\n \nそのような単純な話ではない、ということ。\n\nLPの言葉が変わる前に、\n変わっていたものがありました。\n\nそれは、会社が何を掲げ、何を基準に言葉を選び、\n現場がどう判断するかという“旗”。\n\n旗が立った瞬間から、\n広告や商品を作り直す前に、\n営業の言葉が揃い始める。\n \n採用で語るストーリーが揃い始める。\nAIに投げる問いが揃い始める。 \n\nその積み重ねが、顧客から見た\n「この会社が選ばれる理由」を、\n輪郭のある一本の線に変えていったのです。\n\nAI時代、会社ごとの違いは\nますます見えにくくなります。 \n \nだからこそ今、経営者の頭の中にある判断基準を、\n現場で動く言葉に翻訳する必要があります。\n \n「正しいけれど、選ばれない言葉」から、 \n「自社にしか掲げられない、旗としての言葉」へ。\n \nその第一歩を、講演会の60分でつかんでください。\n\n9月に出版予定の新刊「旗を掲げよ」(仮) をベースにした\nオンライン講演会を開催します。\n \n\n今までお伝えしてきた内容は\n書籍で語っているないようばかりですが、\nフライング講演会として一足先にお伝えします。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n \n言葉が生み出される瞬間を\nぜひ御覧ください。\n\n講演会は、6月9日 (火) 12時スタート。\n\nご参加を心よりお待ちしております。\n\n・新刊『旗を掲げよ』出版オンライン講演会\n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n社長の頭の中にある判断基準を、\n営業・採用・AI活用まで一本の線で\nつながる言葉に変えたい方は、ぜひご参加ください。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=Bqo4e4kX7Fu5"
+        }
+      },
+      {
+        "name": "二代目3",
+        "spend": 948,
+        "link_clicks": 17,
+        "ctr": 14.2,
+        "lp_reach": 2,
+        "cv": 17,
+        "cpa": 55,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=NsKhLCJd_C4Q7kNvwFTK3CD&_nc_oc=Ado7DOWWkQgx9ffal0sFuXgMqpLwlyRXVNYBiKdSkXuLTczcD5T4F1xl1BXP7bbn5gw&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=hA2IOmAnc3EbNVy60B3MnQ&_nc_tpa=Q5bMBQFQQcrmKzbhQNn4aWwWuAMeoRBoydG54jPP_U7s55E38Qt8kQQ4J31N8b7rtDFhaKAWg8zJOOYj&oh=00_Af_UzZPjDS4VxSZK5VFKBDapr5_vYBHntqAxKQb3o08fJQ&oe=6A22C9BB",
+          "title": "変えたい。でも、壊したいわけじゃない",
+          "body": "二代目社長が本当に悩むのは、\n新しいことを始める方法ではありません。\n\n先代が築いたものを否定せず、\n次の時代に選ばれる会社へ進めるには、\n何を掲げればいいのか。\n\n集客4倍になった事例をもとに、\n会社の旗と言葉の力を読み解きます。\n\n新刊『旗を掲げよ』出版講演会。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=ytUjWgXhqShy"
+        }
+      },
+      {
+        "name": "二代目1",
+        "spend": 919,
+        "link_clicks": 17,
+        "ctr": 9.5,
+        "lp_reach": 9,
+        "cv": 9,
+        "cpa": 102,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=NsKhLCJd_C4Q7kNvwFTK3CD&_nc_oc=Ado7DOWWkQgx9ffal0sFuXgMqpLwlyRXVNYBiKdSkXuLTczcD5T4F1xl1BXP7bbn5gw&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=R4sbGTbcw3Lf2vkYAWz9uw&_nc_tpa=Q5bMBQEQwm3uzfyEDL3B1vxwutI3_rw-Aumcd4pzOt7NzJ6eL-zUIa_jAhumVjbcAgf3FBpM0lh-R0AF&oh=00_Af8OxX_5mXWExJDxMBwZGvOqudE_1FFncjWbUdgVl5OfWA&oe=6A22C9BB",
+          "title": "守るだけでは、次の時代に残れない",
+          "body": "先代のやり方を否定したいわけじゃない。\nでも、このままでは変化に置いていかれる。\n\n二代目社長に必要なのは、\n古いものを壊すことではなく、\n受け継いだ会社に“自分の旗”を立てること。\n\n集客4倍になった事例から、\n会社の言葉が現場をどう変えるのかを考えます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=n1VkOLIkT7Rk"
+        }
+      },
+      {
+        "name": "経営者3",
+        "spend": 775,
+        "link_clicks": 7,
+        "ctr": 7.4,
+        "lp_reach": 8,
+        "cv": 6,
+        "cpa": 129,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=ZvFFGPKwUKsQ7kNvwFvU4vk&_nc_oc=Adr0VvN5bPmEQPXh6F0B81-W_mZPPfDDxmDnjhC8Cm8GwfKzMvlKgHELs1_74tJNEg8&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=ChwZah_VBrknwAJqsMQPmQ&_nc_tpa=Q5bMBQFbTdFSXNmlsJPQCGSpitlLAvktEhgJ-CxIPzKRiOg6jkH36I3RYMk_4K7F_q-lYiFyDdbWN_qm&oh=00_Af_CdRi5r53Bq4FMBEqvuXgdiqcStKVDrsctA5K0zQCrNw&oe=6A22C3C1",
+          "title": "社長の頭の中は、現場に伝わっているか",
+          "body": "現場が迷ったとき。\n営業が伝えるとき。\n採用で価値観を届けるとき。\n\nその基準になる“旗”はありますか。\n\n集客4倍になった事例から、\n会社の言葉が現場をどう変えるのかを読み解きます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=AkEUxTJewL60"
+        }
+      },
+      {
+        "name": "二代目2",
+        "spend": 383,
+        "link_clicks": 8,
+        "ctr": 12.1,
+        "lp_reach": 2,
+        "cv": 5,
+        "cpa": 76,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=NsKhLCJd_C4Q7kNvwFTK3CD&_nc_oc=Ado7DOWWkQgx9ffal0sFuXgMqpLwlyRXVNYBiKdSkXuLTczcD5T4F1xl1BXP7bbn5gw&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=zLprjPLee2kmlPEDS6-f8g&_nc_tpa=Q5bMBQFO9E8xq4jGoJuMSepkkN818J2exiS5ra42UtRygk9OYk7r6O9yFZICyoTOXifND6vA_Ir9KwVG&oh=00_Af9N9bf5smUBwU9yOX3X_P8O-yCOL7tGG3lytcnP6pmThg&oe=6A22C9BB",
+          "title": "先代の会社に、自分の旗は立っているか",
+          "body": "何を残し、何を変え、\nどんな未来へ進めるのか。\n\nその言葉が曖昧なままだと、\n社員も、現場も、市場も迷い続けます。\n\n集客4倍の事例が示したのは、\n広告の強さではなく、会社の言葉が揃うことの力でした。\n\n継承と変革の答えを、講演会で整理します。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=RLSTvi2NE3zd"
+        }
+      },
+      {
+        "name": "経営者1",
+        "spend": 277,
+        "link_clicks": 12,
+        "ctr": 29.1,
+        "lp_reach": 2,
+        "cv": 8,
+        "cpa": 34,
+        "verdict": "寄せる",
+        "verdict_class": "v-scale",
+        "ctr_class": "cell-good",
+        "cpa_class": "cell-good",
+        "creative": {
+          "image_url": "https://scontent-tpe1-1.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=ZvFFGPKwUKsQ7kNvwFvU4vk&_nc_oc=Adr0VvN5bPmEQPXh6F0B81-W_mZPPfDDxmDnjhC8Cm8GwfKzMvlKgHELs1_74tJNEg8&_nc_zt=1&_nc_ht=scontent-tpe1-1.xx&edm=AAwGEdEEAAAA&_nc_gid=qOr7KEfhyYjUWVJAwmui_g&_nc_tpa=Q5bMBQGM-MUnfzmrf52c_MC_IVDq2MT8M6UwajeF7MKONpU1qTgzlOLsrf5e6_ZAdQEeVPU4r5TnPvhn&oh=00_Af9qlC5GSOhTyOTIjY3E0gyDy2bCDXAPBRCs-XjuAiDzJg&oe=6A22C3C1",
+          "title": "AI時代、会社の違いが見えにくくなる",
+          "body": "売上はある。人もいる。\nそれでも、社長だけが判断を抱え続けている。\n\n集客4倍になった事例が示したのは、\n商品を変えたからではありません。\n\n会社の旗が、現場の判断基準に変わったとき、\n伝わり方も、選ばれ方も変わり始めます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時開催。",
+          "cta": "SEE_DETAILS",
+          "link": "https://utage-system.com/p/58yHIlNCpnas?ftid=SlBVG7LokObG"
+        }
+      }
+    ]
+  },
+  "scatter_chart": {
+    "_source": "auto_from_ads_performance",
+    "data_points": [
+      {
+        "name": "経営者2",
+        "spend": 11412,
+        "ctr": 10.4,
+        "lpv": 57,
+        "res": 123
+      },
+      {
+        "name": "士業3",
+        "spend": 9625,
+        "ctr": 12.4,
+        "lpv": 74,
+        "res": 162
+      },
+      {
+        "name": "士業1",
+        "spend": 7581,
+        "ctr": 11.5,
+        "lpv": 52,
+        "res": 96
+      },
+      {
+        "name": "二代目_長文",
+        "spend": 2422,
+        "ctr": 11.5,
+        "lpv": 16,
+        "res": 45
+      },
+      {
+        "name": "士業2",
+        "spend": 1784,
+        "ctr": 14.8,
+        "lpv": 22,
+        "res": 46
+      },
+      {
+        "name": "士業_長文",
+        "spend": 1465,
+        "ctr": 10.9,
+        "lpv": 11,
+        "res": 46
+      },
+      {
+        "name": "経営者_長文",
+        "spend": 1178,
+        "ctr": 10.6,
+        "lpv": 7,
+        "res": 13
+      },
+      {
+        "name": "二代目3",
+        "spend": 948,
+        "ctr": 14.2,
+        "lpv": 2,
+        "res": 17
+      },
+      {
+        "name": "二代目1",
+        "spend": 919,
+        "ctr": 9.5,
+        "lpv": 9,
+        "res": 9
+      },
+      {
+        "name": "経営者3",
+        "spend": 775,
+        "ctr": 7.4,
+        "lpv": 8,
+        "res": 6
+      },
+      {
+        "name": "二代目2",
+        "spend": 383,
+        "ctr": 12.1,
+        "lpv": 2,
+        "res": 5
+      },
+      {
+        "name": "経営者1",
+        "spend": 277,
+        "ctr": 29.1,
+        "lpv": 2,
+        "res": 8
+      }
+    ]
+  },
+  "verdict_cards": {
+    "_source": "auto",
+    "scale": {
+      "title": "寄せる",
+      "description": "CVが出ている or CTR高くLP到達もある。予算を集中させる。",
+      "items": [
+        {
+          "name": "経営者2",
+          "comment": "CPA ¥92 / CTR 10.4%"
+        },
+        {
+          "name": "士業3",
+          "comment": "CPA ¥59 / CTR 12.4%"
+        },
+        {
+          "name": "士業1",
+          "comment": "CPA ¥78 / CTR 11.5%"
+        }
+      ]
+    },
+    "cut": {
+      "title": "絞る・止める",
+      "description": "消化が大きい割にCV・LP到達もほぼ無い。配信抑制で予算を守る。",
+      "items": []
+    },
+    "test": {
+      "title": "小さくテスト",
+      "description": "CTRが高いが消化が少なくデータ不足。予算を足して見極める。",
+      "items": []
+    }
+  },
+  "main_callout": {
+    "_source": "manual",
+    "tag": "PRIORITY",
+    "title": "LP登録率 22.26% → 5% を狙う",
+    "body": "広告経由の有料商品LPなら2-3%が標準。無料の入り口（講演会・ウェビナー申込み）で神田氏のブランド資産を活かせば、5%前後は十分狙える水準。広告より先にLPの3点を見直す価値が高い。",
+    "targets": [
+      {
+        "title": "① フォーム項目数",
+        "body": "多いほど離脱増。最小限まで削れるか"
+      },
+      {
+        "title": "② 第一スクリーン",
+        "body": "神田氏の実績・社会的証明が即座に伝わるか"
+      },
+      {
+        "title": "③ CTAボタン",
+        "body": "配置とコピー（具体的な動詞）"
+      }
+    ]
+  },
+  "pixel_note": {
+    "_source": "manual",
+    "title": "別件：Meta Pixel計測の修正",
+    "description": "運用判断には影響しないが、データの正確性のためいずれ修正したい項目。",
+    "lines": [
+      {
+        "label": "症状",
+        "body": "LP到達がUTAGE実数の82.1%しか計測されていない。"
+      },
+      {
+        "label": "原因仮説",
+        "body": "中間リダイレクトページの <code>fbq('track','PageView')</code> 発火タイミング。"
+      },
+      {
+        "label": "点検項目",
+        "body": "<code>window.location.replace()</code> より前にPixelが発火しているか。"
+      },
+      {
+        "label": "優先度",
+        "body": "低（CV計測は正確、UTAGEで実数も追えているため、運用判断には支障なし）。"
+      }
+    ]
+  },
+  "footer": {
+    "_source": "manual",
+    "text": "ALMA Meta広告キャンペーン分析 ｜ 限定共有 ｜ 報告先以外への共有はご遠慮ください"
+  }
+}
