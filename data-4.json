@@ -1,0 +1,237 @@
+{
+  "_meta": {
+    "title": "ALMA Meta広告 ダッシュボード",
+    "updated_at": "2026-06-03 15:41",
+    "data_sources": {
+      "ads_metrics": "Meta Marketing API",
+      "cv_and_lp_reach": "UTAGE登録経路別"
+    }
+  },
+  "report_period": {
+    "start_date": "2026-05-26",
+    "end_date": "2026-06-03"
+  },
+  "channel_summary": {
+    "total_cv": 216,
+    "ad_cv": 100,
+    "house_cv": 116,
+    "ad_contribution_rate": 46.3,
+    "house_contribution_rate": 53.7
+  },
+  "channels": {
+    "overall": {
+      "label": "全体",
+      "kpis": {
+        "total_spend": 5989,
+        "total_cv": 216,
+        "total_lp_reach": 2142,
+        "overall_cvr": 10.08
+      }
+    },
+    "ad": {
+      "label": "広告経由",
+      "kpis": {
+        "spend": 5989,
+        "impressions": 3000,
+        "link_clicks": 152,
+        "ctr": 5.07,
+        "lp_reach": 1520,
+        "cv": 100,
+        "cvr": 6.58,
+        "cpa": 60
+      }
+    },
+    "house": {
+      "label": "ハウスリスト",
+      "kpis": {
+        "lp_reach": 622,
+        "cv": 116,
+        "cvr": 18.65
+      }
+    }
+  },
+  "ads_performance": [
+    {
+      "name": "経営者1",
+      "spend": 186,
+      "impressions": 150,
+      "link_clicks": 19,
+      "ctr": 12.8,
+      "lp_reach": 53,
+      "cv": 1,
+      "cvr": 1.89,
+      "cpa": 186,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "経営者2",
+      "spend": 1653,
+      "impressions": 660,
+      "link_clicks": 22,
+      "ctr": 3.4,
+      "lp_reach": 211,
+      "cv": 9,
+      "cvr": 4.27,
+      "cpa": 184,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "経営者3",
+      "spend": 183,
+      "impressions": 120,
+      "link_clicks": 2,
+      "ctr": 1.7,
+      "lp_reach": 35,
+      "cv": 1,
+      "cvr": 2.86,
+      "cpa": 183,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "経営者4",
+      "spend": 0,
+      "impressions": 0,
+      "link_clicks": 0,
+      "ctr": 0.0,
+      "lp_reach": 23,
+      "cv": 0,
+      "cvr": 0.0,
+      "cpa": null,
+      "verdict": "様子見",
+      "verdict_class": "v-watch"
+    },
+    {
+      "name": "経営者_長文",
+      "spend": 260,
+      "impressions": 180,
+      "link_clicks": 9,
+      "ctr": 5.0,
+      "lp_reach": 63,
+      "cv": 2,
+      "cvr": 3.17,
+      "cpa": 130,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "二代目1",
+      "spend": 486,
+      "impressions": 220,
+      "link_clicks": 7,
+      "ctr": 3.0,
+      "lp_reach": 52,
+      "cv": 1,
+      "cvr": 1.92,
+      "cpa": 486,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "二代目2",
+      "spend": 320,
+      "impressions": 190,
+      "link_clicks": 8,
+      "ctr": 4.2,
+      "lp_reach": 47,
+      "cv": 1,
+      "cvr": 2.13,
+      "cpa": 320,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "二代目3",
+      "spend": 210,
+      "impressions": 160,
+      "link_clicks": 5,
+      "ctr": 3.1,
+      "lp_reach": 52,
+      "cv": 0,
+      "cvr": 0.0,
+      "cpa": null,
+      "verdict": "テスト",
+      "verdict_class": "v-test"
+    },
+    {
+      "name": "二代目_長文",
+      "spend": 340,
+      "impressions": 230,
+      "link_clicks": 11,
+      "ctr": 4.8,
+      "lp_reach": 74,
+      "cv": 6,
+      "cvr": 8.11,
+      "cpa": 57,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "士業1",
+      "spend": 1057,
+      "impressions": 350,
+      "link_clicks": 27,
+      "ctr": 7.6,
+      "lp_reach": 170,
+      "cv": 13,
+      "cvr": 7.65,
+      "cpa": 81,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "士業2",
+      "spend": 580,
+      "impressions": 280,
+      "link_clicks": 15,
+      "ctr": 5.4,
+      "lp_reach": 96,
+      "cv": 6,
+      "cvr": 6.25,
+      "cpa": 97,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "士業3",
+      "spend": 420,
+      "impressions": 250,
+      "link_clicks": 18,
+      "ctr": 7.2,
+      "lp_reach": 568,
+      "cv": 52,
+      "cvr": 9.15,
+      "cpa": 8,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    },
+    {
+      "name": "士業4",
+      "spend": 0,
+      "impressions": 0,
+      "link_clicks": 0,
+      "ctr": 0.0,
+      "lp_reach": 0,
+      "cv": 0,
+      "cvr": 0,
+      "cpa": null,
+      "verdict": "様子見",
+      "verdict_class": "v-watch"
+    },
+    {
+      "name": "士業_長文",
+      "spend": 294,
+      "impressions": 210,
+      "link_clicks": 9,
+      "ctr": 4.3,
+      "lp_reach": 76,
+      "cv": 8,
+      "cvr": 10.53,
+      "cpa": 37,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale"
+    }
+  ]
+}

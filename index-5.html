@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALMA Meta広告 ダッシュボード</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',sans-serif;background:#f5f7fa;color:#1a1a1a;padding:20px;line-height:1.6}
+  .container{max-width:1200px;margin:0 auto}
+  header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:24px;border-radius:12px;margin-bottom:24px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+  header h1{font-size:24px;margin-bottom:8px}
+  header .period{font-size:14px;opacity:.9}
+  header .updated{font-size:12px;opacity:.7;margin-top:4px}
+
+  .contrib-bar{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .contrib-bar h3{font-size:14px;color:#666;margin-bottom:12px}
+  .bar{display:flex;height:32px;border-radius:8px;overflow:hidden;font-size:13px;font-weight:600;color:#fff}
+  .bar .ad{background:#667eea;display:flex;align-items:center;justify-content:center;padding:0 12px}
+  .bar .house{background:#f59e0b;display:flex;align-items:center;justify-content:center;padding:0 12px}
+  .contrib-legend{display:flex;gap:20px;margin-top:10px;font-size:12px;color:#666}
+  .contrib-legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+  .tabs{display:flex;gap:8px;margin-bottom:20px}
+  .tab{flex:1;padding:14px;background:#fff;border-radius:10px;cursor:pointer;text-align:center;font-weight:600;transition:all .2s;border:2px solid transparent}
+  .tab:hover{background:#eef2ff}
+  .tab.active{background:#667eea;color:#fff;border-color:#5a67d8;box-shadow:0 4px 12px rgba(102,126,234,.3)}
+  .tab.active.ad{background:#667eea;border-color:#5a67d8}
+  .tab.active.house{background:#f59e0b;border-color:#d97706}
+
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+  .kpi-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-top:4px solid #667eea}
+  .kpi-card.house{border-top-color:#f59e0b}
+  .kpi-card .label{font-size:12px;color:#666;margin-bottom:6px}
+  .kpi-card .value{font-size:28px;font-weight:700;color:#1a1a1a}
+  .kpi-card .meta{font-size:11px;color:#999;margin-top:4px}
+
+  .section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .section h2{font-size:18px;margin-bottom:16px;color:#1a1a1a}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#f9fafb;padding:10px;text-align:left;font-weight:600;color:#666;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:12px 10px;border-top:1px solid #f0f0f0}
+  tr.ad-row{cursor:pointer;transition:background .2s}
+  tr.ad-row:hover{background:#f9fafb}
+  tr.detail-row td{padding:0;background:#fafbfc}
+  .detail-box{padding:20px;display:none}
+  .detail-box.open{display:block}
+  .detail-box .creative{display:flex;gap:20px;align-items:flex-start}
+  .detail-box img{max-width:200px;border-radius:8px}
+  .detail-box .text-block{flex:1}
+  .detail-box .title-line{font-weight:700;font-size:16px;margin-bottom:8px}
+  .detail-box .body-line{font-size:13px;color:#555;white-space:pre-wrap;margin-bottom:10px}
+  .detail-box .cta{display:inline-block;background:#667eea;color:#fff;padding:6px 16px;border-radius:6px;font-size:13px}
+
+  .verdict{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600}
+  .v-scale{background:#dcfce7;color:#15803d}
+  .v-keep{background:#dbeafe;color:#1e40af}
+  .v-watch{background:#fef3c7;color:#92400e}
+  .v-test{background:#e0e7ff;color:#3730a3}
+  .v-cut{background:#fed7aa;color:#9a3412}
+  .v-stop{background:#fee2e2;color:#991b1b}
+
+  .toggle-icon{display:inline-block;transition:transform .2s;color:#999}
+  tr.open .toggle-icon{transform:rotate(180deg);color:#f97316}
+
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+
+  @media(max-width:768px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr)}
+    .detail-box .creative{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1 id="title">ダッシュボード読み込み中...</h1>
+    <div class="period" id="period"></div>
+    <div class="updated" id="updated"></div>
+  </header>
+
+  <div id="error-box" style="display:none;background:#fee2e2;color:#991b1b;padding:16px;border-radius:8px;margin-bottom:20px"></div>
+
+  <div class="contrib-bar" id="contrib-section" style="display:none">
+    <h3>📊 CV貢献度（広告 vs ハウスリスト）</h3>
+    <div class="bar" id="contrib-bar"></div>
+    <div class="contrib-legend">
+      <span><span class="dot" style="background:#667eea"></span>広告経由 <strong id="legend-ad"></strong></span>
+      <span><span class="dot" style="background:#f59e0b"></span>ハウスリスト <strong id="legend-house"></strong></span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="overall">📊 全体</div>
+    <div class="tab" data-tab="ad">🎯 広告経由</div>
+    <div class="tab" data-tab="house">📧 ハウスリスト</div>
+  </div>
+
+  <!-- 全体タブ -->
+  <div class="tab-content active" id="tab-overall">
+    <div class="kpi-grid" id="overall-kpis"></div>
+  </div>
+
+  <!-- 広告経由タブ -->
+  <div class="tab-content" id="tab-ad">
+    <div class="kpi-grid" id="ad-kpis"></div>
+    <div class="section">
+      <h2>📋 広告別パフォーマンス（クリックで詳細展開）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>広告名</th>
+            <th class="num">消化</th>
+            <th class="num">CTR</th>
+            <th class="num">LP到達</th>
+            <th class="num">CV</th>
+            <th class="num">登録率</th>
+            <th class="num">CPA</th>
+            <th>判定</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ads-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ハウスリストタブ -->
+  <div class="tab-content" id="tab-house">
+    <div class="kpi-grid" id="house-kpis"></div>
+  </div>
+</div>
+
+<script>
+const fmt = {
+  yen: v => v == null ? '—' : '¥' + Number(v).toLocaleString(),
+  num: v => v == null ? '—' : Number(v).toLocaleString(),
+  pct: v => v == null ? '—' : Number(v).toFixed(2) + '%',
+  ken: v => v == null ? '—' : Number(v).toLocaleString() + '件'
+};
+
+async function load(){
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if(!res.ok) throw new Error('data.json HTTP ' + res.status);
+    const d = await res.json();
+    render(d);
+  } catch(e) {
+    document.getElementById('error-box').style.display = 'block';
+    document.getElementById('error-box').innerHTML =
+      '<strong>エラー：</strong>' + e.message +
+      '<br>data.json が同じフォルダにあるか確認してください。';
+    console.error(e);
+  }
+}
+
+function render(d){
+  // ヘッダー
+  document.getElementById('title').textContent = d._meta?.title || 'ALMA Meta広告 ダッシュボード';
+  document.getElementById('period').textContent =
+    `📅 期間：${d.report_period?.start_date} 〜 ${d.report_period?.end_date}`;
+  document.getElementById('updated').textContent = `🕐 更新：${d._meta?.updated_at || ''}`;
+
+  // 貢献度バー
+  const cs = d.channel_summary;
+  if(cs){
+    document.getElementById('contrib-section').style.display = 'block';
+    const bar = document.getElementById('contrib-bar');
+    bar.innerHTML =
+      `<div class="ad" style="width:${cs.ad_contribution_rate}%">広告 ${cs.ad_contribution_rate}% (${cs.ad_cv}件)</div>` +
+      `<div class="house" style="width:${cs.house_contribution_rate}%">ハウス ${cs.house_contribution_rate}% (${cs.house_cv}件)</div>`;
+    document.getElementById('legend-ad').textContent = `${cs.ad_cv}件 (${cs.ad_contribution_rate}%)`;
+    document.getElementById('legend-house').textContent = `${cs.house_cv}件 (${cs.house_contribution_rate}%)`;
+  }
+
+  // 全体KPI
+  const o = d.channels?.overall?.kpis || {};
+  document.getElementById('overall-kpis').innerHTML = `
+    ${kpiCard('総コスト', fmt.yen(o.total_spend), '広告のみ（ハウス¥0）')}
+    ${kpiCard('総CV数', fmt.ken(o.total_cv), `広告${cs?.ad_cv || 0} + ハウス${cs?.house_cv || 0}`)}
+    ${kpiCard('総LP到達', fmt.num(o.total_lp_reach), 'UTAGE実数')}
+    ${kpiCard('総合登録率', fmt.pct(o.overall_cvr), `${o.total_cv}件 ÷ ${o.total_lp_reach}人`)}
+  `;
+
+  // 広告KPI
+  const a = d.channels?.ad?.kpis || {};
+  document.getElementById('ad-kpis').innerHTML = `
+    ${kpiCard('消化金額', fmt.yen(a.spend), 'Meta API')}
+    ${kpiCard('CV数', fmt.ken(a.cv), 'UTAGE登録経路別')}
+    ${kpiCard('LP到達', fmt.num(a.lp_reach), 'UTAGE実数')}
+    ${kpiCard('真のCPA', fmt.yen(a.cpa), `${fmt.yen(a.spend)} ÷ ${a.cv}件`)}
+    ${kpiCard('登録率', fmt.pct(a.cvr), `${a.cv}件 ÷ ${a.lp_reach}人`)}
+    ${kpiCard('リンクCTR', fmt.pct(a.ctr), `${fmt.num(a.link_clicks)} / ${fmt.num(a.impressions)}`)}
+  `;
+
+  // ハウスKPI
+  const h = d.channels?.house?.kpis || {};
+  document.getElementById('house-kpis').innerHTML = `
+    ${kpiCard('申込数', fmt.ken(h.cv), 'UTAGE実数', 'house')}
+    ${kpiCard('LP到達', fmt.num(h.lp_reach), 'UTAGE実数', 'house')}
+    ${kpiCard('登録率', fmt.pct(h.cvr), `${h.cv}件 ÷ ${h.lp_reach}人`, 'house')}
+  `;
+
+  // 広告別テーブル
+  const ads = d.ads_performance || [];
+  const tbody = document.getElementById('ads-table');
+  tbody.innerHTML = '';
+  ads.forEach((ad, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'ad-row';
+    tr.dataset.idx = i;
+    tr.innerHTML = `
+      <td><strong>${ad.name}</strong></td>
+      <td class="num">${fmt.yen(ad.spend)}</td>
+      <td class="num">${fmt.pct(ad.ctr)}</td>
+      <td class="num">${fmt.num(ad.lp_reach)}</td>
+      <td class="num">${fmt.ken(ad.cv)}</td>
+      <td class="num">${fmt.pct(ad.cvr)}</td>
+      <td class="num">${fmt.yen(ad.cpa)}</td>
+      <td><span class="verdict ${ad.verdict_class}">${ad.verdict}</span></td>
+      <td><span class="toggle-icon">▼</span></td>
+    `;
+    tbody.appendChild(tr);
+
+    const detail = document.createElement('tr');
+    detail.className = 'detail-row';
+    const c = ad.creative || {};
+    detail.innerHTML = `
+      <td colspan="9">
+        <div class="detail-box">
+          <div class="creative">
+            ${c.image_url ? `<img src="${c.image_url}" alt="">` : '<div style="width:200px;height:150px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999">画像なし</div>'}
+            <div class="text-block">
+              <div class="title-line">${c.title || '(見出しなし)'}</div>
+              <div class="body-line">${c.body || '(本文なし)'}</div>
+              <div class="cta">${c.cta || '詳細を見る'}</div>
+              <div style="margin-top:14px;font-size:12px;color:#666">
+                消化 ${fmt.yen(ad.spend)} / インプレ ${fmt.num(ad.impressions)} / リンククリック ${fmt.num(ad.link_clicks)} / LP到達 ${fmt.num(ad.lp_reach)} / CV ${ad.cv}件 / CPA ${fmt.yen(ad.cpa)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(detail);
+  });
+
+  // 行クリックで詳細トグル
+  tbody.querySelectorAll('tr.ad-row').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const idx = tr.dataset.idx;
+      const detail = tr.nextElementSibling.querySelector('.detail-box');
+      detail.classList.toggle('open');
+      tr.classList.toggle('open');
+    });
+  });
+}
+
+function kpiCard(label, value, meta, cls=''){
+  return `<div class="kpi-card ${cls}">
+    <div class="label">${label}</div>
+    <div class="value">${value}</div>
+    <div class="meta">${meta || ''}</div>
+  </div>`;
+}
+
+// タブ切り替え
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active','ad','house'));
+    t.classList.add('active');
+    if(target === 'ad') t.classList.add('ad');
+    if(target === 'house') t.classList.add('house');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + target).classList.add('active');
+  });
+});
+
+load();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
