@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALMA Meta広告 ダッシュボード</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',sans-serif;background:#f7f8fa;color:#1f2937;padding:24px;line-height:1.65;font-size:14px}
+  .container{max-width:1280px;margin:0 auto}
+
+  /* ヘッダー */
+  header{padding:8px 0 28px}
+  header .client{font-size:13px;color:#6b7280;letter-spacing:.5px}
+  header h1{font-size:26px;font-weight:700;color:#111827;margin:6px 0 10px}
+  header .meta-row{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:#4b5563}
+  header .meta-row span{display:inline-flex;align-items:center;gap:6px}
+
+  /* セクション共通 */
+  .section{background:#fff;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .section h2{font-size:16px;font-weight:700;color:#111827;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .section .desc{font-size:13px;color:#6b7280;margin-bottom:18px}
+
+  /* 総合評価 */
+  .eval-card{background:linear-gradient(135deg,#f9fafb 0%,#fff 100%);border:1px solid #e5e7eb;border-radius:14px;padding:24px;margin-bottom:20px}
+  .eval-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+  .eval-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;font-weight:700;font-size:15px}
+  .eval-good{background:#dcfce7;color:#15803d}
+  .eval-warn{background:#fef3c7;color:#a16207}
+  .eval-bad{background:#fee2e2;color:#991b1b}
+  .eval-na{background:#e5e7eb;color:#4b5563}
+  .eval-title{font-size:14px;color:#6b7280;font-weight:500}
+  .eval-comment{font-size:14px;color:#374151;line-height:1.8;margin-bottom:14px}
+  .next-actions{background:#fff;border-left:3px solid #6366f1;padding:12px 16px;border-radius:6px}
+  .next-actions h4{font-size:12px;color:#6366f1;font-weight:700;margin-bottom:6px;letter-spacing:.5px}
+  .next-actions ul{list-style:none;padding:0}
+  .next-actions li{font-size:13px;color:#374151;padding:3px 0;display:flex;gap:8px}
+  .next-actions li::before{content:"→";color:#6366f1;font-weight:700}
+
+  /* 目標進捗 */
+  .goal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .goal-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px}
+  .goal-card .label{font-size:12px;color:#6b7280;margin-bottom:6px;font-weight:500}
+  .goal-card .value{font-size:22px;font-weight:700;color:#111827}
+  .goal-card .target{font-size:12px;color:#9ca3af;margin-top:2px}
+  .goal-card .progress-bar{height:6px;background:#f3f4f6;border-radius:3px;margin-top:10px;overflow:hidden}
+  .goal-card .progress-fill{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:3px;transition:width .4s}
+  .goal-card .progress-fill.good{background:linear-gradient(90deg,#10b981,#059669)}
+  .goal-card .progress-fill.warn{background:linear-gradient(90deg,#f59e0b,#d97706)}
+  .goal-card .status-pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-top:6px}
+  .status-good{background:#dcfce7;color:#15803d}
+  .status-warn{background:#fef3c7;color:#a16207}
+  .status-bad{background:#fee2e2;color:#991b1b}
+
+  /* KPIグリッド */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+  .kpi-card{background:#fff;padding:16px;border-radius:10px;border:1px solid #e5e7eb}
+  .kpi-card .label{font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
+  .kpi-card .value{font-size:24px;font-weight:700;color:#111827}
+  .kpi-card .meta{font-size:11px;color:#9ca3af;margin-top:3px}
+
+  /* タブ */
+  .tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid #e5e7eb}
+  .tab{padding:10px 18px;cursor:pointer;font-weight:600;color:#6b7280;border-bottom:2px solid transparent;transition:all .2s;font-size:14px}
+  .tab:hover{color:#374151}
+  .tab.active{color:#111827;border-bottom-color:#6366f1}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+
+  /* 貢献度バー */
+  .contrib-bar{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px;margin-bottom:14px}
+  .contrib-bar h3{font-size:13px;color:#6b7280;margin-bottom:10px;font-weight:500}
+  .bar{display:flex;height:28px;border-radius:6px;overflow:hidden;font-size:12px;font-weight:600;color:#fff}
+  .bar .ad-seg{background:#6366f1;display:flex;align-items:center;justify-content:center;padding:0 10px;min-width:60px}
+  .bar .house-seg{background:#f59e0b;display:flex;align-items:center;justify-content:center;padding:0 10px;min-width:60px}
+  .contrib-legend{display:flex;gap:18px;margin-top:10px;font-size:12px;color:#4b5563}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+  /* ファネル */
+  .funnel-list{display:flex;flex-direction:column;gap:10px}
+  .funnel-stage{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f9fafb;border-radius:8px}
+  .funnel-stage .stage-label{flex:0 0 140px;font-size:13px;font-weight:600;color:#374151}
+  .funnel-stage .stage-value{flex:1;font-size:18px;font-weight:700;color:#111827}
+  .funnel-stage .stage-rate{flex:0 0 130px;text-align:right;font-size:12px;color:#6366f1;font-weight:600}
+  .funnel-arrow{text-align:center;color:#9ca3af;font-size:18px;margin:-4px 0}
+  .funnel-insights{margin-top:14px;padding:12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px}
+  .funnel-insights h4{font-size:12px;color:#a16207;font-weight:700;margin-bottom:6px}
+  .funnel-insights ul{list-style:none;padding:0}
+  .funnel-insights li{font-size:12px;color:#78350f;padding:2px 0}
+
+  /* 広告テーブル */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#f9fafb;padding:10px;text-align:left;font-weight:600;color:#6b7280;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #e5e7eb}
+  td{padding:12px 10px;border-bottom:1px solid #f3f4f6}
+  tr.ad-row{cursor:pointer;transition:background .2s}
+  tr.ad-row:hover{background:#f9fafb}
+  tr.detail-row td{padding:0;background:#fafbfc}
+  .detail-box{padding:20px;display:none;border-left:3px solid #6366f1}
+  .detail-box.open{display:block}
+  .detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+  .detail-item{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px}
+  .detail-item .label{font-size:11px;color:#6366f1;font-weight:700;margin-bottom:4px;letter-spacing:.5px}
+  .detail-item .value{font-size:13px;color:#374151}
+
+  /* 判定バッジ */
+  .verdict{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+  .v-scale{background:#dcfce7;color:#15803d}
+  .v-keep{background:#dbeafe;color:#1e40af}
+  .v-watch{background:#fef3c7;color:#92400e}
+  .v-test{background:#e0e7ff;color:#3730a3}
+  .v-improve{background:#fce7f3;color:#9d174d}
+  .v-stop{background:#fee2e2;color:#991b1b}
+  .v-na{background:#e5e7eb;color:#4b5563}
+
+  .toggle-icon{display:inline-block;transition:transform .2s;color:#9ca3af;font-size:11px}
+  tr.open .toggle-icon{transform:rotate(180deg);color:#6366f1}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+
+  /* LP別 */
+  .lp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .lp-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:18px}
+  .lp-card .lp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .lp-card .lp-name{font-size:16px;font-weight:700;color:#111827}
+  .lp-card .lp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+  .lp-card .lp-metric{padding:8px;background:#f9fafb;border-radius:6px}
+  .lp-card .lp-metric .l{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px}
+  .lp-card .lp-metric .v{font-size:16px;font-weight:700;color:#111827;margin-top:2px}
+  .lp-card .lp-comment{font-size:12px;color:#6b7280;line-height:1.6}
+
+  /* クライアントコメント */
+  .comment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .comment-box{background:#fafbfc;border:1px solid #e5e7eb;border-radius:8px;padding:14px}
+  .comment-box .label{font-size:12px;color:#6366f1;font-weight:700;margin-bottom:6px}
+  .comment-box .text{font-size:13px;color:#374151;white-space:pre-wrap;min-height:40px}
+
+  /* プレースホルダー */
+  .placeholder{padding:30px;text-align:center;color:#9ca3af;font-size:13px;background:#fafbfc;border:1px dashed #d1d5db;border-radius:8px}
+
+  /* エラー */
+  #error-box{display:none;background:#fee2e2;color:#991b1b;padding:16px;border-radius:8px;margin-bottom:20px}
+
+  @media(max-width:768px){
+    body{padding:14px}
+    .section{padding:16px}
+    .goal-grid,.kpi-grid{grid-template-columns:repeat(2,1fr)}
+    .funnel-stage{flex-wrap:wrap}
+    .funnel-stage .stage-label{flex-basis:100%}
+    .funnel-stage .stage-rate{flex-basis:100%;text-align:left}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="client" id="client"></div>
+    <h1 id="title">読み込み中...</h1>
+    <div class="meta-row">
+      <span>📅 <span id="period"></span></span>
+      <span>📊 <span id="days"></span></span>
+      <span>🕐 更新 <span id="updated"></span></span>
+    </div>
+  </header>
+
+  <div id="error-box"></div>
+
+  <!-- 総合評価 -->
+  <div class="eval-card" id="eval-card" style="display:none">
+    <div class="eval-header">
+      <span class="eval-title">総合評価</span>
+      <span class="eval-badge" id="eval-badge"></span>
+    </div>
+    <div class="eval-comment" id="eval-comment"></div>
+    <div class="next-actions">
+      <h4>NEXT ACTION（次に取るべきアクション）</h4>
+      <ul id="next-actions-list"></ul>
+    </div>
+  </div>
+
+  <!-- 目標進捗 -->
+  <div class="section" id="goals-section" style="display:none">
+    <h2>🎯 目標と進捗</h2>
+    <div class="desc">目標値に対する現在の進捗状況です。</div>
+    <div class="goal-grid" id="goal-grid"></div>
+  </div>
+
+  <!-- 貢献度バー -->
+  <div class="contrib-bar" id="contrib-section" style="display:none">
+    <h3>📊 CV貢献度（広告 vs ハウスリスト）</h3>
+    <div class="bar" id="contrib-bar"></div>
+    <div class="contrib-legend">
+      <span><span class="dot" style="background:#6366f1"></span>広告経由 <strong id="legend-ad"></strong></span>
+      <span><span class="dot" style="background:#f59e0b"></span>ハウスリスト <strong id="legend-house"></strong></span>
+    </div>
+  </div>
+
+  <!-- タブ -->
+  <div class="tabs">
+    <div class="tab active" data-tab="overall">全体</div>
+    <div class="tab" data-tab="ad">広告経由</div>
+    <div class="tab" data-tab="house">ハウスリスト</div>
+  </div>
+
+  <!-- 全体タブ -->
+  <div class="tab-content active" id="tab-overall">
+    <div class="section">
+      <h2>📊 全体サマリー</h2>
+      <div class="desc" id="overall-desc"></div>
+      <div class="kpi-grid" id="overall-kpis"></div>
+    </div>
+  </div>
+
+  <!-- 広告経由タブ -->
+  <div class="tab-content" id="tab-ad">
+    <div class="section">
+      <h2>🎯 広告経由サマリー</h2>
+      <div class="desc" id="ad-desc"></div>
+      <div class="kpi-grid" id="ad-kpis"></div>
+    </div>
+
+    <!-- ファネル -->
+    <div class="section">
+      <h2>🔻 ファネル分析（離脱率）</h2>
+      <div class="desc">広告から申込までの各段階の数字と離脱ポイントです。</div>
+      <div class="funnel-list" id="funnel-list"></div>
+      <div class="funnel-insights">
+        <h4>📌 読み解きの目安</h4>
+        <ul id="funnel-insights"></ul>
+      </div>
+    </div>
+
+    <!-- 広告別 -->
+    <div class="section">
+      <h2>📋 広告別パフォーマンス</h2>
+      <div class="desc">広告名をクリックすると詳細（強み・懸念・改善案）が開きます。</div>
+      <table>
+        <thead>
+          <tr>
+            <th>広告名</th>
+            <th class="num">消化</th>
+            <th class="num">CTR</th>
+            <th class="num">CPC</th>
+            <th class="num">LP到達</th>
+            <th class="num">CV</th>
+            <th class="num">登録率</th>
+            <th class="num">CPA</th>
+            <th>判定</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ads-table"></tbody>
+      </table>
+    </div>
+
+    <!-- LP別 -->
+    <div class="section">
+      <h2>🖼️ LP別パフォーマンス</h2>
+      <div class="desc">UTAGEのA/Bテストで配信されている各LPの結果です。</div>
+      <div class="lp-grid" id="lp-grid"></div>
+    </div>
+
+    <!-- 日別推移（プレースホルダー） -->
+    <div class="section">
+      <h2>📈 日別推移グラフ</h2>
+      <div class="desc">日々の数値推移を可視化します。</div>
+      <div class="placeholder">日別データを蓄積中です。ColabからMeta APIで日別取得することで自動表示されます。</div>
+    </div>
+  </div>
+
+  <!-- ハウスリストタブ -->
+  <div class="tab-content" id="tab-house">
+    <div class="section">
+      <h2>📧 ハウスリストサマリー</h2>
+      <div class="desc" id="house-desc"></div>
+      <div class="kpi-grid" id="house-kpis"></div>
+    </div>
+  </div>
+
+  <!-- クライアント向けコメント欄 -->
+  <div class="section" id="comments-section" style="display:none">
+    <h2>📝 運用者コメント</h2>
+    <div class="desc">運用者からクライアントへのコメント欄です。data.jsonの client_comments を編集すると更新されます。</div>
+    <div class="comment-grid" id="comment-grid"></div>
+  </div>
+
+</div>
+
+<script>
+const fmt = {
+  yen: v => v == null ? '—' : '¥' + Number(v).toLocaleString(),
+  num: v => v == null ? '—' : Number(v).toLocaleString(),
+  pct: v => v == null ? '—' : Number(v).toFixed(2) + '%',
+  ken: v => v == null ? '—' : Number(v).toLocaleString() + '件'
+};
+
+async function load(){
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if(!res.ok) throw new Error('data.json HTTP ' + res.status);
+    const d = await res.json();
+    render(d);
+  } catch(e) {
+    const box = document.getElementById('error-box');
+    box.style.display = 'block';
+    box.innerHTML = '<strong>エラー：</strong>' + e.message;
+    console.error(e);
+  }
+}
+
+function render(d){
+  // ヘッダー
+  document.getElementById('client').textContent = d._meta?.client_name || '';
+  document.getElementById('title').textContent = d._meta?.title || 'ダッシュボード';
+  document.getElementById('period').textContent =
+    `${d.report_period?.start_date} 〜 ${d.report_period?.end_date}`;
+  const rp = d.report_period || {};
+  document.getElementById('days').textContent =
+    `配信${rp.elapsed_days || 0}/${rp.campaign_days || 0}日（残${rp.remaining_days || 0}日）`;
+  document.getElementById('updated').textContent = d._meta?.updated_at || '';
+
+  // 総合評価
+  const ev = d.overall_evaluation;
+  if(ev){
+    document.getElementById('eval-card').style.display = 'block';
+    const badge = document.getElementById('eval-badge');
+    badge.textContent = ev.status;
+    badge.className = 'eval-badge ' + ev.status_class;
+    document.getElementById('eval-comment').textContent = ev.comment;
+    const ul = document.getElementById('next-actions-list');
+    ul.innerHTML = '';
+    (ev.next_actions || []).forEach(a => {
+      const li = document.createElement('li');
+      li.textContent = a;
+      ul.appendChild(li);
+    });
+    if((ev.next_actions||[]).length === 0){
+      ul.innerHTML = '<li>現状維持で運用継続</li>';
+    }
+  }
+
+  // 目標進捗
+  const g = d.goals;
+  if(g){
+    document.getElementById('goals-section').style.display = 'block';
+    const cpaStatus = g.cpa_status === 'good' ? 'status-good' : 'status-warn';
+    const cpaStatusText = g.current_cpa != null && g.current_cpa <= g.target_cpa ? '良好' : '超過';
+    document.getElementById('goal-grid').innerHTML = `
+      ${goalCard('目標CPA', fmt.yen(g.current_cpa), `目標 ${fmt.yen(g.target_cpa)}以内`,
+                 g.current_cpa != null && g.target_cpa > 0 ? Math.min(100, g.current_cpa/g.target_cpa*100) : 0,
+                 g.cpa_status, cpaStatusText)}
+      ${goalCard('CV進捗', `${g.current_cv}件`, `目標 ${g.target_cv}件`,
+                 g.cv_progress, g.cv_progress >= 100 ? 'good' : (g.cv_progress >= 50 ? 'warn' : 'warn'),
+                 `${g.cv_progress}%達成`)}
+      ${goalCard('予算消化', fmt.yen(g.current_spend), `予算 ${fmt.yen(g.total_budget)}`,
+                 g.budget_used, 'warn', `${g.budget_used}%消化`)}
+      ${goalCard('達成見込み', `${g.expected_total_cv}件`, `終了時の予測CV`,
+                 g.target_cv > 0 ? Math.min(100, g.expected_total_cv/g.target_cv*100) : 0,
+                 g.forecast_status, g.expected_total_cv >= g.target_cv ? '達成見込み' : '目標未達見込み')}
+    `;
+  }
+
+  // 貢献度
+  const cs = d.channel_summary;
+  if(cs){
+    document.getElementById('contrib-section').style.display = 'block';
+    document.getElementById('contrib-bar').innerHTML =
+      `<div class="ad-seg" style="width:${cs.ad_contribution_rate}%">広告 ${cs.ad_contribution_rate}%</div>` +
+      `<div class="house-seg" style="width:${cs.house_contribution_rate}%">ハウス ${cs.house_contribution_rate}%</div>`;
+    document.getElementById('legend-ad').textContent = `${cs.ad_cv}件 (${cs.ad_contribution_rate}%)`;
+    document.getElementById('legend-house').textContent = `${cs.house_cv}件 (${cs.house_contribution_rate}%)`;
+  }
+
+  // 各タブ説明
+  document.getElementById('overall-desc').textContent = d.channels?.overall?.description || '';
+  document.getElementById('ad-desc').textContent = d.channels?.ad?.description || '';
+  document.getElementById('house-desc').textContent = d.channels?.house?.description || '';
+
+  // 全体KPI
+  const o = d.channels?.overall?.kpis || {};
+  document.getElementById('overall-kpis').innerHTML = `
+    ${kpiCard('総コスト', fmt.yen(o.total_spend), '広告のみ')}
+    ${kpiCard('総CV数', fmt.ken(o.total_cv), `広告${cs?.ad_cv||0} + ハウス${cs?.house_cv||0}`)}
+    ${kpiCard('総LP到達', fmt.num(o.total_lp_reach), 'UTAGE実数')}
+    ${kpiCard('総合登録率', fmt.pct(o.overall_cvr), `${o.total_cv}件 ÷ ${o.total_lp_reach}人`)}
+  `;
+
+  // 広告KPI
+  const a = d.channels?.ad?.kpis || {};
+  document.getElementById('ad-kpis').innerHTML = `
+    ${kpiCard('消化金額', fmt.yen(a.spend), 'Meta API')}
+    ${kpiCard('インプレ', fmt.num(a.impressions), '')}
+    ${kpiCard('リンクCTR', fmt.pct(a.ctr), `${fmt.num(a.link_clicks)} クリック`)}
+    ${kpiCard('LP到達', fmt.num(a.lp_reach), 'UTAGE実数')}
+    ${kpiCard('CV数', fmt.ken(a.cv), 'UTAGE登録経路別')}
+    ${kpiCard('登録率', fmt.pct(a.cvr), `${a.cv}件 ÷ ${a.lp_reach}人`)}
+    ${kpiCard('真のCPA', fmt.yen(a.cpa), `${fmt.yen(a.spend)} ÷ ${a.cv}件`)}
+  `;
+
+  // ハウスKPI
+  const h = d.channels?.house?.kpis || {};
+  document.getElementById('house-kpis').innerHTML = `
+    ${kpiCard('申込数', fmt.ken(h.cv), 'UTAGE実数')}
+    ${kpiCard('LP到達', fmt.num(h.lp_reach), 'UTAGE実数')}
+    ${kpiCard('登録率', fmt.pct(h.cvr), `${h.cv}件 ÷ ${h.lp_reach}人`)}
+  `;
+
+  // ファネル
+  const f = d.funnel;
+  if(f){
+    const fl = document.getElementById('funnel-list');
+    fl.innerHTML = '';
+    f.stages.forEach((s, i) => {
+      const stage = document.createElement('div');
+      stage.className = 'funnel-stage';
+      stage.innerHTML = `
+        <div class="stage-label">${s.label}</div>
+        <div class="stage-value">${fmt.num(s.value)}</div>
+        <div class="stage-rate">${s.rate != null ? `${s.rate_label || ''} ${fmt.pct(s.rate)}` : ''}</div>
+      `;
+      fl.appendChild(stage);
+      if(i < f.stages.length - 1){
+        const arrow = document.createElement('div');
+        arrow.className = 'funnel-arrow';
+        arrow.textContent = '↓';
+        fl.appendChild(arrow);
+      }
+    });
+    const fi = document.getElementById('funnel-insights');
+    fi.innerHTML = '';
+    (f.insights || []).forEach(t => {
+      const li = document.createElement('li');
+      li.textContent = '• ' + t;
+      fi.appendChild(li);
+    });
+  }
+
+  // 広告別テーブル
+  const ads = d.ads_performance || [];
+  const tbody = document.getElementById('ads-table');
+  tbody.innerHTML = '';
+  ads.forEach((ad, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'ad-row';
+    tr.dataset.idx = i;
+    tr.innerHTML = `
+      <td><strong>${ad.name}</strong></td>
+      <td class="num">${fmt.yen(ad.spend)}</td>
+      <td class="num">${fmt.pct(ad.ctr)}</td>
+      <td class="num">${fmt.yen(ad.cpc)}</td>
+      <td class="num">${fmt.num(ad.lp_reach)}</td>
+      <td class="num">${fmt.ken(ad.cv)}</td>
+      <td class="num">${fmt.pct(ad.cvr)}</td>
+      <td class="num">${fmt.yen(ad.cpa)}</td>
+      <td><span class="verdict ${ad.verdict_class}">${ad.verdict}</span></td>
+      <td><span class="toggle-icon">▼</span></td>
+    `;
+    tbody.appendChild(tr);
+
+    const detail = document.createElement('tr');
+    detail.className = 'detail-row';
+    detail.innerHTML = `
+      <td colspan="10">
+        <div class="detail-box">
+          <div style="font-size:13px;color:#374151;margin-bottom:4px">
+            <strong>判定理由：</strong>${ad.reason || '—'}
+          </div>
+          <div style="font-size:13px;color:#6366f1;margin-bottom:10px">
+            <strong>→ 次のアクション：</strong>${ad.next_action || '—'}
+          </div>
+          <div class="detail-grid">
+            <div class="detail-item"><div class="label">訴求内容</div><div class="value">${ad.appeal || '—'}</div></div>
+            <div class="detail-item"><div class="label">この広告の強み</div><div class="value">${ad.strength || '—'}</div></div>
+            <div class="detail-item"><div class="label">懸念点</div><div class="value">${ad.concern || '—'}</div></div>
+            <div class="detail-item"><div class="label">改善案</div><div class="value">${ad.improvement || '—'}</div></div>
+            <div class="detail-item"><div class="label">横展開案</div><div class="value">${ad.expansion || '—'}</div></div>
+            <div class="detail-item"><div class="label">数値詳細</div>
+              <div class="value" style="font-size:12px">
+                インプレ ${fmt.num(ad.impressions)} / クリック ${fmt.num(ad.clicks)} / リンククリック ${fmt.num(ad.link_clicks)}<br>
+                CPM ${fmt.yen(ad.cpm)} / CPC ${fmt.yen(ad.cpc)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(detail);
+  });
+
+  // 行クリックで詳細トグル
+  tbody.querySelectorAll('tr.ad-row').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const detail = tr.nextElementSibling.querySelector('.detail-box');
+      detail.classList.toggle('open');
+      tr.classList.toggle('open');
+    });
+  });
+
+  // LP別
+  const lps = d.lp_performance || [];
+  const lpGrid = document.getElementById('lp-grid');
+  lpGrid.innerHTML = '';
+  lps.forEach(lp => {
+    const vClass = lp.verdict === '勝ち' ? 'v-scale' : (lp.verdict === 'データ不足' ? 'v-na' : 'v-keep');
+    const div = document.createElement('div');
+    div.className = 'lp-card';
+    div.innerHTML = `
+      <div class="lp-header">
+        <div class="lp-name">${lp.name}</div>
+        <span class="verdict ${vClass}">${lp.verdict}</span>
+      </div>
+      <div class="lp-metrics">
+        <div class="lp-metric"><div class="l">LP到達</div><div class="v">${fmt.num(lp.lp_reach)}</div></div>
+        <div class="lp-metric"><div class="l">CV</div><div class="v">${fmt.num(lp.cv)}</div></div>
+        <div class="lp-metric"><div class="l">登録率</div><div class="v">${fmt.pct(lp.cvr)}</div></div>
+        <div class="lp-metric"><div class="l">—</div><div class="v">—</div></div>
+      </div>
+      <div class="lp-comment">${lp.comment || ''}</div>
+    `;
+    lpGrid.appendChild(div);
+  });
+
+  // クライアントコメント
+  const cc = d.client_comments;
+  if(cc){
+    document.getElementById('comments-section').style.display = 'block';
+    const grid = document.getElementById('comment-grid');
+    grid.innerHTML = `
+      ${commentBox('本日のまとめ', cc.today_summary)}
+      ${commentBox('良かった点', cc.good_points)}
+      ${commentBox('懸念点', cc.concerns)}
+      ${commentBox('次にやること', cc.next_todo)}
+      ${commentBox('クライアントへの確認事項', cc.client_questions)}
+    `;
+  }
+}
+
+function kpiCard(label, value, meta){
+  return `<div class="kpi-card">
+    <div class="label">${label}</div>
+    <div class="value">${value}</div>
+    <div class="meta">${meta || ''}</div>
+  </div>`;
+}
+
+function goalCard(label, value, target, progress, status, statusText){
+  const cls = status === 'good' ? 'good' : (status === 'bad' ? 'warn' : 'warn');
+  const pillCls = status === 'good' ? 'status-good' : (status === 'bad' ? 'status-bad' : 'status-warn');
+  return `<div class="goal-card">
+    <div class="label">${label}</div>
+    <div class="value">${value}</div>
+    <div class="target">${target}</div>
+    <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${Math.min(100, progress || 0)}%"></div></div>
+    <span class="status-pill ${pillCls}">${statusText || ''}</span>
+  </div>`;
+}
+
+function commentBox(label, text){
+  return `<div class="comment-box">
+    <div class="label">${label}</div>
+    <div class="text">${text || '（未記入）'}</div>
+  </div>`;
+}
+
+// タブ切り替え
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const target = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + target).classList.add('active');
+  });
+});
+
+load();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
