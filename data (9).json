@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "title": "ALMA Meta広告 ダッシュボード",
+    "updated_at": "2026-06-03 15:34",
+    "data_sources": {
+      "ads_metrics": "Meta Marketing API",
+      "cv_and_lp_reach": "UTAGE登録経路別"
+    }
+  },
+  "report_period": {
+    "start_date": "2026-05-26",
+    "end_date": "2026-06-03"
+  },
+  "channel_summary": {
+    "total_cv": 216,
+    "ad_cv": 100,
+    "house_cv": 116,
+    "ad_contribution_rate": 46.3,
+    "house_contribution_rate": 53.7
+  },
+  "channels": {
+    "overall": {
+      "kpis": {
+        "total_spend": 57398,
+        "total_cv": 216,
+        "total_lp_reach": 2142,
+        "overall_cvr": 10.08
+      }
+    },
+    "ad": {
+      "kpis": {
+        "spend": 57398,
+        "impressions": 23559,
+        "link_clicks": 845,
+        "ctr": 3.59,
+        "lp_reach": 1520,
+        "cv": 100,
+        "cvr": 6.58,
+        "cpa": 574
+      }
+    },
+    "house": {
+      "kpis": {
+        "lp_reach": 622,
+        "cv": 116,
+        "cvr": 18.65
+      }
+    }
+  },
+  "ads_performance": [
+    {
+      "name": "経営者1",
+      "spend": 287,
+      "impressions": 126,
+      "clicks": 36,
+      "link_clicks": 12,
+      "ctr": 28.57,
+      "cpm": 2278,
+      "cpc": 8,
+      "lp_reach": 53,
+      "cv": 1,
+      "cvr": 1.89,
+      "cpa": 287,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=qr5LRsDU5S8Q7kNvwHKTKWs&_nc_oc=AdqlXILk1qnfopRhBypCO9wXyupBjeaKu3qA6TD6yua7wdEHxQZEwiYRoyqtofXFLBE&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=vzsyDydyfwSBaNlUc1feJA&_nc_tpa=Q5bMBQGj1syizJJRTwFS4Avg7qz2NfB0OBjNcgGreU4yd9rqMfQINXPx986eZE0xvAs_RF4hQn1i87po&oh=00_Af8oB9P5oFa_qOCCRM60YMA4rLk9pAKkk2jvZcoerdmbFA&oe=6A260F81",
+        "title": "AI時代、会社の違いが見えにくくなる",
+        "body": "売上はある。人もいる。\nそれでも、社長だけが判断を抱え続けている。\n\n集客4倍になった事例が示したのは、\n商品を変えたからではありません。\n\n会社の旗が、現場の判断基準に変わったとき、\n伝わり方も、選ばれ方も変わり始めます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時開催。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "経営者2",
+      "spend": 11425,
+      "impressions": 3515,
+      "clicks": 365,
+      "link_clicks": 109,
+      "ctr": 10.38,
+      "cpm": 3250,
+      "cpc": 31,
+      "lp_reach": 211,
+      "cv": 9,
+      "cvr": 4.27,
+      "cpa": 1269,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=qr5LRsDU5S8Q7kNvwHKTKWs&_nc_oc=AdqlXILk1qnfopRhBypCO9wXyupBjeaKu3qA6TD6yua7wdEHxQZEwiYRoyqtofXFLBE&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=Mn-z82lie_Dk2c2PPS-HSg&_nc_tpa=Q5bMBQFFZMcN3MwlAr55QmLGGpAGtv3s7ut1ymA-F9WpBMxR8ehzCAcfx2aE-jGmZ9StsTuorC2MEYjJ&oh=00_Af8Mp28C2rMr3yL-vuqMfSm1_9FKxUHSFn2lL_OwXDjGFQ&oe=6A260F81",
+        "title": "集客4倍の裏側にあった“会社の旗”",
+        "body": "広告を増やしたから、集客が4倍になったのではない。\n商品を変えたから、反応が変わったのでもない。\n\n本当に変わっていたのは、\n会社が何を掲げ、何を基準に伝えるか。\n\nAI時代に、会社の違いが見えにくくなる中で、\n選ばれる会社は何を言葉にしているのか。\n\n新刊『旗を掲げよ』出版講演会で解き明かします。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "二代目1",
+      "spend": 919,
+      "impressions": 619,
+      "clicks": 59,
+      "link_clicks": 17,
+      "ctr": 9.53,
+      "cpm": 1485,
+      "cpc": 16,
+      "lp_reach": 52,
+      "cv": 1,
+      "cvr": 1.92,
+      "cpa": 919,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=QizqYrheTe4Q7kNvwHV6UVT&_nc_oc=AdrbwejqgAZv7hq786OBsTiL2_KcL90WrO3WF-FWLRH-15O71f35TKVH2xWD_moq2ZU&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=4FxSWcNLpn9gZTACxZbscQ&_nc_tpa=Q5bMBQHeq1NAP-llPpCwN7O8sj0lWSImZZJ5rHbYikB_V53Z53S-1TietguwWTTa3D0vkFmjI1M0px3t&oh=00_Af8MqRGI8ftpK13RZ6pg4BITxfJ6GVTlu9ETzg2CmBXnDQ&oe=6A26157B",
+        "title": "守るだけでは、次の時代に残れない",
+        "body": "先代のやり方を否定したいわけじゃない。\nでも、このままでは変化に置いていかれる。\n\n二代目社長に必要なのは、\n古いものを壊すことではなく、\n受け継いだ会社に“自分の旗”を立てること。\n\n集客4倍になった事例から、\n会社の言葉が現場をどう変えるのかを考えます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "経営者3",
+      "spend": 775,
+      "impressions": 336,
+      "clicks": 25,
+      "link_clicks": 7,
+      "ctr": 7.44,
+      "cpm": 2307,
+      "cpc": 31,
+      "lp_reach": 35,
+      "cv": 1,
+      "cvr": 2.86,
+      "cpa": 775,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=qr5LRsDU5S8Q7kNvwHKTKWs&_nc_oc=AdqlXILk1qnfopRhBypCO9wXyupBjeaKu3qA6TD6yua7wdEHxQZEwiYRoyqtofXFLBE&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=ixgA1PyTVbabcq2hfgHe_Q&_nc_tpa=Q5bMBQFhWDAnKAlk8LGZ-tg0X-ZHFYrx9WrPVakakR1Dy5tZkRkDxikBILvigpA73J0YEPp5JnmDMjIj&oh=00_Af8WfnTJgVRmDy3FWcuTmFK2i1zarGDthH-SljH7LUOdoA&oe=6A260F81",
+        "title": "社長の頭の中は、現場に伝わっているか",
+        "body": "現場が迷ったとき。\n営業が伝えるとき。\n採用で価値観を届けるとき。\n\nその基準になる“旗”はありますか。\n\n集客4倍になった事例から、\n会社の言葉が現場をどう変えるのかを読み解きます。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "経営者_長文",
+      "spend": 1178,
+      "impressions": 559,
+      "clicks": 59,
+      "link_clicks": 18,
+      "ctr": 10.55,
+      "cpm": 2107,
+      "cpc": 20,
+      "lp_reach": 63,
+      "cv": 2,
+      "cvr": 3.17,
+      "cpa": 589,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-3.xx.fbcdn.net/v/t45.1600-4/707531621_122103955112631224_1160013690658776535_n.png?stp=dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=fN0vh-y-_tUQ7kNvwG-jOyy&_nc_oc=Adp81CwhJyh43EkGzm8RCY60X3LRms0B-6XnZDGctTxarNERij3LLsnZfNmGHih5TvY&_nc_zt=1&_nc_ht=scontent-ord5-3.xx&edm=AAwGEdEEAAAA&_nc_gid=zAKXxSrUBQUZMLaXSb4ofg&_nc_tpa=Q5bMBQG9Enuyl64MOarxVIxlgAN4VO4-fmJHVwz2q5gw1W5c0oenTQPKsqGiQ3QqtWT9zgXVvUoEznek&oh=00_Af8Cn_0VBugPp3urRXCitosJs1EGI73GDi9ImZuzTyjsAA&oe=6A2635BD",
+        "title": "社長の判断基準は、現場に伝わっているか",
+        "body": "AIを使えば、文章は整う。\n \n営業資料も、採用文も、LPも、\nメール文面も、SNS投稿も、\n\n一定水準までは誰でも作れる時代になりました。\n\n ひと昔前なら一人前のライターに数十万円を払って\n仕上げていた原稿が、今は数分でそれらしく仕上がる。\n\nこれは、間違いなく大きな進化です。 \n\nしかし経営者の立場で見ると、\n別の問題が静かに進行しています。\n\nどの会社も“それらしい言葉”を\n使えるようになった結果、\n\n会社ごとの違いが、\n顧客から見えなくなっています。\n\n「顧客に寄り添う」 \n「本質的な課題を解決する」\n「社会に貢献する」\n「お客様に本当の価値を届ける」 \n「AIを活用して業務を効率化する」\n\nどの言葉も、間違っていません。 \n\nむしろ、すべて正しい──。\n\nところが、正しい言葉が並ぶほど、\n顧客から見える景色はこうなります。\n \n\n「どこも良さそうだけど、決定的な違いがわからない」\n\n \nそして決定的な違いがわからないとき、\n顧客が最終的に基準にするのは、\n価格、規模、知名度。 \n \n\nつまり、中小企業にとって\n最も不利な土俵に引きずり込まれていく──。\n\nこれは、広告コピーだけの問題ではありません。\n\n・営業が顧客に語る言葉。 \n・採用で候補者に伝える会社の魅力。\n・広報で発信する社会的意義。 \n・商品開発で磨いていく方向性。 \n・AIに投げる問いの設計。 \n・会議で「これは進める／これは止める」と決める優先順位。\n\nこれらがバラバラに動いている会社ほど、\n社長の頭の中にある判断基準が、\n現場の言葉に翻訳されていない可能性があります。\n\nあなたは、わかっているはず。\n \n・市場は、これからこう変わっていく。 \n・顧客は、こういう課題を抱えるようになる。 \n・自社の強みはここだ。 \n・この商品の価値は◯◯にある！！ \n・うちは、ただ売上を伸ばすだけの会社ではない。\n\nそれらはすべて脳内にある。\n\nところが、その感覚が\n現場で使える言葉になっていないと、\n\n営業も、採用も、広報も、AI活用も、\n少しずつズレていく。  \n \n\nそしてズレた分だけ、\n \n「正しいけれど、他社と区別がつかない言葉」が\n量産されていきます。\n\nAI時代に本当に問われているのは、\nAIを導入しているかどうかではない。\n \n\n自社は、何を「問題」だと見抜いているのか。 \nなぜ、その問題に取り組む必要があるのか。 \nどの分野で、どんな未来をつくる存在なのか。\n\nそして、\n \nその判断基準を、\n現場が今日から使える言葉に落とせているか。\n\nここが、問われています。\n \n\n言い換えれば、\nAIが言葉を量産できる時代だからこそ、\n \n「何を言うか」よりも前に「誰が言うか」。\n \nそして、「誰が言うか」よりも、\n \n「なぜ、その発言をしたのか。」\n \nつまり、\n \n\n「なにを基準に選ぶか」を持っている会社が、\n結果として違いを生み出していく。\n\n今回の出版オンライン講演会では、\nある会社で集客が4倍になった事例の裏側で、 \n \n会社の中で何が変わっていたのかを、\n実例ベースで解き明かしていきます。\n\nここで強調しておきたいのは──\n\nLPのコピーを変えたから集客が4倍になった。\n \nそのような単純な話ではない、ということ。\n\nLPの言葉が変わる前に、\n変わっていたものがありました。\n\nそれは、会社が何を掲げ、何を基準に言葉を選び、\n現場がどう判断するかという“旗”。\n\n旗が立った瞬間から、\n広告や商品を作り直す前に、\n営業の言葉が揃い始める。\n \n採用で語るストーリーが揃い始める。\nAIに投げる問いが揃い始める。 \n\nその積み重ねが、顧客から見た\n「この会社が選ばれる理由」を、\n輪郭のある一本の線に変えていったのです。\n\nAI時代、会社ごとの違いは\nますます見えにくくなります。 \n \nだからこそ今、経営者の頭の中にある判断基準を、\n現場で動く言葉に翻訳する必要があります。\n \n「正しいけれど、選ばれない言葉」から、 \n「自社にしか掲げられない、旗としての言葉」へ。\n \nその第一歩を、講演会の60分でつかんでください。\n\n9月に出版予定の新刊「旗を掲げよ」(仮) をベースにした\nオンライン講演会を開催します。\n \n\n今までお伝えしてきた内容は\n書籍で語っているないようばかりですが、\nフライング講演会として一足先にお伝えします。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n \n言葉が生み出される瞬間を\nぜひ御覧ください。\n\n講演会は、6月9日 (火) 12時スタート。\n\nご参加を心よりお待ちしております。\n\n・新刊『旗を掲げよ』出版オンライン講演会\n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n社長の頭の中にある判断基準を、\n営業・採用・AI活用まで一本の線で\nつながる言葉に変えたい方は、ぜひご参加ください。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "二代目2",
+      "spend": 390,
+      "impressions": 189,
+      "clicks": 23,
+      "link_clicks": 8,
+      "ctr": 12.17,
+      "cpm": 2063,
+      "cpc": 17,
+      "lp_reach": 47,
+      "cv": 1,
+      "cvr": 2.13,
+      "cpa": 390,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=QizqYrheTe4Q7kNvwHV6UVT&_nc_oc=AdrbwejqgAZv7hq786OBsTiL2_KcL90WrO3WF-FWLRH-15O71f35TKVH2xWD_moq2ZU&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=FXsBNZcC5squtQ14uAjOYA&_nc_tpa=Q5bMBQERan2wJpBWWQvtzqX5Y6pU-dBRdLeuIq0H-XYKgFMjrfzUgJodOum-gvtam1xnn2yLHdQ6kODI&oh=00_Af_V2itytpsp5mRncSDosrDQnyYy_NzGCxU5wICI4WiqpA&oe=6A26157B",
+        "title": "先代の会社に、自分の旗は立っているか",
+        "body": "何を残し、何を変え、\nどんな未来へ進めるのか。\n\nその言葉が曖昧なままだと、\n社員も、現場も、市場も迷い続けます。\n\n集客4倍の事例が示したのは、\n広告の強さではなく、会社の言葉が揃うことの力でした。\n\n継承と変革の答えを、講演会で整理します。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "二代目3",
+      "spend": 963,
+      "impressions": 473,
+      "clicks": 66,
+      "link_clicks": 17,
+      "ctr": 13.95,
+      "cpm": 2036,
+      "cpc": 15,
+      "lp_reach": 52,
+      "cv": 0,
+      "cvr": 0.0,
+      "cpa": null,
+      "verdict": "様子見",
+      "verdict_class": "v-watch",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707739286_122103955148631224_7033677858710863903_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=QizqYrheTe4Q7kNvwHV6UVT&_nc_oc=AdrbwejqgAZv7hq786OBsTiL2_KcL90WrO3WF-FWLRH-15O71f35TKVH2xWD_moq2ZU&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=lr_SdpEoUk2UsZXmq8lE0Q&_nc_tpa=Q5bMBQGi5pbfczg2m9v8kDOHRknGjZUcEDJ48ZCeUy1nfzJ3R8dVvZKTpWcSDCEj7OfAXw0NuKKxLb6e&oh=00_Af_piP9K8JFDc-hkDl-dto13OVcw5XeF2vxCMJOm7e9Srg&oe=6A26157B",
+        "title": "変えたい。でも、壊したいわけじゃない",
+        "body": "二代目社長が本当に悩むのは、\n新しいことを始める方法ではありません。\n\n先代が築いたものを否定せず、\n次の時代に選ばれる会社へ進めるには、\n何を掲げればいいのか。\n\n集客4倍になった事例をもとに、\n会社の旗と言葉の力を読み解きます。\n\n新刊『旗を掲げよ』出版講演会。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "二代目_長文",
+      "spend": 2498,
+      "impressions": 850,
+      "clicks": 95,
+      "link_clicks": 29,
+      "ctr": 11.18,
+      "cpm": 2939,
+      "cpc": 26,
+      "lp_reach": 74,
+      "cv": 6,
+      "cvr": 8.11,
+      "cpa": 416,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707591757_122103955124631224_1474485206800125744_n.png?stp=dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=ar9EN-q2na8Q7kNvwEOboeX&_nc_oc=AdpT0ChXjy9tOPUrjgTcUOoBpJm2NK0Fy39BTig7eGWPTACbTejn-Rw3-2_RnlmCD28&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=3uuQ1e4u5zt4MtqwIf2QDQ&_nc_tpa=Q5bMBQGqfLuVdZ-nybpUrw1z2ElS1bPGzKcVxKyl70PSf8EfQucd-Z_1NSfc5I_5XOSfyAwQifCy9bs8&oh=00_Af8V8kXMcf-pSHW6BZv92JlGBLcF0w9J3ozCCV4Lj8VUhA&oe=6A26185D",
+        "title": "変えたい。でも、壊したいわけじゃない",
+        "body": "変えたい。 でも、壊したいわけじゃない。\n\n・この感覚は、二代目社長にしかわからない、\n　特殊な形をしています。\n\n・先代が築いてきた会社を否定したいわけではない。\n \n・長く支えてくれている社員を、\n　軽んじたいわけでもない。 \n\n・取引先との関係や、会社の歴史を、\n　壊したいわけでもない。\n\n・けれど同時に── このまま同じやり方を続けて、\n　本当に次の時代に残れるのか。 \n\n・自分は、ただ受け継いだものを守るためだけに、\n　社長になったのか。 \n\n・気づけば「先代の息子」「先代の娘」と呼ばれたまま、　　　\n　自分の代を終えていくのではないか。\n\nそんな問いが、誰にも言えないまま、\nどこかにあるはずです。\n\n今は、AIによって、 営業資料も、採用文も、LPも、\nメール文面も、SNS投稿も、 \n誰でも整えられる時代になりました。\n\nひと昔前なら、一人前のライターに\n数十万円を払って仕上げていた原稿が、 \n今は数分でそれらしく仕上がる。\n\nつまり、言葉の表面だけなら、\nどの会社も一定水準まで整えられるということです。 \nそして、表面が整うほど、会社ごとの違いは、\n\n顧客から見えにくくなっていきます。\n\nだからこそ、これからの会社に問われるのは、 \n綺麗な言葉を作れるかどうかではありません。\n\n・この会社は、何を受け継ぎ、何を変えるのか。 \n・自分の代で、どんな未来へ進むのか。 \n・先代の延長ではなく、何を掲げる社長なのか。\n\nここが曖昧なままだと、\n社員も、現場も、市場も迷います。\n\n二代目社長が、\n無意識に陥りやすい道は、\n二つあります。\n\nひとつは、先代のやり方をそのまま継ぐ道。 \n\n・摩擦は最小限で済みます。\n・古参社員も安心する。\n・取引先も警戒しない。\n・先代も口を出さない。 \n\nけれどその代わりに──\n\n「この会社が、なぜ自分の代でも存在しているのか」を、\n\n自分の言葉で語れないまま\n時間だけが過ぎていきます。\n\nもうひとつは、先代を全否定する道。 \n\n新しいやり方を一気に持ち込み、\n過去のルールを切り捨てる。\n\n一見、自分らしさは出る。 \nけれど現場はついてこない。 \n\n古参は離れ、若手は迷い、結果として\n\n「変わったのは社長だけ」という孤立が残ります。\n\nどちらの道も、本質的には\n「自分の旗を立てる」ことから逃げている点で、\nよく似ています。\n\n社員も、現場も、本当はわかっているのです。\n\n「昔からこうしてきた」\n「先代の時代はこうだった」\n「うちはこのやり方でやってきた」\n\nこの言葉に、二代目社長が\n何で応えるのかを──。\n\nその言葉をただ否定するだけでは、\n組織は動きません。 \n\nかといって、何も変えなければ、\n時代に置いていかれる。\n\n二代目社長に本当に必要なのは、\n先代の会社を壊すことでも、\nそのまま守ることでもありません。\n\n受け継いだ会社に、自分の旗を立てることです。\n\n城は受け継ぐ。歴史も受け継ぐ。\n社員も、取引先も、商品も受け継ぐ。 \nそのうえで、その城の上に自分の代の旗を掲げる。\n\n何を残すのか。 何を変えるのか。 \nなぜ、この会社は次の時代にも必要なのか。\n\n自分の代で、どの分野で、\n何によって選ばれる会社になるのか。\n\nこの問いに自分の言葉で答えられたとき、\nはじめて二代目社長は、 \n\n「跡を継いだ人」から\n「次の時代をつくる経営者」へと\n\n立場が変わっていきます。\n\n旗が立つと、現場の判断が、\n不思議なほど揃い始めます。\n\n・営業で語る価値が変わる。 \n・採用で伝える会社の魅力が変わる。\n・広報で発信する社会的意義が変わる。 \n・AIに投げる問いの精度が変わる。 \n・会議で「これは進める／これは止める」の優先順位が変わる。 \n・そして何より、顧客から見た「この会社を選ぶ理由」が変わる。\n\n言葉そのものを書き直したからではありません。 \n\n何を基準に言葉を選ぶかが、\n現場の中で揃い始めるからです。\n\n今回の新刊『旗を掲げよ』\n出版オンライン講演会では、 \n\nある会社で集客が4倍になった事例の裏側で、 \n受け継いだ会社がどう変わっていったのかを、\n実例ベースで解説します。\n\nここで強調しておきたいのは\n\n成果を生んだのは、\n単なるコピーの言い換えではない。\n\n二代目社長が、先代を否定することなく、 \n受け継いだ会社に“自分の旗”を立てるという\n決断をしたことにある。\n\nその瞬間から、営業の言葉、採用の言葉、\nAIへの問いが揃い始め、 \n\n結果として、顧客から見た\n「選ばれる理由」が一本の線になっていった。 \n\nそして集客が4倍になった。\n \n \n \n\nこの流れを、60分で整理します。\n\n9月に出版予定の\n新刊『旗を掲げよ』(仮)をベースにした、\nオンライン講演会を開催します。\n\n書籍で語っている内容を、\nフライング講演会として、 一足先にお伝えします。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n  \n受け継いだ会社の旗が変わる言葉が\n生み出される瞬間をぜひ御覧ください。\n\n講演会は、6月9日（火）12時スタート。\nご参加を、心よりお待ちしております。\n \n\n・新刊『旗を掲げよ』出版オンライン講演会 \n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n最後に、ひとつだけ。\n \n「変えたい、でも壊したくない」という葛藤を、\n 弱さや迷いだと感じている二代目社長は\n多いかもしれません。\n\nけれど、その葛藤こそが、 \n先代の延長でも、先代の全否定でもない\n\n第三の道を歩める人にしか持てない、\n経営者としての資質そのものです。\n\nその葛藤を、現場で動く言葉に変えていきたい方は、\n ぜひ6月9日火、オンライン講演会にご参加ください。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "士業1",
+      "spend": 8474,
+      "impressions": 2949,
+      "clicks": 334,
+      "link_clicks": 113,
+      "ctr": 11.33,
+      "cpm": 2874,
+      "cpc": 25,
+      "lp_reach": 170,
+      "cv": 13,
+      "cvr": 7.65,
+      "cpa": 652,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=T-oILPEZxXUQ7kNvwHNZJns&_nc_oc=Adov4rMMyxid6HnsOfvg6G8my-9B9EGRVx85eodh2BNe8zX16-8aW7_BcIogDx3ovCs&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=-3MR35Jo26r-7sx1w5GHfw&_nc_tpa=Q5bMBQG7F24JnlT6YmFAv19pyVB5ZbGooeUjWuRJMYA5rEqodo8RROLlhkqTHNvyxb75CBI92qNgZSOS&oh=00_Af8FL_BgzD4HITWiQSjfI735hEWx12h4bvobVy0LPjsKnw&oe=6A2619B6",
+        "title": "AIが答えを返す時代、士業は何で選ばれるのか",
+        "body": "知識がある。資格もある。\nそれでも、“違い”が伝わらなければ選ばれない。\n\nAI時代に価値が下がるのは、\n作業そのもの。\n\nこれから求められるのは、\n顧客の判断を支える専門家としての言葉です。\n\n集客4倍になった事例から、\n選ばれる理由のつくり方を整理します。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "士業2",
+      "spend": 1977,
+      "impressions": 862,
+      "clicks": 124,
+      "link_clicks": 51,
+      "ctr": 14.39,
+      "cpm": 2294,
+      "cpc": 16,
+      "lp_reach": 96,
+      "cv": 6,
+      "cvr": 6.25,
+      "cpa": 330,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=T-oILPEZxXUQ7kNvwHNZJns&_nc_oc=Adov4rMMyxid6HnsOfvg6G8my-9B9EGRVx85eodh2BNe8zX16-8aW7_BcIogDx3ovCs&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=LAlnUrjfgGQm6-_YrVcw-w&_nc_tpa=Q5bMBQH9pyP3QSBTQEwuNqu0CwI223ZnyVKH477s7vngqR6AU4nCLLKBQb1z8wZWYYFZ6Y8ZZXASj3Io&oh=00_Af8j-uCeBZ5QPzZ4tMMC1Fm-EY_85WcTd4Vh3ovy65WEyw&oe=6A2619B6",
+        "title": "作業代行から、判断を支える専門家へ",
+        "body": "AIが答えを返せる時代に、\n士業は何で選ばれるのか。\n\n価格ではなく、信頼と視点で選ばれるには、\n専門性をどう言葉にするべきか。\n\n集客4倍になった事例が示したのは、\n“何のために存在するのか”が伝わることの力でした。\n\n新刊『旗を掲げよ』出版講演会\n6月9日（火）12時〜13時。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "士業3",
+      "spend": 26067,
+      "impressions": 12039,
+      "clicks": 1488,
+      "link_clicks": 430,
+      "ctr": 12.36,
+      "cpm": 2165,
+      "cpc": 18,
+      "lp_reach": 568,
+      "cv": 52,
+      "cvr": 9.15,
+      "cpa": 501,
+      "verdict": "継続",
+      "verdict_class": "v-keep",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=T-oILPEZxXUQ7kNvwHNZJns&_nc_oc=Adov4rMMyxid6HnsOfvg6G8my-9B9EGRVx85eodh2BNe8zX16-8aW7_BcIogDx3ovCs&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=XiuWrdykZcX1COTLGrqXSg&_nc_tpa=Q5bMBQG5Zkw8H0Tr4nee2ZBCj-X6oc4tlN76eqeAutB8NdLFCmLthyKV7t8rNmdrN_lEAYO6dWbSBCk8&oh=00_Af_k7HqdlrjOqQlYe_nSzfa0idhyqLvXi3DOivqXkm-SfA&oe=6A2619B6",
+        "title": "資格だけでは、違いが伝わらない時代へ",
+        "body": "士業に必要なのは、\nもっと多くの情報を発信することではありません。\n\n自分は誰の、どんな判断を支える専門家なのか。\nその旗を言葉にすることです。\n\n集客4倍の事例から、\n信頼で選ばれるための転換点を整理します。\n\n新刊『旗を掲げよ』出版講演会。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "士業_長文",
+      "spend": 1726,
+      "impressions": 729,
+      "clicks": 76,
+      "link_clicks": 28,
+      "ctr": 10.43,
+      "cpm": 2368,
+      "cpc": 23,
+      "lp_reach": 76,
+      "cv": 8,
+      "cvr": 10.53,
+      "cpa": 216,
+      "verdict": "寄せる",
+      "verdict_class": "v-scale",
+      "creative": {
+        "image_url": "https://scontent-ord5-3.xx.fbcdn.net/v/t45.1600-4/707463735_122103955094631224_6860784955895229483_n.png?stp=dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=c44P-IqPoewQ7kNvwG34uf9&_nc_oc=AdpvWyBLuCUgNgf7uF5yWXn9M3FpL4sVHQtBEETeCfQMCuYom5ieW-LxXz1-Ot8sGFg&_nc_zt=1&_nc_ht=scontent-ord5-3.xx&edm=AAwGEdEEAAAA&_nc_gid=0P1WyjwhWDq9ux0lZkiXrA&_nc_tpa=Q5bMBQGgaxngwyYSOZsKxmzTrke-JN3IW_5YaU0Xgx8jYBxdCY1Vryzbv3a27cmlE2SalWyUJqZcg6wy&oh=00_Af-7mZn23PqCn8Mi8THECd3DOzjXIHPPlbnDusBbGeNmWQ&oe=6A261F77",
+        "title": "AI時代、何で選ばれるのか",
+        "body": "AIが答えを返す時代に、士業は何で選ばれるのか。\n\nこれは、これから避けて通れない問いです。\n\n知識がある。 資格がある。 \n経験もある。AIも取り入れている。\n\nそれでも、\nその違いが顧客に伝わらなければ、\n選ばれない。\n\nしかも今、何が起きているのか──。\n\n・一般的な制度の説明。 \n・書類の下書き。 \n・情報の整理。\n・他制度との比較資料。 \n・相談前の下調べと、想定される論点の洗い出し。 \n\nさらに最近では、「自分のケースだとどう判断すべきか」という相談まで、\nAIがそれなりに筋の通った答えを返すようになっています。\n \n\nクライアントは、士業の前に座る時点で、\nすでにAIに一度相談を済ませている。 \n \n\nそして「AIはこう言っていたんですけど、どうですか？」という質問から、面談が始まる。\n\nこの光景に心当たりがある方は、\nもう少なくないはずです。\n\n \n\nここで起きていることは、確かでしょう。\n\n士業の価値は、\n \nもう 「知っていること」だけでは\n伝わりにくくなっている ということ。\n\nなぜなら、顧客が本当に求めているのは、\n情報そのものではないからです。\n\n・自分の場合、何を選べばいいのか。 \n・どこに、見落とすと致命的なリスクがあるのか。 \n・何を優先し、何を後回しにすべきなのか。\n・この判断が、3年後、5年後、10年後の自分にどう影響するのか。\n・そして──この決断を、自分ひとりで背負わずに済む相手は、誰か。 \n\nクライアントが本当に欲しいのは、\n答えではありません。 \n\n「この人と決めた」と思える安心です。\n\nAIは、答えを出せます。 けれど、\nその答えの重みを一緒に背負ってはくれない。\n\nこれからの士業に必要なのは、\n作業代行ではなく、判断支援。\n \nさらに踏み込めば──判断の重みを、\n共に背負える存在であること。\n\nところが現状、多くの士業は、\nこう見られています。\n\n・手続きをしてくれる人。 \n・書類を作ってくれる人。 \n・制度を説明してくれる人。 \n・契約書を確認してくれる人。\n\nこの見られ方のままだと、何が起きるか。\n\nどうしても、価格で比較されます。 \n紹介が止まれば、新規も止まる。\n\n新しい案件は来ても、\n相見積もりの土俵に乗せられる。\n\n 「先生」と呼ばれていても、\n実態は“代替可能な作業者”として扱われていく。\n\nこれは、能力の問題ではありません。 \n\n自分の専門性が、\n顧客にとって意味のある言葉に\n翻訳されていないだけの問題です。\n\n逆に、顧客の判断を支える専門家として\n認識されると、選ばれ方が一変します。\n\n・価格ではなく、信頼で選ばれる。 \n・紹介だけに頼らず、専門性そのものが指名の理由になる。\n・「とりあえず相談したい」ではなく、\n　「この件はあの先生にしか頼めない」と言われるようになる。\n\nその差を生むのは、\n\n知識量でも、経験年数でも、\nフォロワー数でもありません。\n \n自分の専門性を、\n顧客の判断軸に翻訳できているかどうか。\n\nただ、それだけです。\n\nここで、多くの士業が\nつまずきやすいポイントがあります。\n\n \n\nそれは── \n「自分は資格と腕で勝負したい。\n　マーケティングや言葉づくりは、本業ではない」 \n \n\nという、職人気質ゆえの抵抗感です。\n\nその姿勢自体は、\nプロフェッショナリズムの表れであり、\n尊いものです。\n\nけれどAI時代に起きているのは、\n腕がある人ほど、\nその腕が見えないまま埋もれてしまう･･･。\n \n\n悲惨な現象です。\n \n\n腕を磨くことと、\n腕を顧客に届く言葉に変えることは、\n別の作業です。 \n\nそして後者を怠った瞬間、\n腕は「あるけれど伝わらないもの」として、\n市場の中で評価されなくなる。\n\nこれは、マーケティングの話ではありません。 \n\n誰の役に立ちたくて、\n自分はこの資格を取ったのかを、\nもう一度言葉に戻す作業のことです。\n\nAI時代に本当に必要なのは、\n発信量を増やすことではありません。\n\n・自分は、誰の、どんな判断を支える専門家なのか。\n・自分は、何を見過ごせない専門家なのか。\n・どんな未来のために、この仕事を続けているのか。 \n・AIには絶対に渡せない領域は、自分の中のどこなのか。\n\nこの“旗”が言葉になっていないと、\nどれだけ知識があっても、\nどれだけ実績があっても、\n\n顧客から見た「違い」は、伝わりません。\n\n逆に、この旗が立つと、不思議なことが起き始めます。\n\n・ホームページの言葉が変わる。 \n・初回面談での第一声が変わる。 \n・クライアントから持ち込まれる相談の質が変わる。 \n・紹介者が、紹介する時の一言が変わる。 \n\nそして何より・・・。\n\n──自分が引き受ける仕事と、\n断る仕事の基準が変わる。\n\n旗を掲げるとは、\n看板を派手にすることではありません。 \n\n自分の仕事の輪郭を、自分で引き直すことです。\n\nそして、この輪郭が引かれた瞬間から、\n紹介も、価格交渉も、AIとの距離感も、\nすべてが変わっていきます。\n\nそして、9月に出版予定の新刊では、\nこれまでお話した内容をまとめています。\n\nまた新刊をベースにした出版オンライン講演会も\n6月9日12時より開催します。\n\n講演会では、\n 集客が4倍になった事例の裏側にあった\n\n「信頼で選ばれる言葉」を、 \n実例ベースで解き明かします。\n\n・なぜ、言葉を変えただけで反応が変わったのか。\n・なぜ、それが単なるコピーの言い換えではなく、\n　“旗”の問題だったのか。 \n・なぜ、AI時代ほど「何を掲げるか」が選ばれる理由になるのか。\n\n知識や資格があるだけでは、\n違いは伝わりにくい。\n\n大切なのは、専門性を \n「選ばれる理由」 に変えること。\n\nその流れを、60分で整理します。\n\n書籍で語っている内容を、\nフライング講演会として、 一足先にお伝えします。\n\n講演会は、6月9日（火）12時スタート。\n\n・紹介頼みの集客から、一歩抜け出したい。 \n\n・価格ではなく、\n\n　信頼で選ばれる立ち位置をつくりたい。\n \n・AIが普及するほど、\n　自分の専門性が際立つ構造を持ちたい。\n　\n・「先生」ではなく、\n　「この人にしか頼めない」と言われる存在になりたい。\n\nそう感じている方に向けた、60分です。\n\nさらに、当日は、\n神田昌典 コピーライティングAiの実演も行います。\n \n\nAI時代に重要な旗を掲げながら\n選ばれる文章を作る方法をご視聴したい方は\nお申し込みください。\n\n・新刊『旗を掲げよ』出版オンライン講演会\n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n最後に、ひとつだけ。\n\nAIが答えを返す時代に、\n何で選ばれる専門家になるのか。 \n\nこの問いは、避けても消えません。 \n\nむしろこれから毎年、\n輪郭をくっきりさせながら、\n目の前に現れ続けます。\n\nこの問いを、一人で抱えたまま\n日々の業務に流していくのか。\n\nそれとも、60分だけ立ち止まって、\n自分の旗を整理する時間を取るのか。\n\nその小さな判断こそが、これから5年の選ばれ方を、静かに分けていきます。\n\nご参加を、心よりお待ちしております。",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "経営者4",
+      "spend": 591,
+      "impressions": 277,
+      "clicks": 39,
+      "link_clicks": 6,
+      "ctr": 14.08,
+      "cpm": 2134,
+      "cpc": 15,
+      "lp_reach": 23,
+      "cv": 0,
+      "cvr": 0.0,
+      "cpa": null,
+      "verdict": "様子見",
+      "verdict_class": "v-watch",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/706089372_122103955166631224_3259556671962348411_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=qr5LRsDU5S8Q7kNvwHKTKWs&_nc_oc=AdqlXILk1qnfopRhBypCO9wXyupBjeaKu3qA6TD6yua7wdEHxQZEwiYRoyqtofXFLBE&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=05EWlkAKHhi3CZxA8FZp3A&_nc_tpa=Q5bMBQHlt6JjBhnXmNfU32zpWj4BAwy1_-i53tHrT6jCopUX8b6l5d4NHzIP9xOPnJ8IJIeXsMJrrnZw&oh=00_Af9JNwVuIamoPhXPdhGg3ID1cHJDHyMfgforQE6dGoLLew&oe=6A260F81",
+        "title": "社長の判断基準は、現場に伝わっているか",
+        "body": "AIを使えば、文章は整う。\n営業資料も、採用文も、LPも、\n一定水準までは誰でも作れるようになりました。\n\nでも、経営者の立場で見ると、\n本当に怖いのは文章が似ることではありません。\n\n社長の頭の中にある判断基準が、\n営業・採用・広報・商品開発・AI活用まで、\n現場で使える言葉に翻訳されていないことです。\n\n集客4倍になった事例の裏側には、\n広告でも商品でもなく、\n会社の旗が現場の判断基準に変わった瞬間がありました。\n\n新刊『旗を掲げよ』出版オンライン講演会\n6月9日（火）12:00〜13:00\nオンライン開催／参加無料",
+        "cta": "詳細を見る"
+      }
+    },
+    {
+      "name": "士業4",
+      "spend": 128,
+      "impressions": 36,
+      "clicks": 3,
+      "link_clicks": 0,
+      "ctr": 8.33,
+      "cpm": 3556,
+      "cpc": 43,
+      "lp_reach": 0,
+      "cv": 0,
+      "cvr": 0,
+      "cpa": null,
+      "verdict": "テスト",
+      "verdict_class": "v-test",
+      "creative": {
+        "image_url": "https://scontent-ord5-2.xx.fbcdn.net/v/t45.1600-4/707426533_122103955184631224_3332282755816720083_n.png?stp=dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=d5bd00&_nc_ohc=T-oILPEZxXUQ7kNvwHNZJns&_nc_oc=Adov4rMMyxid6HnsOfvg6G8my-9B9EGRVx85eodh2BNe8zX16-8aW7_BcIogDx3ovCs&_nc_zt=1&_nc_ht=scontent-ord5-2.xx&edm=AAwGEdEEAAAA&_nc_gid=mjZP7nOc4JQ18erLB8e5Rg&_nc_tpa=Q5bMBQE_hlXrY4ofLLeIEBaQ3SJFLdVoddDi6PdL9UF8Oc2FDr2bjiC3CNAyuyRWXOAFzXdR7pDAq7D9&oh=00_Af8nA59RxvaMqRTF3domzmsQ_N9RB6xoHzN2AYK6LUXhuQ&oe=6A2619B6",
+        "title": "AIは答えを出せる。でも、判断の重みは背負ってくれない。",
+        "body": "AIが答えを返す時代に、士業は何で選ばれるのか。\n\nこれは、これから避けて通れない問いです。\n・知識がある。 \n・資格がある。 \n・経験もある。\nそれでも、その違いが顧客に伝わらなければ、選ばれない。\n\nしかも今、何が起きているのか──。\n\n一般的な制度の説明。 \n書類の下書き。 \n情報の整理。\n他制度との比較資料。 \n相談前の下調べと、想定される論点の洗い出し。 \n\nさらに最近では、「自分のケースだとどう判断すべきか」という相談まで、\nAIがそれなりに筋の通った答えを返すようになっています。\nクライアントは、士業の前に座る時点で、\nすでにAIに一度相談を済ませている。 \nそして、この一言が経営者の口から発せられる\n「AIはこう言っていたんですけど、どうですか？」──と。\n\nこの光景に心当たりがある方は、\nもう少なくないはずです。\n\nここで起きていることは、確かなはず。\n士業の価値は、もう 「知っていること」だけでは伝わりにくくなっている ということ。\nなぜなら、顧客が本当に求めているのは、\n情報そのものではないからです。\n\n・自分の場合、何を選べばいいのか。 \n・どこに、見落とすと致命的なリスクがあるのか。 \n・何を優先し、何を後回しにすべきなのか。\n・この判断が、3年後、5年後、10年後の自分にどう影響するのか。\n・そして──この決断を、自分ひとりで背負わずに済む相手は、誰か。\n\nクライアントが本当に欲しいのは、答えではなく \n「この人と決めた」と思える安心感です。\nAIは、答えを出せます。 けれどAIは、\nその答えの重みを一緒に背負ってはくれない。\nこれからの士業に必要なのは、作業代行ではなく、判断支援。\nさらに踏み込めば──判断の重みを、共に背負える存在であること。\n\nところが現状、多くの士業は、こう見られています。\n・手続きをしてくれる人。 \n・書類を作ってくれる人。 \n・制度を説明してくれる人。 \n・契約書を確認してくれる人。\nこの見られ方のままだと、何が起きるか。\nどうしても、価格で比較され \n紹介が止まれば、新規も止まる。\n\n新しい案件が来ても、相見積もりの土俵に乗せられる。\n 「先生」と呼ばれていても、実態は“代替可能な作業者”として扱われていく。\nこれは、能力の問題ではありません。 \n\n自分の専門性が、顧客にとって意味のある言葉に翻訳されていないだけの問題です。\n逆に、顧客の判断を支える専門家として認識されると、\n選ばれ方が一変します。\n・価格ではなく、信頼で選ばれる。 \n・紹介だけに頼らず、専門性そのものが指名の理由になる。\n・「とりあえず相談したい」ではなく、\n　「この件はあの先生にしか頼めない」と言われるようになる。\nその差を生むのは、知識量でも、経験年数でも、フォロワー数でもありません。\n自分の専門性を、顧客の判断軸に翻訳できているかどうか。\n ただ、それだけです。\n\nここで、多くの士業がつまずきやすいポイントがあります。\nそれは── \n「自分は資格と腕で勝負したい。マーケティングや言葉づくりは、本業ではない」 \nという、職人気質ゆえの抵抗感です。\n\nその姿勢自体は、プロフェッショナリズムの表れであり、尊いものです。\nけれどAI時代に起きているのは、\n腕がある人ほど、その腕が見えないまま埋もれていく。\nこの悲惨な現象です。\n腕を磨くことと、腕を顧客に届く言葉に変えることは、別の作業です。 \n\nそして後者を怠った瞬間、\n腕は「あるけれど伝わらないもの」として、\n市場の中で評価されなくなる。\nこれは、マーケティングの話ではありません。 \n誰の役に立ちたくて、自分はこの資格を取ったのかを、\nもう一度言葉に戻す作業のことです。\n\nAI時代に本当に必要なのは、\n発信量を増やすことではありません。\n・自分は、誰の、どんな判断を支える専門家なのか。\n・自分は、何を見過ごせない専門家なのか。\n・どんな未来のために、この仕事を続けているのか。 \n・AIには絶対に渡せない領域は、自分の中のどこなのか。\nこの“旗”が言葉になっていないと、\n どれだけ知識があっても、どれだけ実績があっても、\n 顧客から見た「違い」は、伝わりません。\n逆に、この旗が立つと、不思議なことが起き始めます。\n・ホームページの言葉が変わる。 \n・初回面談での第一声が変わる。 \n・クライアントから持ち込まれる相談の質が変わる。 \n・紹介者が、紹介する時の一言が変わる。 \n\nそして何より・・・。\n──自分が引き受ける仕事と、断る仕事の基準が変わる。\n\n旗を掲げるとは、看板を派手にすることではありません。 \n自分の仕事の輪郭を、自分で引き直すことです。\nそして、この輪郭が引かれた瞬間から、\n紹介も、価格交渉も、AIとの距離感も、\nすべてが変わっていきます。\n\nそして、9月に出版予定の新刊では、\nこれまでお話した内容をまとめています。\nまた新刊をベースにした出版オンライン講演会も\n6月9日12時より開催します。\n講演会では、 集客が4倍になった事例の裏側にあった「信頼で選ばれる言葉」を、 \n実例ベースで解き明かします。\n・なぜ、言葉を変えただけで反応が変わったのか。\n ・なぜ、それが単なるコピーの言い換えではなく、“旗”の問題だったのか。 \n・なぜ、AI時代ほど「何を掲げるか」が選ばれる理由になるのか。\n知識や資格があるだけでは、違いは伝わりにくい。\n 大切なのは、専門性を 「選ばれる理由」 に変えること。\nその流れを、整理します。\n\n書籍で語っている内容を、\nフライング講演会として、 一足先にお伝えします。\n\n講演会は、6月9日（火）12時スタート。\n・紹介頼みの集客から、一歩抜け出したい。 \n・価格ではなく、信頼で選ばれる立ち位置をつくりたい。 \n・AIが普及するほど、自分の専門性が際立つ構造を持ちたい。\n・「先生」ではなく、「この人にしか頼めない」と言われる存在になりたい。\nそう感じている方に向けた、60分です。\nさらに、当日は、神田昌典 コピーライティングAiの実演も行います。\nAI時代に重要な旗を掲げながら\n選ばれる文章を作る方法をリアルタイムでご視聴したい方は\nお申し込みください。\n\n・新刊『旗を掲げよ』出版オンライン講演会\n・6月9日（火）12:00〜13:00 \n・オンライン開催／参加無料\n\n最後に、ひとつだけ。\n\nAIが答えを返す時代に、何で選ばれる専門家になるのか。 \nこの問いは、避けても消えません。 \nむしろこれから毎年、輪郭をくっきりさせながら、目の前に現れ続けます。\nこの問いを、一人で抱えたまま日々の業務に流していくのか。\nそれとも、60分だけ立ち止まって、自分の旗を整理する時間を取るのか。\nその小さな判断こそが、これから5年の選ばれ方を、静かに分けていきます。\nご参加を、心よりお待ちしております。",
+        "cta": "詳細を見る"
+      }
+    }
+  ]
+}
