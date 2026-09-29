@@ -1,0 +1,685 @@
+{
+  "meta": {
+    "title": "実践会DB V4",
+    "source": "実践会DB（https://db.almacreation.workers.dev/）MCP経由で取得",
+    "db_version": "v198",
+    "generated_at": "2026-09-29",
+    "snapshot_taken": "2026-09-29",
+    "freshness_label": "9月29日 9:52時点の速報",
+    "basis": "確定値ではありません。9月の月額バッチ（9/20）は反映済みの途中集計で、月次の確定は10/1の締め",
+    "privacy": "会員個人の氏名・メールはV4スナップショットに含めない（件数のみ）",
+    "targets": [
+      {
+        "label": "入会CPA",
+        "value": "3万円以下"
+      },
+      {
+        "label": "会員数",
+        "value": "2026年内 500名／2027年夏前 1,000名"
+      },
+      {
+        "label": "登録→仮エントリー率",
+        "value": "3%（欲張って5%）"
+      },
+      {
+        "label": "広告費ベース",
+        "value": "月50万円"
+      }
+    ],
+    "freshness": [
+      {
+        "name": "Shopify 注文",
+        "at": "2026-09-29 09:20",
+        "state": "updated",
+        "scope": "売上・入会・MRR・広告の入金"
+      },
+      {
+        "name": "Shopify 顧客タグ",
+        "at": "2026-09-29 09:27",
+        "state": "updated",
+        "scope": "会員の現役・退会（解約タグ）"
+      },
+      {
+        "name": "Zoho CRM 仮エントリー",
+        "at": "2026-09-29 09:19",
+        "state": "updated",
+        "scope": "仮エントリー・未入金・入会率"
+      },
+      {
+        "name": "Meta 広告費",
+        "at": "2026-09-29 09:51",
+        "state": "updated",
+        "scope": "広告費・CPL・ROAS"
+      },
+      {
+        "name": "UTAGE 講演会LP",
+        "at": "2026-09-29 09:52",
+        "state": "updated",
+        "scope": "訴求別・告知便別の登録と訪問"
+      },
+      {
+        "name": "UTAGE アーカイブ広告",
+        "at": "2026-09-29 09:24",
+        "state": "updated",
+        "scope": "アーカイブ広告の登録と視聴"
+      },
+      {
+        "name": "参謀AI 利用トークン",
+        "at": "2026-09-29 00:42",
+        "state": "updated",
+        "scope": "会員の危険度（参謀AI）"
+      },
+      {
+        "name": "UMU 最終アクティブ",
+        "at": "2026-09-28 07:18",
+        "state": "stale",
+        "scope": "会員の危険度（UMU）"
+      },
+      {
+        "name": "ダントツLIVE出欠",
+        "at": "2026-09-28",
+        "state": "stale",
+        "scope": "リアル参加"
+      },
+      {
+        "name": "講演会申込者（UTAGE）",
+        "at": "2026-09-27 18:17",
+        "state": "stale",
+        "scope": "9/24講演会の申込者"
+      },
+      {
+        "name": "Zoho Campaigns メール",
+        "at": "2026-09-24 10:14",
+        "state": "stale",
+        "scope": "集客便の成績"
+      },
+      {
+        "name": "会員のメール開封",
+        "at": "2026-09-17 09:51",
+        "state": "stale",
+        "scope": "会員の危険度（メール）"
+      },
+      {
+        "name": "年払・請求書台帳",
+        "at": "事務局台帳",
+        "state": "not_updated",
+        "scope": "年払の更新予定・請求書払い"
+      }
+    ]
+  },
+  "keiei": {
+    "periods": {
+      "sep": {
+        "label": "2026年9月・速報",
+        "state": "速報",
+        "as_of": "2026-09-29 09:20",
+        "mrr_man": 558.4,
+        "contracts": 362,
+        "contracts_all": 378,
+        "joins": 3,
+        "churn_all": 11,
+        "churn_impact": 4,
+        "churn_note": "Shopify解約タグ 2026-09＝実践会3＋実學MBA4（うち3件は8月20日バッチ以降に決済なし）。ほかに9/20の月額決済が無い方4件（解約タグなし・退会か決済エラーか要確認）"
+      },
+      "aug": {
+        "label": "2026年8月・確定",
+        "state": "確定",
+        "as_of": "2026-09-01 月次締め",
+        "mrr_man": 550.485,
+        "contracts": 363,
+        "joins": 1,
+        "churn_all": 4,
+        "churn_impact": 0,
+        "revenue_man": 534.7,
+        "churn_note": "Shopify解約タグ 2026-08＝月額3（実學MBA月会員）＋年払1。インパクト0"
+      }
+    },
+    "mrr_points": [
+      {
+        "m": "2026-07",
+        "v": 530,
+        "state": "確定"
+      },
+      {
+        "m": "2026-08",
+        "v": 550.485,
+        "state": "確定"
+      },
+      {
+        "m": "2026-09",
+        "v": 558.4,
+        "state": "見込み"
+      }
+    ],
+    "series": {
+      "months": [
+        "25/12",
+        "26/1",
+        "26/2",
+        "26/3",
+        "26/4",
+        "26/5",
+        "26/6",
+        "26/7",
+        "26/8"
+      ],
+      "payers": [
+        267,
+        278,
+        284,
+        287,
+        282,
+        286,
+        294,
+        285,
+        285
+      ],
+      "nenbarai": [
+        76,
+        76,
+        76,
+        75,
+        75,
+        74,
+        73,
+        72,
+        70
+      ],
+      "joiners": [
+        1,
+        3,
+        11,
+        15,
+        5,
+        7,
+        11,
+        3,
+        1
+      ],
+      "fee_man": [
+        279.4,
+        327.8,
+        331.7,
+        326.7,
+        350.4,
+        380.1,
+        399.9,
+        419.1,
+        440.1
+      ]
+    },
+    "kpi": {
+      "churn_rate_avg": 2.9,
+      "churn_rate_confirmed_aug": 1.1,
+      "churn_rate_effective": 1.8,
+      "churn_median_days": 55,
+      "contact_deadline_days": 45,
+      "annual_active": 69,
+      "annual_cancelled": 9,
+      "annual_review": 1,
+      "annual_total_man": 855.8,
+      "annual_mrr_share_man": 71.3
+    },
+    "retention": {
+      "as_of": "2026-09-29",
+      "note": "有料在籍ベース（決済が途切れた日を終了効力日とする）。解約タグ日基準の件数と月がずれることがある",
+      "annual": [
+        {
+          "label": "直近12ヶ月（2025-09-01〜2026-09-01）",
+          "audience": "impact",
+          "members": 121,
+          "churned": 31,
+          "rate": 25.62
+        },
+        {
+          "label": "直近12ヶ月（同）",
+          "audience": "all",
+          "members": 474,
+          "churned": 108,
+          "rate": 22.78
+        },
+        {
+          "label": "年初来（2026-01-01〜2026-09-01）",
+          "audience": "impact",
+          "members": 116,
+          "churned": 26,
+          "rate": 22.41
+        },
+        {
+          "label": "年初来（同）",
+          "audience": "all",
+          "members": 441,
+          "churned": 75,
+          "rate": 17.01
+        }
+      ],
+      "monthly": [
+        {
+          "month": "2025-12",
+          "impact": {
+            "members": 58,
+            "churned": 2,
+            "rate": 3.45
+          },
+          "all": {
+            "members": 385,
+            "churned": 15,
+            "rate": 3.9
+          }
+        },
+        {
+          "month": "2026-01",
+          "impact": {
+            "members": 63,
+            "churned": 0,
+            "rate": 0
+          },
+          "all": {
+            "members": 381,
+            "churned": 10,
+            "rate": 2.62
+          }
+        },
+        {
+          "month": "2026-02",
+          "impact": {
+            "members": 74,
+            "churned": 4,
+            "rate": 5.41
+          },
+          "all": {
+            "members": 386,
+            "churned": 10,
+            "rate": 2.59
+          }
+        },
+        {
+          "month": "2026-03",
+          "impact": {
+            "members": 85,
+            "churned": 3,
+            "rate": 3.53
+          },
+          "all": {
+            "members": 392,
+            "churned": 7,
+            "rate": 1.79
+          }
+        },
+        {
+          "month": "2026-04",
+          "impact": {
+            "members": 83,
+            "churned": 5,
+            "rate": 6.02
+          },
+          "all": {
+            "members": 395,
+            "churned": 11,
+            "rate": 2.78
+          }
+        },
+        {
+          "month": "2026-05",
+          "impact": {
+            "members": 84,
+            "churned": 7,
+            "rate": 8.33
+          },
+          "all": {
+            "members": 394,
+            "churned": 18,
+            "rate": 4.57
+          }
+        },
+        {
+          "month": "2026-06",
+          "impact": {
+            "members": 90,
+            "churned": 4,
+            "rate": 4.44
+          },
+          "all": {
+            "members": 391,
+            "churned": 10,
+            "rate": 2.56
+          }
+        },
+        {
+          "month": "2026-07",
+          "impact": {
+            "members": 88,
+            "churned": 2,
+            "rate": 2.27
+          },
+          "all": {
+            "members": 383,
+            "churned": 7,
+            "rate": 1.83
+          }
+        },
+        {
+          "month": "2026-08",
+          "impact": {
+            "members": 88,
+            "churned": 3,
+            "rate": 3.41
+          },
+          "all": {
+            "members": 380,
+            "churned": 14,
+            "rate": 3.68
+          }
+        },
+        {
+          "month": "2026-09",
+          "partial": true,
+          "impact": {
+            "members": 88,
+            "churned": 1,
+            "rate": 1.14
+          },
+          "all": {
+            "members": 370,
+            "churned": 7,
+            "rate": 1.89
+          }
+        }
+      ]
+    }
+  },
+  "mkt": {
+    "assume": {
+      "per_join_annual_yen": 424822,
+      "formula": "1入会あたりの年間売上 424,822円＝入会金110,000円＋月額33,000円×9.54ヶ月（入会月＋翌月無料＋月あたり退会率2.44%で残る分）"
+    },
+    "ads": [
+      {
+        "id": "2026-03",
+        "label": "3月広告",
+        "period": "03/07〜03/12",
+        "spend_yen": 99865,
+        "reg": 76,
+        "reg_new": 55,
+        "cpl": 1314,
+        "entries": 2,
+        "paid": 1,
+        "paid_exp": 1,
+        "net_yen": 308000,
+        "roas_annual": 4.25,
+        "cpa_paid_exp": 99865,
+        "basis": "実績"
+      },
+      {
+        "id": "2026-04",
+        "label": "4月広告",
+        "period": "04/10〜04/28",
+        "spend_yen": 216134,
+        "reg": 196,
+        "reg_new": 29,
+        "cpl": 1103,
+        "entries": 10,
+        "paid": 7,
+        "paid_exp": 7,
+        "net_yen": 1793000,
+        "roas_annual": 13.76,
+        "cpa_paid_exp": 30876,
+        "basis": "実績"
+      },
+      {
+        "id": "2026-06",
+        "label": "6月広告",
+        "period": "05/28〜06/08",
+        "spend_yen": 426449,
+        "reg": 528,
+        "reg_new": 241,
+        "cpl": 808,
+        "entries": 11,
+        "paid": 9,
+        "paid_exp": 9,
+        "net_yen": 1815000,
+        "roas_annual": 8.97,
+        "cpa_paid_exp": 47383,
+        "basis": "実績"
+      },
+      {
+        "id": "2026-09",
+        "label": "9月広告",
+        "period": "09/17〜09/23",
+        "spend_yen": 214673,
+        "reg": 192,
+        "reg_new": 96,
+        "cpl": 1118,
+        "entries": 3,
+        "paid": 0,
+        "paid_exp": 1.8,
+        "net_yen": 0,
+        "roas_annual": 3.59,
+        "cpa_paid_exp": 118440,
+        "basis": "予測"
+      },
+      {
+        "id": "all",
+        "label": "累計",
+        "period": "",
+        "spend_yen": 957121,
+        "reg": 938,
+        "reg_new": 421,
+        "cpl": 1020,
+        "entries": 26,
+        "paid": 17,
+        "paid_exp": 18.8,
+        "net_yen": 3916000,
+        "roas_annual": 8.34,
+        "cpa_paid_exp": 50911,
+        "basis": "実績＋9月の予測"
+      }
+    ],
+    "entry_by_shisaku": [
+      {
+        "label": "3月 説明会（ライブ配信・アーカイブ）",
+        "type": "説明会",
+        "base": 139,
+        "base_kind": "説明会の申込者",
+        "entries": 6,
+        "joins": 4,
+        "entry_rate": 4.32,
+        "join_rate": 66.7,
+        "spend_yen": 99865,
+        "cpa_join": 24966
+      },
+      {
+        "label": "4月 動画視聴LP（エバー）",
+        "type": "動画LP",
+        "base": 196,
+        "base_kind": "LP登録",
+        "entries": 11,
+        "joins": 7,
+        "entry_rate": 5.61,
+        "join_rate": 63.6,
+        "spend_yen": 216134,
+        "cpa_join": 30876
+      },
+      {
+        "label": "5/14 講演会（広告なし）",
+        "type": "講演会",
+        "base": 191,
+        "base_kind": "講演会の申込者",
+        "entries": 8,
+        "joins": 5,
+        "entry_rate": 4.19,
+        "join_rate": 62.5,
+        "spend_yen": 0,
+        "cpa_join": null
+      },
+      {
+        "label": "5/28 AIチャット導線",
+        "type": "AIチャット",
+        "base": null,
+        "base_kind": "母数未取得",
+        "entries": 2,
+        "joins": 1,
+        "entry_rate": null,
+        "join_rate": 50,
+        "spend_yen": null,
+        "cpa_join": null
+      },
+      {
+        "label": "6/9 講演会（広告あり）",
+        "type": "講演会",
+        "base": 538,
+        "base_kind": "講演会の申込者",
+        "entries": 19,
+        "joins": 12,
+        "entry_rate": 3.53,
+        "join_rate": 63.2,
+        "spend_yen": 426449,
+        "cpa_join": 35537
+      },
+      {
+        "label": "8月 出版連動メール①〜⑨",
+        "type": "メール",
+        "base": 460,
+        "base_kind": "メールのクリック（9便合計）",
+        "entries": 6,
+        "joins": 2,
+        "entry_rate": 1.3,
+        "join_rate": 33.3,
+        "spend_yen": 0,
+        "cpa_join": null
+      },
+      {
+        "label": "9/24 講演会（広告あり）",
+        "type": "講演会",
+        "base": 553,
+        "base_kind": "講演会の申込者",
+        "entries": 5,
+        "joins": 0,
+        "entry_rate": 0.9,
+        "join_rate": 0,
+        "spend_yen": 214673,
+        "cpa_join": null,
+        "in_progress": true
+      }
+    ],
+    "plan_50": {
+      "spend_yen": 500000,
+      "cpl": 1118,
+      "reg": 447,
+      "entry_rate": 1.75,
+      "join_rate": 60.4,
+      "entries": 7.8,
+      "joins": 4.7,
+      "cpa": 105478,
+      "target_cpa": 30000,
+      "need_joins": 16.7,
+      "need_entry_rate": 6.17,
+      "roas_annual": 4.03,
+      "basis": "CPL＝9月講演会広告の実績¥1,118。登録→仮エントリー＝6/9講演会の広告経由実績1.75%。仮エントリー→入会＝累計60.4%"
+    },
+    "current_shisaku": {
+      "as_of": "2026-09-29 10:39",
+      "entries_sep": {
+        "total": 6,
+        "lecture": 5,
+        "by_code_mail": 1,
+        "no_code_joined": 1,
+        "note": "DBの内訳は 講演会5／8月メール施策1（9/22・審査完了）／コードなし1（9/4・入会）。合計6との差（5+1+1=7）はDB側で要確認"
+      },
+      "archive_ad": {
+        "status": "配信中",
+        "period": "09/28〜10/05",
+        "budget": "1日30,000円",
+        "spend_yen": 37943,
+        "meta_results": 33,
+        "utage_regs": 29,
+        "cpl_yen": 1308,
+        "overlap_0924": 3,
+        "members": 1,
+        "entries": 0,
+        "paid": 0,
+        "viewing": [
+          {
+            "label": "視聴開始",
+            "n": 5
+          },
+          {
+            "label": "本題到達",
+            "n": 4
+          },
+          {
+            "label": "事例通過",
+            "n": 4
+          },
+          {
+            "label": "案内パート到達",
+            "n": 3
+          },
+          {
+            "label": "案内表示",
+            "n": 2
+          },
+          {
+            "label": "完走",
+            "n": 2
+          }
+        ],
+        "adsets": [
+          {
+            "code": "AR_A_H1",
+            "creative": "画像A 分野No.1 × 見出し1「分野No.1」のつくり方",
+            "spend_yen": 1487,
+            "access": 46,
+            "regs": 0,
+            "cpl_yen": null
+          },
+          {
+            "code": "AR_A_H2",
+            "creative": "画像A 分野No.1 × 見出し2 期間限定で無料公開",
+            "spend_yen": 19677,
+            "access": 138,
+            "regs": 14,
+            "cpl_yen": 1406
+          },
+          {
+            "code": "AR_B_H1",
+            "creative": "画像B 実践会の3段階 × 見出し1",
+            "spend_yen": 729,
+            "access": 34,
+            "regs": 0,
+            "cpl_yen": null
+          },
+          {
+            "code": "AR_B_H2",
+            "creative": "画像B 実践会の3段階 × 見出し2",
+            "spend_yen": 16050,
+            "access": 138,
+            "regs": 15,
+            "cpl_yen": 1070
+          }
+        ]
+      },
+      "kouenkai_0924": {
+        "status": "開催済み",
+        "applicants": 553,
+        "attend": 269,
+        "attend_rate": 48.6,
+        "attend_rate_0609": 68.6,
+        "entries": 5,
+        "entries_ad": 2,
+        "entries_ad_new": 1,
+        "paid": 0,
+        "spend_yen": 214673,
+        "entry_cpa_yen": 42935,
+        "entry_rate_applicants": 0.9,
+        "entry_rate_attend": 1.86
+      },
+      "ws_1008": {
+        "status": "募集中",
+        "ws_orders": 0,
+        "konshinkai_orders": 6,
+        "note": "実践会会員は無料のため注文に出ない"
+      }
+    }
+  }
+}

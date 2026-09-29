@@ -1,0 +1,332 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>実践会DB V4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 1カラムの経営ボード。上から「結論（数字）→推移→集客→いま動いている施策→鮮度」。セクション見出しは左の目次と対応 */
+:root {
+  --bg: #f3f5f7;
+  --panel: #ffffff;
+  --ink: #15202b;
+  --ink-2: #4a5663;
+  --ink-3: #7b8692;
+  --line: #dde2e8;
+  --accent: #0e6a6f;
+  --accent-soft: #e2f0f0;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --good: #1f7a3a; --good-bg: #e3f3e7;
+  --warn: #9a6200; --warn-bg: #fbf0d9;
+  --bad: #b3261e;  --bad-bg: #fbe4e2;
+  --f-display: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --f-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161c; --panel: #192029; --ink: #eef2f5; --ink-2: #b4bfca; --ink-3: #8592a0; --line: #2a3440;
+    --accent: #5cc2c4; --accent-soft: #1b3336; --s1: #3987e5; --s2: #d95926;
+    --good: #7fd494; --good-bg: #1c3324; --warn: #f0c060; --warn-bg: #3a2f14; --bad: #ff8a80; --bad-bg: #3d1f1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161c; --panel: #192029; --ink: #eef2f5; --ink-2: #b4bfca; --ink-3: #8592a0; --line: #2a3440;
+  --accent: #5cc2c4; --accent-soft: #1b3336; --s1: #3987e5; --s2: #d95926;
+  --good: #7fd494; --good-bg: #1c3324; --warn: #f0c060; --warn-bg: #3a2f14; --bad: #ff8a80; --bad-bg: #3d1f1d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.65; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 36px; }
+@media (max-width: 480px) { .wrap { padding-inline: 16px; } }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+
+header.top { display: grid; gap: 10px; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; color: var(--ink-3); }
+h1 { font-family: var(--f-display); font-size: clamp(28px, 4vw, 40px); line-height: 1.2; margin: 0; text-wrap: balance; }
+h1 small { font-family: var(--f-num); font-size: .5em; color: var(--accent); margin-left: .4em; letter-spacing: .04em; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; color: var(--ink-2); font-size: 13px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 2px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; white-space: nowrap; }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.good { background: var(--good-bg); color: var(--good); }
+.chip.bad { background: var(--bad-bg); color: var(--bad); }
+.chip.muted { background: transparent; border: 1px solid var(--line); color: var(--ink-3); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px; }
+nav.toc a { font-size: 13px; color: var(--ink-2); text-decoration: none; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); }
+nav.toc a:hover, nav.toc a:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+
+section { display: grid; gap: 14px; scroll-margin-top: 16px; }
+h2 { font-size: 19px; margin: 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; text-wrap: balance; }
+h2 .path { font-family: var(--f-num); font-size: 11px; font-weight: 400; color: var(--ink-3); }
+.lead { margin: 0; color: var(--ink-2); font-size: 13.5px; max-width: 70ch; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 12px; }
+.tile { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.tile .label { font-size: 12.5px; color: var(--ink-2); }
+.tile .value { font-family: var(--f-num); font-size: 30px; font-weight: 500; line-height: 1.15; }
+.tile .value .u { font-family: var(--f-body); font-size: 14px; color: var(--ink-2); margin-left: 3px; font-weight: 400; }
+.tile .sub { font-size: 12.5px; color: var(--ink-3); }
+.tile .sub b { color: var(--ink-2); font-weight: 500; }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+.two { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px; }
+@media (max-width: 820px) { .two { grid-template-columns: 1fr; } }
+
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-size: 12px; font-weight: 500; color: var(--ink-3); }
+td { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+td.t { font-family: var(--f-body); white-space: normal; min-width: 11em; }
+tr.total td { font-weight: 500; border-top: 2px solid var(--ink-3); }
+.na { color: var(--ink-3); font-family: var(--f-body); font-size: 12px; }
+.bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--accent); vertical-align: middle; margin-right: 8px; }
+.pred { font-size: 11px; color: var(--warn); font-family: var(--f-body); margin-left: 4px; }
+
+.chart-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.legend { display: flex; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.chart { position: relative; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart .grid line { stroke: var(--line); stroke-width: 1; }
+.chart .axis text { fill: var(--ink-3); font-size: 11px; font-family: var(--f-num); }
+.chart .dlabel { fill: var(--ink); font-size: 11.5px; font-family: var(--f-num); }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px rgb(0 0 0 / .12); white-space: nowrap; }
+.tip b { font-family: var(--f-num); }
+button.toggle { font: inherit; font-size: 12.5px; color: var(--accent); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+button.toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card.wide { grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); column-gap: 24px; }
+.card.wide > h3, .card.wide > p.note { grid-column: 1 / -1; }
+.card h3 { margin: 0; font-size: 15px; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 13px; }
+.kv dt { color: var(--ink-2); }
+.kv dd { margin: 0; font-family: var(--f-num); text-align: right; font-variant-numeric: tabular-nums; }
+.note { font-size: 12px; color: var(--ink-3); margin: 0; }
+.funnel { display: grid; gap: 4px; }
+.funnel div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) 2em; align-items: center; gap: 8px; font-size: 12.5px; }
+.funnel span.b { height: 10px; background: var(--s1); border-radius: 0 4px 4px 0; }
+.funnel span.n { font-family: var(--f-num); text-align: right; }
+
+.fresh { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 8px; }
+.fresh div { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+.fresh .at { font-family: var(--f-num); font-size: 12px; color: var(--ink-3); grid-column: 1 / -1; }
+ul.targets { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 8px; }
+ul.targets li { padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--panel); font-size: 13.5px; }
+ul.targets li span { display: block; font-size: 12px; color: var(--ink-3); }
+footer { font-size: 12px; color: var(--ink-3); display: grid; gap: 4px; }
+#err { color: var(--bad); }
+@media (prefers-reduced-motion: no-preference) { nav.toc a { transition: border-color .15s, color .15s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">次世代マーケティング実践会 ／ 経営ダッシュボード</div>
+    <h1>実践会DB<small>V4</small></h1>
+    <div class="meta-row" id="metaRow">読み込み中…</div>
+    <nav class="toc" aria-label="目次">
+      <a href="#keiei">経営</a><a href="#retention">退会率</a><a href="#ads">広告</a><a href="#shisaku">施策別</a><a href="#current">いま動いている施策</a><a href="#plan">月50万円プラン</a><a href="#fresh">取得元の鮮度</a>
+    </nav>
+  </header>
+  <p id="err" hidden></p>
+
+  <section id="keiei">
+    <h2>経営 <span class="path">keiei.periods ／ keiei.kpi</span></h2>
+    <p class="lead" id="keieiLead"></p>
+    <div class="tiles" id="keieiTiles"></div>
+  </section>
+
+  <section id="retention">
+    <h2>退会率 <span class="path">keiei.retention</span></h2>
+    <p class="lead" id="retLead"></p>
+    <div class="two">
+      <div class="panel">
+        <div class="chart-head">
+          <div class="legend"><span><i style="background:var(--s1)"></i>インパクト会員</span><span><i style="background:var(--s2)"></i>全体</span></div>
+          <button class="toggle" id="retToggle" type="button">表で見る</button>
+        </div>
+        <div class="chart" id="retChart"></div>
+        <div class="tbl-wrap" id="retTable" hidden></div>
+      </div>
+      <div class="tiles" id="retAnnual" style="grid-template-columns:repeat(2, minmax(0, 1fr))"></div>
+    </div>
+  </section>
+
+  <section id="ads">
+    <h2>広告の成績 <span class="path">mkt.ad_analysis.segmentation.exec.rows</span></h2>
+    <p class="lead" id="adsLead"></p>
+    <div class="panel tbl-wrap"><table id="adsTable"></table></div>
+  </section>
+
+  <section id="shisaku">
+    <h2>施策別の仮エントリー率 <span class="path">mkt.ad_analysis.segmentation.entry_by_shisaku</span></h2>
+    <p class="lead">仮エントリー率＝仮エントリー ÷ 母数（母数の種類は施策ごとに違うため列に明記）。入会率＝入会 ÷ 仮エントリー。</p>
+    <div class="panel tbl-wrap"><table id="shisakuTable"></table></div>
+  </section>
+
+  <section id="current">
+    <h2>いま動いている施策 <span class="path">mkt.current_shisaku</span></h2>
+    <p class="lead" id="curLead"></p>
+    <div class="cards" id="curCards"></div>
+  </section>
+
+  <section id="plan">
+    <h2>広告費 月50万円の見込み <span class="path">mkt.ad_analysis.segmentation.plan_50</span></h2>
+    <p class="lead" id="planLead"></p>
+    <div class="tiles" id="planTiles"></div>
+    <ul class="targets" id="targets"></ul>
+  </section>
+
+  <section id="fresh">
+    <h2>取得元の鮮度 <span class="path">meta.freshness</span></h2>
+    <p class="lead" id="freshLead"></p>
+    <div class="fresh" id="freshList"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const yen = (v) => v == null ? '<span class="na">未取得</span>' : '¥' + Math.round(v).toLocaleString('ja-JP');
+  const n = (v, d = 0) => v == null ? '<span class="na">未取得</span>' : Number(v).toLocaleString('ja-JP', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (v) => v == null ? '<span class="na">未取得</span>' : Number(v).toFixed(2) + '%';
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const tile = (label, value, unit, sub) => `<div class="tile"><div class="label">${label}</div><div class="value">${value}<span class="u">${unit || ''}</span></div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
+
+  function render(D) {
+    const m = D.meta, k = D.keiei, mk = D.mkt;
+    $('metaRow').innerHTML = `<span class="chip warn">速報</span><span>DB <b class="num">${esc(m.db_version)}</b>（${esc(m.generated_at)}）</span><span>${esc(m.freshness_label)}</span>`;
+
+    const s = k.periods.sep, a = k.periods.aug;
+    $('keieiLead').textContent = `9月は${s.as_of}時点の速報、8月は${a.as_of}の確定値。会員数・決済・入退会が食い違うときはShopify（決済）を正とする。`;
+    $('keieiTiles').innerHTML = [
+      tile('MRR（9月見込み）', n(s.mrr_man, 1), '万円', `8月確定 <b>${n(a.mrr_man, 1)}万円</b>／7月 ${n(k.mrr_points[0].v, 0)}万円`),
+      tile('有料契約数（代表のみ）', n(s.contracts), '件', `代表＋2名目以降 <b>${n(s.contracts_all)}件</b>／8月末 ${n(a.contracts)}件`),
+      tile('新規入会（9月）', n(s.joins), '社', `8月確定 <b>${n(a.joins)}社</b>`),
+      tile('退会 全体（9月速報）', n(s.churn_all), '件', `うちインパクト会員 <b>${n(s.churn_impact)}件</b>／8月確定 ${n(a.churn_all)}件`),
+      tile('総売上（8月確定）', n(a.revenue_man, 1), '万円', '9月分は10/1の月次締めで確定'),
+      tile('入会→解約（中央値）', n(k.kpi.churn_median_days), '日', `接点デッドライン <b>${n(k.kpi.contact_deadline_days)}日</b>`),
+      tile('年払 有効な契約', n(k.kpi.annual_active), '件', `解約 ${n(k.kpi.annual_cancelled)}件・要確認 ${n(k.kpi.annual_review)}件／MRR按分 ${n(k.kpi.annual_mrr_share_man, 1)}万円`),
+      tile('平均退会率（通算）', n(k.kpi.churn_rate_avg, 1), '%/月', `8月確定の解約率 <b>${n(k.kpi.churn_rate_confirmed_aug, 1)}%</b>`)
+    ].join('') ;
+    $('keieiTiles').insertAdjacentHTML('afterend', `<p class="note">9月の退会の内訳：${esc(s.churn_note)}</p>`);
+
+    // --- retention chart
+    const R = k.retention;
+    $('retLead').textContent = `月別の退会率＝その月の退会 ÷ 月初の有料在籍（${R.as_of}時点）。9月は9/29までの途中値。${R.note}。`;
+    drawRet(R.monthly);
+    $('retTable').innerHTML = `<table><thead><tr><th>月</th><th>インパクト 退会/在籍</th><th>率</th><th>全体 退会/在籍</th><th>率</th></tr></thead><tbody>${
+      R.monthly.map(r => `<tr><td>${r.month}${r.partial ? '<span class="pred">途中</span>' : ''}</td><td>${r.impact.churned}/${r.impact.members}</td><td>${pct(r.impact.rate)}</td><td>${r.all.churned}/${r.all.members}</td><td>${pct(r.all.rate)}</td></tr>`).join('')}</tbody></table>`;
+    $('retToggle').addEventListener('click', () => {
+      const showTable = $('retTable').hidden;
+      $('retTable').hidden = !showTable; $('retChart').hidden = showTable;
+      $('retToggle').textContent = showTable ? 'グラフで見る' : '表で見る';
+    });
+    $('retAnnual').innerHTML = R.annual.map(r => tile(`${r.audience === 'impact' ? 'インパクト' : '全体'}・${esc(r.label.replace(/（.*$/, ''))}`, n(r.rate, 2), '%', `退会 ${r.churned} ÷ 在籍 ${r.members}`)).join('');
+
+    // --- ads
+    const all = mk.ads.find(r => r.id === 'all');
+    $('adsLead').textContent = `累計 広告費 ¥${all.spend_yen.toLocaleString('ja-JP')}・登録 ${all.reg}件・入金 ${all.paid}件。年間ROASは1入会あたり年間売上 ¥${mk.assume.per_join_annual_yen.toLocaleString('ja-JP')} で計算（${mk.assume.formula}）。9月は予測を含む。`;
+    $('adsTable').innerHTML = `<thead><tr><th>回</th><th>配信期間</th><th>広告費</th><th>登録</th><th>うち完全新規</th><th>CPL</th><th>仮エントリー</th><th>入金</th><th>入金額</th><th>入会CPA（見込み）</th><th>年間ROAS</th></tr></thead><tbody>${
+      mk.ads.map(r => `<tr class="${r.id === 'all' ? 'total' : ''}"><td class="t">${esc(r.label)}</td><td>${esc(r.period) || '—'}</td><td>${yen(r.spend_yen)}</td><td>${n(r.reg)}</td><td>${n(r.reg_new)}</td><td>${yen(r.cpl)}</td><td>${n(r.entries)}</td><td>${n(r.paid)}${r.paid_exp !== r.paid ? `<span class="pred">見込${r.paid_exp}</span>` : ''}</td><td>${yen(r.net_yen)}</td><td>${yen(r.cpa_paid_exp)}</td><td>${n(r.roas_annual, 2)}倍</td></tr>`).join('')}</tbody>`;
+
+    // --- shisaku
+    const maxRate = Math.max(...mk.entry_by_shisaku.map(r => r.entry_rate || 0));
+    $('shisakuTable').innerHTML = `<thead><tr><th>施策</th><th>母数</th><th>母数の種類</th><th>仮エントリー</th><th style="text-align:left">仮エントリー率</th><th>入会</th><th>入会率</th><th>広告費</th><th>入会CPA</th></tr></thead><tbody>${
+      mk.entry_by_shisaku.map(r => `<tr><td class="t">${esc(r.label)}${r.in_progress ? '<span class="pred">進行中</span>' : ''}</td><td>${n(r.base)}</td><td class="t" style="min-width:9em;color:var(--ink-2)">${esc(r.base_kind)}</td><td>${n(r.entries)}</td><td style="text-align:left">${r.entry_rate == null ? '<span class="na">母数未取得</span>' : `<span class="bar" style="width:${(r.entry_rate / maxRate * 90).toFixed(0)}px"></span>${pct(r.entry_rate)}`}</td><td>${n(r.joins)}</td><td>${n(r.join_rate, 1)}%</td><td>${r.spend_yen === 0 ? '広告なし' : yen(r.spend_yen)}</td><td>${r.cpa_join == null ? '<span class="na">—</span>' : yen(r.cpa_join)}</td></tr>`).join('')}</tbody>`;
+
+    // --- current
+    const c = mk.current_shisaku, ar = c.archive_ad, ko = c.kouenkai_0924, ws = c.ws_1008, es = c.entries_sep;
+    $('curLead').textContent = `${c.as_of} 時点。`;
+    const maxV = Math.max(...ar.viewing.map(v => v.n));
+    $('curCards').innerHTML = `
+      <div class="card wide"><h3>アーカイブ広告（出版記念講演）<span class="chip good">${esc(ar.status)}</span></h3>
+        <p class="note">掲載 ${esc(ar.period)}・キャンペーン予算 ${esc(ar.budget)}</p>
+        <dl class="kv"><dt>消化</dt><dd>${yen(ar.spend_yen)}</dd><dt>UTAGE登録／Meta結果</dt><dd>${ar.utage_regs}／${ar.meta_results}</dd><dt>CPL（UTAGE登録ベース）</dt><dd>${yen(ar.cpl_yen)}</dd><dt>9/24申込者との重複</dt><dd>${ar.overlap_0924}</dd><dt>仮エントリー／入金</dt><dd>${ar.entries}／${ar.paid}</dd></dl>
+        <div class="funnel" aria-label="視聴の進み">${ar.viewing.map(v => `<div><span>${esc(v.label)}</span><span class="b" style="width:${(v.n / maxV * 100).toFixed(0)}%"></span><span class="n">${v.n}</span></div>`).join('')}</div>
+        <div class="tbl-wrap"><table><thead><tr><th>広告セット</th><th>消化</th><th>訪問</th><th>登録</th><th>CPL</th></tr></thead><tbody>${ar.adsets.map(x => `<tr><td class="t" title="${esc(x.creative)}"><span class="num">${esc(x.code)}</span><br><span class="note">${esc(x.creative)}</span></td><td>${yen(x.spend_yen)}</td><td>${x.access}</td><td>${x.regs}</td><td>${x.cpl_yen == null ? '<span class="na">登録0</span>' : yen(x.cpl_yen)}</td></tr>`).join('')}</tbody></table></div>
+      </div>
+      <div class="card"><h3>9/24 出版記念講演会<span class="chip muted">${esc(ko.status)}</span></h3>
+        <dl class="kv"><dt>申込</dt><dd>${ko.applicants}名</dd><dt>参加（リアルタイム）</dt><dd>${ko.attend}名（${ko.attend_rate}%）</dd><dt>参考：6/9講演会の参加率</dt><dd>${ko.attend_rate_0609}%</dd><dt>仮エントリー（講演会開始以降）</dt><dd>${ko.entries}件</dd><dt>　うち広告経由／完全新規</dt><dd>${ko.entries_ad}／${ko.entries_ad_new}</dd><dt>仮エントリー率（÷申込553）</dt><dd>${ko.entry_rate_applicants}%</dd><dt>仮エントリー率（÷参加269）</dt><dd>${ko.entry_rate_attend}%</dd><dt>入金</dt><dd>${ko.paid}件</dd><dt>広告費</dt><dd>${yen(ko.spend_yen)}</dd><dt>仮エントリー1件あたり</dt><dd>${yen(ko.entry_cpa_yen)}</dd></dl>
+      </div>
+      <div class="card"><h3>9月の仮エントリー<span class="chip">集計</span></h3>
+        <dl class="kv"><dt>合計</dt><dd>${es.total}件</dd><dt>9/24講演会から</dt><dd>${es.lecture}件</dd><dt>8月メール施策</dt><dd>${es.by_code_mail}件</dd><dt>施策コードなし（入会済み）</dt><dd>${es.no_code_joined}件</dd></dl>
+        <p class="note">${esc(es.note)}</p>
+      </div>
+      <div class="card"><h3>10/8 大阪ワークショップ<span class="chip warn">${esc(ws.status)}</span></h3>
+        <dl class="kv"><dt>ワークショップ注文</dt><dd>${ws.ws_orders}件</dd><dt>会員向け 読書会・懇親会</dt><dd>${ws.konshinkai_orders}件</dd></dl>
+        <p class="note">${esc(ws.note)}</p>
+      </div>`;
+
+    // --- plan
+    const p = mk.plan_50;
+    $('planLead').textContent = p.basis + '。';
+    $('planTiles').innerHTML = [
+      tile('見込み登録', n(p.reg), '件', `CPL ${yen(p.cpl)}`),
+      tile('見込み仮エントリー', n(p.entries, 1), '件', `登録→仮エントリー ${p.entry_rate}%`),
+      tile('見込み入会', n(p.joins, 1), '件', `仮エントリー→入会 ${p.join_rate}%`),
+      tile('見込み入会CPA', yen(p.cpa), '', `目標 ${yen(p.target_cpa)}。届くには入会 <b>${p.need_joins}件</b>・登録→仮エントリー <b>${p.need_entry_rate}%</b> が必要`)
+    ].join('');
+    $('targets').innerHTML = m.targets.map(t => `<li><span>目標・${esc(t.label)}</span>${esc(t.value)}</li>`).join('');
+
+    // --- freshness
+    $('freshLead').textContent = m.basis + '。';
+    const st = { updated: ['good', '更新済み'], stale: ['warn', '古い'], not_updated: ['bad', '未更新'] };
+    $('freshList').innerHTML = m.freshness.map(f => { const [cls, lab] = st[f.state] || ['muted', f.state]; return `<div><b>${esc(f.name)}</b><span class="chip ${cls}">${lab}</span><span class="at">${esc(f.at)}・${esc(f.scope)}</span></div>`; }).join('');
+
+    $('foot').innerHTML = `<div>出典：${esc(m.source)}（DB ${esc(m.db_version)}・V4スナップショット ${esc(m.snapshot_taken)}）</div><div>${esc(m.privacy)}。「未取得」はデータに無い値で、0ではない。</div>`;
+  }
+
+  function drawRet(rows) {
+    const W = 640, H = 260, L = 40, Rm = 44, T = 16, B = 30;
+    const max = 10;
+    const x = (i) => L + i * (W - L - Rm) / (rows.length - 1);
+    const y = (v) => T + (H - T - B) * (1 - v / max);
+    const ticks = [0, 2, 4, 6, 8, 10];
+    const line = (key) => rows.map((r, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(r[key].rate).toFixed(1)}`).join('');
+    const last = rows.length - 1;
+    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="月別退会率 インパクト会員と全体">
+      <g class="grid">${ticks.map(t => `<line x1="${L}" x2="${W - Rm}" y1="${y(t)}" y2="${y(t)}"></line>`).join('')}</g>
+      <g class="axis">${ticks.map(t => `<text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}%</text>`).join('')}
+      ${rows.map((r, i) => `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${r.month.slice(2).replace('-', '/')}</text>`).join('')}</g>
+      <path d="${line('all')}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round"></path>
+      <path d="${line('impact')}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round"></path>
+      <line x1="${x(last - 1)}" x2="${x(last)}" y1="${y(rows[last - 1].impact.rate)}" y2="${y(rows[last].impact.rate)}" stroke="var(--panel)" stroke-width="2" stroke-dasharray="3 3"></line>
+      <line x1="${x(last - 1)}" x2="${x(last)}" y1="${y(rows[last - 1].all.rate)}" y2="${y(rows[last].all.rate)}" stroke="var(--panel)" stroke-width="2" stroke-dasharray="3 3"></line>
+      ${rows.map((r, i) => `<circle cx="${x(i)}" cy="${y(r.impact.rate)}" r="4" fill="var(--s1)" stroke="var(--panel)" stroke-width="2"></circle><circle cx="${x(i)}" cy="${y(r.all.rate)}" r="4" fill="var(--s2)" stroke="var(--panel)" stroke-width="2"></circle>`).join('')}
+      <text class="dlabel" x="${x(5) + 6}" y="${y(rows[5].impact.rate) - 8}">${rows[5].impact.rate}%</text>
+      <text class="dlabel" x="${x(last) + 8}" y="${y(rows[last].impact.rate) + 4}">${rows[last].impact.rate}%</text>
+      <text class="dlabel" x="${x(last) + 8}" y="${y(rows[last].all.rate) - 6}">${rows[last].all.rate}%</text>
+      <line id="cross" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="var(--ink-3)" stroke-width="1" visibility="hidden"></line>
+      <rect x="${L}" y="${T}" width="${W - L - Rm}" height="${H - T - B}" fill="transparent" id="hit"></rect>
+    </svg><div class="tip" id="tip" hidden></div>`;
+    const box = $('retChart'); box.innerHTML = svg;
+    const hit = box.querySelector('#hit'), cross = box.querySelector('#cross'), tip = box.querySelector('#tip'), sv = box.querySelector('svg');
+    function move(ev) {
+      const r = sv.getBoundingClientRect(); const sx = (ev.clientX - r.left) * W / r.width;
+      const i = Math.max(0, Math.min(rows.length - 1, Math.round((sx - L) / ((W - L - Rm) / (rows.length - 1)))));
+      const row = rows[i];
+      cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.setAttribute('visibility', 'visible');
+      tip.hidden = false;
+      tip.innerHTML = `${row.month}${row.partial ? '（途中）' : ''}<br><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--s1)"></i> インパクト <b>${row.impact.rate}%</b>（${row.impact.churned}/${row.impact.members}）<br><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--s2)"></i> 全体 <b>${row.all.rate}%</b>（${row.all.churned}/${row.all.members}）`;
+      const px = x(i) * r.width / W; const tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(0, px + 12), r.width - tw) + 'px'; tip.style.top = '8px';
+    }
+    hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move);
+    hit.addEventListener('pointerleave', () => { tip.hidden = true; cross.setAttribute('visibility', 'hidden'); });
+  }
+
+  fetch('data_v4.json', { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error('data_v4.json を読めませんでした（' + r.status + '）'); return r.json(); })
+    .then(render)
+    .catch(e => { $('err').hidden = false; $('err').textContent = e.message + '。同じフォルダに data_v4.json があるか確認してください。'; $('metaRow').textContent = ''; });
+})();
+</script>
