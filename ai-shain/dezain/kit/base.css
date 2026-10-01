@@ -1,0 +1,205 @@
+/* =========================================================
+   dezain kit / base.css
+   デザイン担当の土台。動き・テキストの見せ方・部品をここに集約する。
+   出典: references/samples/ の見本（初版＝tac9th）。見本を足したら、
+   共通にしたい見せ方はここへ取り込む。
+   色・書体は :root の変数だけを案件ごとに変える（ヒアリングで決める）。
+   ========================================================= */
+
+:root {
+  --main: #2da9e0;          /* メイン色: 頭文字・ラベル・番号・ボタン・青ベタ区切り */
+  --main-pale: #e7f4f9;     /* 薄いメイン色: 吹き出し・手紙区切りの背景 */
+  --sub: #3cb44b;           /* 2つめの申込ボタン（コース違い） */
+  --marker: #e9ff83;        /* 黄マーカー */
+  --alert: #c40b13;         /* 赤: ページで1〜2か所の最大の数字だけ */
+  --ink: #222;              /* 本文 */
+  --bg-beige: #f1f2ec;
+  --bg-gray: #eee;
+  --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+  --font-head: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif; /* 見出し: 700〜900 */
+  --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", serif;         /* FVキャッチ・手紙 */
+  --font-en: "Cormorant Garamond", "Times New Roman", serif;            /* 英字の区切りタイトル */
+  --inner: 800px;           /* 本文の幅（PC） */
+  --gutter: 20px;           /* スマホの左右余白 */
+}
+
+/* ---------- 文字の土台 ---------- */
+body { margin: 0; font-family: var(--font-sans); color: var(--ink); background: #fff;
+  font-size: 15px; line-height: 1.8; letter-spacing: .06em; -webkit-text-size-adjust: 100%; }
+@media (min-width: 768px) { body { font-size: 18px; } }
+img { max-width: 100%; height: auto; vertical-align: bottom; }
+.inner { max-width: var(--inner); margin: 0 auto; padding: 0 var(--gutter); }
+p { margin: 0 0 1.8em; }                    /* 段落間は1行空ける */
+
+/* 区切り: 背景を切り替えて区切る。上下はたっぷり */
+.sec { padding: 64px 0 80px; }
+@media (min-width: 768px) { .sec { padding: 100px 0 110px; } }
+.sec--beige { background: var(--bg-beige); }
+.sec--gray  { background: var(--bg-gray); }
+.sec--pale  { background: var(--main-pale); }
+.sec--main  { background: var(--main); color: #fff; position: relative; overflow: hidden; }
+.sec--dark  { background: #222; color: #ccc; }
+
+/* ---------- 見出しの段階 ---------- */
+/* 区切りタイトル: 英字（頭文字だけメイン色）＋日本語ラベル＋右へ伸びる線 */
+.sec-title { margin: 0 0 40px; line-height: 1; }
+.sec-title__en { display: block; font-family: var(--font-en); font-weight: 500;
+  font-size: 56px; letter-spacing: 0; color: #111; }
+.sec-title__en::first-letter { color: var(--main); }
+.sec-title__ja { display: flex; align-items: center; gap: 12px; margin-top: 10px;
+  font-size: 13px; font-weight: 700; letter-spacing: .2em; }
+.sec-title__ja::after { content: ""; flex: 1; height: 3px; background: #111; }
+@media (min-width: 768px) { .sec-title__en { font-size: 88px; } .sec-title__ja { font-size: 15px; } }
+.sec--main .sec-title__en, .sec--main .sec-title__en::first-letter { color: #fff; }
+.sec--main .sec-title__ja::after { background: #fff; }
+/* 青ベタ区切りの透かし英字 */
+.sec--main > .inner { position: relative; z-index: 1; }
+.watermark { position: absolute; z-index: 0; top: 10px; left: -10px; font-family: var(--font-en);
+  font-size: 120px; line-height: 1; color: rgba(255,255,255,.12); pointer-events: none; }
+
+.h-center { font-family: var(--font-head); font-weight: 700; text-align: center;
+  font-size: 20px; line-height: 1.7; margin: 50px auto 30px; }      /* 手紙の中の小見出し */
+@media (min-width: 768px) { .h-center { font-size: 28px; } }
+.h-item { font-family: var(--font-head); font-weight: 700; color: var(--main);
+  font-size: 18px; line-height: 1.5; margin: 0 0 8px; }              /* 番号つき項目見出し */
+.h-bold { font-family: var(--font-head); font-weight: 700; font-size: 22px; line-height: 1.5; margin: 6px 0 16px; }
+
+/* ---------- テキストの強調（使い分けを守る） ---------- */
+.mk   { background: linear-gradient(transparent 60%, var(--marker) 60%); font-weight: 700; } /* 1段落に1か所まで */
+.ul   { text-decoration: underline; text-underline-offset: .2em; font-weight: 700; }       /* 主張の言い切り */
+.c-main { color: var(--main); font-weight: 700; }
+.big-alert { color: var(--alert); font-size: 1.4em; font-weight: 700; }                    /* ページで1〜2か所 */
+.ruby-sub { display: block; font-size: .8em; color: #666; }
+
+/* ---------- FV ---------- */
+.fv { position: relative; padding: 24px var(--gutter) 0;
+  background: linear-gradient(160deg, #fff 0%, #f3f4f6 60%, #e9ecef 100%); overflow: hidden; }
+.fv__label { display: inline-block; background: var(--main); color: #fff; font-weight: 700;
+  font-size: 13px; padding: 4px 16px; border-radius: 999px; }
+.fv__lead { font-weight: 700; letter-spacing: .15em; margin: 18px 0 6px; font-size: 16px; }
+.fv__catch { font-family: var(--font-serif); font-weight: 500; font-size: 44px; line-height: 1.25; margin: 0; letter-spacing: 0; }
+.fv__catch em { font-style: normal; color: var(--main); }
+.fv__sub { margin: 14px 0 0; font-weight: 700; letter-spacing: .12em; }
+.fv__sub::before { content: "──"; margin-right: .3em; letter-spacing: -.1em; }
+@media (min-width: 768px) { .fv { padding: 40px 6vw 0; } .fv__catch { font-size: 72px; } }
+
+/* ---------- 部品 ---------- */
+.pill-label { display: inline-block; border: 2px solid #111; border-radius: 999px; padding: 2px 20px;
+  font-weight: 700; font-size: 15px; }
+.tag { display: inline-block; background: var(--main); color: #fff; font-weight: 700; font-size: 14px;
+  padding: 3px 10px; border-radius: 4px; }
+.box-double { border: 3px double #111; outline: 2px solid #111; outline-offset: 6px;
+  padding: 28px 22px; margin: 12px; background: #fff; }
+.card { background: #fff; border-radius: 8px; box-shadow: 0 0 5px rgba(72,63,63,.08); padding: 25px; margin-bottom: 20px; }
+.card--main { background: var(--main); color: #fff; border-radius: 18px; padding: 24px; }
+.card__num { font-family: var(--font-serif); font-size: 52px; line-height: 1; color: #f7e08a; }
+.timeline { border-left: 3px solid #111; padding-left: 22px; margin: 30px 0; }
+.sep { border: 0; border-top: 1px solid #ddd; margin: 40px 0; }
+.float-r { float: right; width: 42%; margin: 0 0 12px 14px; }
+.clear { clear: both; }
+.round { border-radius: 12px; }
+
+/* 引用の一言見出し（大きな“ ”で挟む） */
+.quote-head { position: relative; font-weight: 700; text-align: center; padding: 14px 34px; margin: 20px 0; }
+.quote-head::before, .quote-head::after { position: absolute; font-family: var(--font-en);
+  font-size: 64px; line-height: 1; color: #ddd; }
+.quote-head::before { content: "“"; left: 0; top: -6px; }
+.quote-head::after { content: "”"; right: 0; bottom: -30px; }
+/* 声の吹き出し */
+.bubble { position: relative; background: var(--main-pale); border-radius: 14px; padding: 16px 18px;
+  font-weight: 700; margin: 14px 0; }
+.bubble::before { content: ""; position: absolute; top: -10px; left: 28px; border: 10px solid transparent;
+  border-top: 0; border-bottom-color: var(--main-pale); }
+/* 便箋風（手紙） */
+.letter { background: #fff; border-radius: 8px; padding: 24px 22px;
+  background-image: repeating-linear-gradient(#fff 0, #fff calc(1.8em * 2 - 1px), #ddd calc(1.8em * 2 - 1px), #ddd calc(1.8em * 2));
+  line-height: calc(1.8em * 2); }
+.letter p { margin: 0; }
+.letter__head { font-family: var(--font-serif); color: var(--main); text-align: center; font-size: 24px; line-height: 1.5;
+  background: #fff; padding: 12px 0; margin-bottom: 12px !important; }
+.letter__sign { text-align: right; }
+
+/* 申込ボタン（ピル型・全幅近く・右に›）。コース違いは --sub */
+.btn { position: relative; display: block; max-width: 500px; width: 88%; margin: 18px auto; box-sizing: border-box;
+  padding: 16px 40px; border-radius: 999px; background: var(--main); color: #fff; text-align: center;
+  font-family: var(--font-head); font-weight: 700; font-size: 18px; line-height: 1.5; text-decoration: none;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12); transition: transform .2s, box-shadow .2s; }
+.btn::after { content: "›"; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); font-size: 1.4em; }
+.btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+.btn--sub { background: var(--sub); }
+.btn--quiet { background: #888; font-size: 15px; }
+@media (min-width: 768px) { .btn { font-size: 24px; } }
+
+/* 固定の申込ボタン（スクロール後に上から出る） */
+.follow { position: fixed; top: 12px; right: 12px; z-index: 50; transform: translateY(-150%);
+  transition: transform .4s ease; }
+.follow.is-on { transform: none; }
+.follow a { display: inline-block; background: #111; color: #fff; padding: 8px 18px; border-radius: 4px;
+  font-weight: 700; font-size: 14px; text-decoration: none; }
+
+/* 定義リスト（申込の詳細） */
+.spec dt { color: var(--main); font-weight: 700; padding-top: 18px; border-top: 1px solid #ddd; }
+.spec dd { margin: 6px 0 18px; }
+
+/* FAQ（開閉） */
+.faq details { border: 1px solid #ccc; border-top: 0; }
+.faq details:first-child { border-top: 1px solid #ccc; }
+.faq summary { list-style: none; cursor: pointer; padding: 18px 50px 18px 50px; position: relative; font-weight: 500; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: "Q."; position: absolute; left: 18px; color: var(--main); font-weight: 700; }
+.faq summary::after { content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-size: 30px; font-weight: 300; color: var(--main); transition: transform .3s; }
+.faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.faq .faq__a { padding: 0 20px 20px 50px; }
+
+/* 続きを読む（長い声を畳む） */
+.fold { position: relative; }
+.fold__body { position: relative; overflow: hidden; transition: height .3s ease; }
+.fold.is-closed .fold__body { height: 80px; }
+.fold.is-closed .fold__body::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+  background: linear-gradient(rgba(255,255,255,0), #fff); }
+.fold__btn { display: block; margin: 8px auto 0; background: var(--main); color: #fff; border: 0;
+  padding: 6px 22px; font-weight: 700; font-size: 14px; cursor: pointer; }
+.fold:not(.is-closed) .fold__btn { display: none; }
+
+/* 横に流れる帯（書影・ロゴ・旗） */
+.marquee { overflow: hidden; }
+.marquee__track { display: flex; gap: 12px; width: max-content; animation: marquee var(--marquee-speed, 40s) linear infinite; }
+.marquee__track > * { flex: 0 0 auto; width: 90px; }
+@media (min-width: 768px) { .marquee__track > * { width: 120px; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- 動き（スクロールで出る） ----------
+   見本の値: 0.75秒 ease-out。画面の下30%に入ったら一度だけ動く（JSが .is-in を付ける）。
+   使い分け:
+     fx-up    … 既定。カード・段落・画像（20px下からふわっと）
+     fx-left  … 左から（カードを左右交互に出すとき）
+     fx-right … 右から
+     fx-fade  … その場でフェード（大きな区切り・手紙・申込欄）
+     fx-mask  … 白い幕が右へ抜ける（見出し画像・写真）
+   ずらし: d1〜d5（0.3秒刻み）。同じ列に並ぶものだけに使う */
+.js .fx-up, .js .fx-left, .js .fx-right, .js .fx-fade { opacity: 0; transition: opacity .75s ease-out, transform .75s ease-out; }
+.js .fx-up    { transform: translate3d(0, 20px, 0); }
+.js .fx-left  { transform: translate3d(-20px, 0, 0); }
+.js .fx-right { transform: translate3d(20px, 0, 0); }
+.js .fx-fade  { transition-duration: 1s; }
+.js .fx-up.is-in, .js .fx-left.is-in, .js .fx-right.is-in, .js .fx-fade.is-in { opacity: 1; transform: none; }
+.js .fx-mask { position: relative; overflow: hidden; }
+.js .fx-mask::before { content: ""; position: absolute; inset: 0; background: #fff; z-index: 2;
+  transition: transform .8s linear; }
+.js .fx-mask.is-in::before { transform: translate3d(100%, 0, 0); }
+.d1 { transition-delay: .3s !important; } .d2 { transition-delay: .6s !important; } .d3 { transition-delay: .9s !important; }
+.d4 { transition-delay: 1.2s !important; } .d5 { transition-delay: 1.5s !important; }
+
+/* FVの登場（読み込み時に上から順に）: fv-in を付けた順に 0.8秒ずつずれて出る */
+.js .fv-in { opacity: 0; transform: translate3d(0, -10px, 0); transition: opacity 1s ease, transform 1s ease; }
+.js .fv-in--btn { transform: translate3d(0, -30px, 0); }
+.js .fv-in.is-in { opacity: 1; transform: none; }
+
+/* 動きを減らす設定の人には動かさない */
+@media (prefers-reduced-motion: reduce) {
+  .js .fx-up, .js .fx-left, .js .fx-right, .js .fx-fade, .js .fv-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .js .fx-mask::before { display: none; }
+  .marquee__track { animation: none; }
+  html { scroll-behavior: auto; }
+}

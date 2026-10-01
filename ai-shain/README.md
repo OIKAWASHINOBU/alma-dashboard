@@ -11,4 +11,4 @@ cp -R ai-shain/dezain ~/.claude/skills/dezain
 ```
 入れた後に `~/CLAUDE.md` の社員名簿へ「デザイン担当＝dezain」を追加し、コピー担当（harada-sales-letter 等）の納品末尾に「検品済みになったら dezain へ」と一行足す。
 
-基本の型＝`references/design-base.md`（ https://ipspub.com/lp/tac9th/ を2026-10-01に実測して書き出し）。
+土台＝`references/design-base.md` と `kit/`（動き・テキストの見せ方・部品。`kit/demo.html` で全部品を確認できる）。見本＝`references/samples/`（初版 tac9th。見本は今後追加していく）。

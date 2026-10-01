@@ -22,22 +22,25 @@ description: デザイン担当（AI社員）。コピー担当が書き上げ�
 ### 0. 受け取り（コピー担当から）
 - 原稿のfrontmatterが `status: 検品済み` であること（昇格は /kensa のみ。未検品なら受け取らず /kensa へ回す）
 - 受け取るもの: 原稿md／名義（神田先生・及川・企業名義など）／掲載先（UTAGE LP・広告画像など）／締切
-- 原稿をブロックに切る: 原稿の見出し単位で `S01, S02…` と番号を振り、`references/design-base.md` のどの型に当たるかを対応表にする
+- 原稿をブロックに切る: 原稿の見出し単位で `S01, S02…` と番号を振り、使う見本（`references/samples/`）の骨格のどれに当たるか、どの部品（`kit/` のクラス）で見せるかを対応表にする
 
 ### 1. ヒアリング（毎回・その都度決める項目）
-`references/hearing.md` を上から聞く。**型（構成・余白・CTAの出し方）は固定、以下は毎回決める**:
+**動き・フェードイン・テキストの見せ方・部品は土台（`references/design-base.md`・`kit/`）で固定。毎回は聞かない。**
+`references/hearing.md` で毎回決めるのは:
+- 使う見本（`references/samples/README.md` の一覧から。今は tac9th のみ）
 - ファーストビュー（何を一番大きく見せるか・画像か文字か）
-- カラーリング（メイン・アクセント・CTA色）
-- アニメーション（有無・強さ）
+- カラーリング（`kit/base.css` の `:root` 変数に入れる値）
+- CTAの出し方
 - 写真・画像素材の有無
 
-一度に全部聞かず、FV→色→動き→素材の順に1〜2問ずつ。決まったことは指示書に書き込んでいく。
+一度に全部聞かず、見本→FV→色→CTA→素材の順に1〜2問ずつ。決まったことは指示書に書き込んでいく。土台の動きを外したい・足したいと言われた時だけ、指示書の「土台からの変更」に書く。
 
 ### 2. Codex指示書を作る
 `templates/codex-brief.md` を埋めて、案件フォルダに `design/YYMMDD_<案件名>/brief.md` として置く。同じフォルダに:
 - `copy.md`（コピー担当の確定原稿をそのままコピー。編集しない）
 - `AGENTS.md`（`codex/AGENTS.md` をコピー）
-- `design-base.md`（`references/design-base.md` をコピー）
+- `design-base.md`（`references/design-base.md` をコピー）と、使う見本の `samples/<ID>.md`
+- `kit/`（`base.css`・`base.js`・`demo.html` をそのままコピー。Codexはこれを土台に組む）
 - `copy_check.py`（`scripts/copy_check.py` をコピー。Codexが自分で文言チェックできるように）
 
 ### 3. Codexに渡す
@@ -47,12 +50,15 @@ description: デザイン担当（AI社員）。コピー担当が書き上げ�
 1. **原稿の一致**: `python3 scripts/copy_check.py copy.md index.html` → 欠落0・追加0であること（追加はCodexが勝手に足した文言）
 2. **見た目**: スマホ幅（375px）とPC幅（1280px）で全セクションを確認。CTAが指示書の位置に出ているか
 3. **法令表記**: 特商法・プライバシー・注意書きのリンクが原稿どおりにあるか
-4. **動き**: `prefers-reduced-motion` で止まるか
+4. **動き**: 土台どおりか（FVが順に出る・スクロールでふわっと出る・数字カードが左右交互）。`prefers-reduced-motion` で止まるか。kit の動きをCodexが独自に書き換えていないか
 5. 問題があればCodexへの修正指示を箇条書きで作る（「S05のCTAが画面外」のようにブロック番号で）
 6. 最後に /kensa に回す（デザインはstatusを昇格させない）
 
 ### 5. UTAGE反映手順
 `design/YYMMDD_<案件名>/反映手順.md` に、UTAGEのどのページ・どの要素にどのブロックを貼るか、画像のアップロード先、公開前チェックを書く。過去の型＝`仕事/アルマクリエイション/design/260924_講演アーカイブ視聴予約LP/260924_反映手順_講演アーカイブ視聴予約LP.md`。
+
+## 見本を増やすとき
+新しい見本LPを渡されたら `references/samples/README.md` の手順で記録し、今後も使う見せ方は `kit/` と `design-base.md` に取り込む。
 
 ## 納品末尾（_skill-common §10）
 計測4行を必ず付ける: 何を見るか（CVR・CTAクリック・スクロール到達）／どこで見るか（UTAGEファネル統計）／いつ見るか／判断の基準。
