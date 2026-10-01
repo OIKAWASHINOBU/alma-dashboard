@@ -11,4 +11,4 @@ cp -R ai-shain/dezain ~/.claude/skills/dezain
 ```
 入れた後に `~/CLAUDE.md` の社員名簿へ「デザイン担当＝dezain」を追加し、コピー担当（harada-sales-letter 等）の納品末尾に「検品済みになったら dezain へ」と一行足す。
 
-⚠️ `references/design-base.md`（基本の型＝ https://ipspub.com/lp/tac9th/ ）は未記入。クラウド環境からそのページに接続できなかったため。
+基本の型＝`references/design-base.md`（ https://ipspub.com/lp/tac9th/ を2026-10-01に実測して書き出し）。
