@@ -199,6 +199,7 @@
     <div class="tab active" data-tab="overall">全体</div>
     <div class="tab" data-tab="ad">広告経由</div>
     <div class="tab" data-tab="house">ハウスリスト</div>
+    <div class="tab" data-tab="note">note経由</div>
   </div>
 
   <!-- 全体タブ -->
@@ -273,6 +274,20 @@
       <h2>📧 ハウスリストサマリー</h2>
       <div class="desc" id="house-desc"></div>
       <div class="kpi-grid" id="house-kpis"></div>
+    </div>
+  </div>
+
+  <!-- note経由タブ -->
+  <div class="tab-content" id="tab-note">
+    <div class="section">
+      <h2>📝 note経由サマリー</h2>
+      <div class="desc" id="note-desc"></div>
+      <div class="kpi-grid" id="note-kpis"></div>
+    </div>
+    <div class="section">
+      <h2>📋 記事別</h2>
+      <div class="desc">閲覧数・スキ・仮エントリーはスプシ「note_記事」の手入力、LP到達・登録はUTAGE登録経路別の実数です。</div>
+      <div id="note-articles"></div>
     </div>
   </div>
 
@@ -404,6 +419,9 @@ function render(d){
     ${kpiCard('登録率', fmt.pct(h.cvr), `${h.cv}件 ÷ ${h.lp_reach}人`)}
   `;
 
+  // note経由
+  renderNote(d.channels?.note);
+
   // ファネル
   const f = d.funnel;
   if(f){
@@ -532,6 +550,36 @@ function render(d){
       ${commentBox('クライアントへの確認事項', cc.client_questions)}
     `;
   }
+}
+
+function renderNote(n){
+  document.getElementById('note-desc').textContent = n?.description || '';
+  const box = document.getElementById('note-articles');
+  if(!n || !(n.articles || []).length){
+    document.getElementById('note-kpis').innerHTML = '';
+    box.innerHTML = '<div class="placeholder">noteの計測はまだ始まっていません。UTAGEで登録経路（note_01 など note_ で始まる名前）を作り、スプシに「note_記事」シートを足すと、次の更新から表示されます。</div>';
+    return;
+  }
+  const k = n.kpis || {};
+  document.getElementById('note-kpis').innerHTML = `
+    ${kpiCard('記事数', fmt.num(k.articles), '登録経路のある記事')}
+    ${kpiCard('閲覧数', fmt.num(k.views), 'noteの管理画面から手入力')}
+    ${kpiCard('LP到達', fmt.num(k.lp_reach), 'UTAGE実数')}
+    ${kpiCard('登録', fmt.ken(k.cv), 'UTAGE登録経路別')}
+    ${kpiCard('登録率', fmt.pct(k.cvr), `${k.cv}件 ÷ ${k.lp_reach}人`)}
+    ${kpiCard('仮エントリー', fmt.ken(k.entries), '手入力')}
+    ${kpiCard('登録→仮エントリー率', fmt.pct(k.entry_rate), k.entries == null ? '未計測（note_記事シートなし）' : `${k.entries}件 ÷ 登録${k.cv}件`)}
+  `;
+  const rows = n.articles.map(a => `<tr>
+      <td><strong>${a.name}</strong><div style="font-size:11px;color:#9ca3af">${a.route}${a.published ? ' ・ ' + a.published : ''}</div></td>
+      <td class="num">${fmt.num(a.views)}</td>
+      <td class="num">${fmt.num(a.likes)}</td>
+      <td class="num">${fmt.num(a.lp_reach)}</td>
+      <td class="num">${fmt.ken(a.cv)}</td>
+      <td class="num">${fmt.pct(a.cvr)}</td>
+      <td class="num">${fmt.ken(a.entries)}</td>
+    </tr>`).join('');
+  box.innerHTML = `<table><thead><tr><th>記事</th><th class="num">閲覧</th><th class="num">スキ</th><th class="num">LP到達</th><th class="num">登録</th><th class="num">登録率</th><th class="num">仮エントリー</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function kpiCard(label, value, meta){

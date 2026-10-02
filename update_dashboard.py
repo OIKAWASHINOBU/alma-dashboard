@@ -61,7 +61,24 @@ GOALS = {
     "elapsed_days": int(config["経過日数"]),
 }
 
-print(f"  ✅ UTAGE経路別: {len(UTAGE_BY_ROUTE)}件")
+# note経由：登録経路名が "note_" で始まる経路をnote記事からの流入として扱う
+NOTE_ROUTES = {k: v for k, v in UTAGE_BY_ROUTE.items() if str(k).startswith("note_")}
+
+# note_記事シート（任意）：記事名・公開日・登録経路名・閲覧数・スキ・仮エントリー（閲覧数以降は手入力）
+NOTE_ARTICLE_COLUMNS = ["記事名", "公開日", "登録経路名", "閲覧数", "スキ", "仮エントリー"]
+try:
+    df_note = read_sheet("note_記事")
+    # gvizはシート名が無いと先頭シートを返すため、列名で確かめる
+    if not all(c in df_note.columns for c in NOTE_ARTICLE_COLUMNS):
+        df_note = None
+except Exception:
+    df_note = None
+
+def to_int(v):
+    return int(v) if pd.notna(v) else 0
+
+print(f"  ✅ UTAGE経路別: {len(UTAGE_BY_ROUTE)}件（うちnote経由 {len(NOTE_ROUTES)}件）")
+print(f"  {'✅' if df_note is not None else '－'} note_記事: {len(df_note) if df_note is not None else 'シートなし'}")
 print(f"  ✅ UTAGEハウス: CV{UTAGE_HOUSE['cv']}件")
 print(f"  ✅ 設定: {DATE_START}〜{DATE_END}")
 
@@ -212,6 +229,29 @@ if stop_ads: next_actions.append(f"停止または訴求変更を検討：{', '.
 imp_ads = [a["name"] for a in ads_processed if a["verdict"]=="要改善"]
 if imp_ads: next_actions.append(f"LP・フォームを見直す：{', '.join(imp_ads)}")
 
+# note経由（広告・ハウスの合計には足さない：ハウスの人がnoteから来ると二重に数えるため）
+note_articles = []
+if df_note is not None:
+    for _, row in df_note.iterrows():
+        route = str(row["登録経路名"]) if pd.notna(row["登録経路名"]) else ""
+        u = NOTE_ROUTES.get(route, {"lp_reach": 0, "cv": 0})
+        note_articles.append({
+            "name": str(row["記事名"]), "published": str(row["公開日"]) if pd.notna(row["公開日"]) else "",
+            "route": route, "views": to_int(row["閲覧数"]), "likes": to_int(row["スキ"]),
+            "lp_reach": u["lp_reach"], "cv": u["cv"], "entries": to_int(row["仮エントリー"])})
+listed = {a["route"] for a in note_articles}
+for route, u in NOTE_ROUTES.items():
+    if route not in listed:
+        note_articles.append({"name": route, "published": "", "route": route, "views": None, "likes": None,
+                              "lp_reach": u["lp_reach"], "cv": u["cv"], "entries": None})
+for a in note_articles:
+    a["cvr"] = round(a["cv"]/a["lp_reach"]*100, 2) if a["lp_reach"] > 0 else 0
+note_lp = sum(a["lp_reach"] for a in note_articles)
+note_cv = sum(a["cv"] for a in note_articles)
+# 手入力の値はシートが無ければ未計測（None）のまま。0に丸めない
+note_entries = sum(a["entries"] or 0 for a in note_articles) if df_note is not None else None
+note_views = sum(a["views"] or 0 for a in note_articles) if df_note is not None else None
+
 data = {
     "_meta": {"title":"ALMA Meta広告 ダッシュボード","client_name":"アルマ・クリエイション株式会社",
               "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -237,7 +277,12 @@ data = {
                       "link_clicks":total_lc,"ctr":total_ctr,"lp_reach":ad_lp,
                       "cv":ad_cv,"cvr":ad_cvr,"cpa":ad_cpa}},
         "house":{"label":"ハウスリスト","description":"既存リストの温度感・反応率を見るエリア（メルマガ・ステップメール経由）",
-                 "kpis":{"lp_reach":house_lp,"cv":house_cv,"cvr":house_cvr}}
+                 "kpis":{"lp_reach":house_lp,"cv":house_cv,"cvr":house_cvr}},
+        "note":{"label":"note経由","description":"The実践会 編集部のnote記事からの流入を見るエリア（登録経路 note_ で始まるもの。全体の合計には含めない）",
+                "kpis":{"articles":len(note_articles),"views":note_views,"lp_reach":note_lp,"cv":note_cv,
+                        "cvr":round(note_cv/note_lp*100,2) if note_lp>0 else 0,"entries":note_entries,
+                        "entry_rate":round(note_entries/note_cv*100,2) if note_entries is not None and note_cv>0 else None},
+                "articles":note_articles}
     },
     "funnel": {
         "stages":[
